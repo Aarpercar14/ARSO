@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import repositorio.Identificable;
+
 @Entity
 @Table(name="alquiler")
-public class alquilerJPA {
+public class AlquilerJPA implements Identificable{
 	@Column(name="idBicicleta")
 	private String idBicicleta;
 	@Column(name="inicio",columnDefinition="DATE")
@@ -16,8 +18,14 @@ public class alquilerJPA {
 	@Column(name="fin",columnDefinition="DATE")
 	private LocalDateTime fin;
 	
-	public alquilerJPA() {
-		// TODO Auto-generated constructor stub
+	public AlquilerJPA(String idBicicleta, LocalDateTime inicio, LocalDateTime fin) {
+		super();
+		this.idBicicleta = idBicicleta;
+		this.inicio = inicio;
+		this.fin = fin;
+	}
+
+	public AlquilerJPA() {
 	}
 
 	public String getIdBicicleta() {
@@ -42,6 +50,18 @@ public class alquilerJPA {
 
 	public void setFin(LocalDateTime fin) {
 		this.fin = fin;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

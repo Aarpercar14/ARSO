@@ -8,10 +8,11 @@ import javax.persistence.Table;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
+import repositorio.Identificable;
 
 @Entity
 @Table(name="usuario")
-public class UsuarioJPA {
+public class UsuarioJPA implements Identificable{
 	@Column(name="id")
 	private String id;
 	@Column(name="reservas")
@@ -25,6 +26,18 @@ public class UsuarioJPA {
 	@Column(name="bloqueado")
 	private boolean bloqueado;
 	
+	
+	public UsuarioJPA(String id, ArrayList<Reserva> reservas, ArrayList<Alquiler> alquileres, int reservasCaducadas,
+			boolean superaTiempo, boolean bloqueado) {
+		super();
+		this.id = id;
+		this.reservas = reservas;
+		this.alquileres = alquileres;
+		this.reservasCaducadas = reservasCaducadas;
+		this.superaTiempo = superaTiempo;
+		this.bloqueado = bloqueado;
+	}
+
 	public UsuarioJPA() {
 		
 	}
