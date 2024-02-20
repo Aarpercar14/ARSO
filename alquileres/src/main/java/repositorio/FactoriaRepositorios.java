@@ -16,8 +16,6 @@ public class FactoriaRepositorios {
 	
 	@SuppressWarnings("unchecked")
 	public static <T, K, R extends Repositorio<T, K>> R getRepositorio(Class<?> entidad) {
-				
-			
 			try {				
 					PropertiesReader properties = new PropertiesReader(PROPERTIES);		
 					String clase = properties.getProperty(entidad.getName());

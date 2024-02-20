@@ -10,6 +10,7 @@ public class PropertiesReader {
     public PropertiesReader(String propertyFileName) throws IOException {
         InputStream is = getClass().getClassLoader()
             .getResourceAsStream(propertyFileName);
+        System.out.println(is);
         this.properties = new Properties();
         this.properties.load(is);
     }
