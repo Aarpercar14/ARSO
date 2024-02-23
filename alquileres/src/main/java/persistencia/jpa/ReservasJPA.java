@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import repositorio.Identificable;
@@ -11,7 +12,7 @@ import repositorio.Identificable;
 @Entity
 @Table(name="reservas")
 public class ReservasJPA implements Identificable{
-	@Column(name="id")
+	@Id
 	private String idBicicletas;
 	@Column(name="creada",columnDefinition="DATE")
 	private LocalDateTime creada;
