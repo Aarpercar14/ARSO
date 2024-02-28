@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import alquileres.modelo.Reserva;
 import repositorio.Identificable;
 
 @Entity
@@ -35,11 +36,11 @@ public class UsuarioJPA implements Identificable {
 	@Column(name = "bloqueado")
 	private boolean bloqueado;
 
-	public UsuarioJPA(String id, int reservasCaducadas, boolean superaTiempo, boolean bloqueado) {
+	public UsuarioJPA(String id, int reservasCaducadas, boolean superaTiempo, boolean bloqueado,ArrayList<ReservasJPA> reservas,ArrayList<AlquilerJPA>alquileres) {
 		super();
 		this.id = id;
-		this.reservas = new ArrayList<ReservasJPA>();
-		this.alquileres = new ArrayList<AlquilerJPA>();
+		this.reservas = new ArrayList<ReservasJPA>(reservas);
+		this.alquileres = new ArrayList<AlquilerJPA>(alquileres);
 		this.reservasCaducadas = reservasCaducadas;
 		this.superaTiempo = superaTiempo;
 		this.bloqueado = bloqueado;
