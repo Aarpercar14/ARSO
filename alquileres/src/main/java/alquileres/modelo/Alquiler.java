@@ -3,9 +3,20 @@ package alquileres.modelo;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="alquiler")
 public class Alquiler {
+	@Id
 	private String idBicicleta;
+	@Column(name="inicio",columnDefinition="DATE")
 	private LocalDateTime inicio;
+	@Column(name="fin",columnDefinition="DATE")
 	private LocalDateTime fin;
 
 	public Alquiler(String idBicicleta, LocalDateTime inicio) {
