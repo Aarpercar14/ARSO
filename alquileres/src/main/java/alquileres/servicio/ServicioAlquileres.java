@@ -5,31 +5,33 @@ import java.time.temporal.ChronoUnit;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Historial;
+import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
-import persistencia.jpa.ReservasJPA;
+//github.com/Aarpercar14/ARSO.git
 import persistencia.jpa.UsuarioJPA;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
-import repositorio.RepositorioMemoria;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 	
-	private RepositorioMemoria<Usuario> repoUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
-	private Repositorio<UsuarioJPA,String> repositorio=FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
+
+	private Repositorio<UsuarioJPA,String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	
 
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
-			UsuarioJPA usuario = repositorio.getById(idUsuario);
-			Usuario u=new Usuario(usuario.getId());
-			if(usuario.reservaActiva() == null && u.alquilerActivo() == null && !u.bloqueado()) {
-				ReservasJPA reserva = new ReservasJPA(IdBicicleta, LocalDateTime.now(), LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
-				u.addReserva(reserva);
-				repositorio.update(usuario);
-			}
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+				if(usuario.reservaActiva() == null && 
+						usuario.alquilerActivo() == null && !usuario.bloqueado()) {
+					Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(), LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
+					usuario.addReserva(reserva);
+					usuarioJPA = this.encodeUsuarioJPA(usuario);
+					repoUsuarios.update(usuarioJPA);
+				}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
@@ -38,13 +40,15 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	@Override
 	public void confirmarReserva(String idUsuario) {
 		try {
-			Usuario usuario = repoUsuarios.getById(idUsuario);
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if(usuario.reservaActiva() != null) {
 				Alquiler alquiler = new Alquiler(idUsuario, LocalDateTime.now());
 				usuario.addAlquiler(alquiler);
-				repoUsuarios.update(usuario);
+				usuarioJPA = this.encodeUsuarioJPA(usuario);
+				repoUsuarios.update(usuarioJPA);
 			}
-		} catch (EntidadNoEncontrada e) {
+		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
 
@@ -53,14 +57,16 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	@Override
 	public void alquilar(String idUsuario, String idBicicleta) {
 		try {
-			Usuario usuario = repoUsuarios.getById(idBicicleta);
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idBicicleta);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if(usuario.reservaActiva() == null &&
 					usuario.alquilerActivo() == null && !usuario.bloqueado()) {
 				Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 				usuario.addAlquiler(alquiler);
-				repoUsuarios.update(usuario);
+				usuarioJPA = this.encodeUsuarioJPA(usuario);
+				repoUsuarios.update(usuarioJPA);
 			}
-		} catch (EntidadNoEncontrada e) {
+		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
 
@@ -69,10 +75,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	@Override
 	public Historial historialUsuario(String idUsuario) {
 		try {
-			Usuario usuario = repoUsuarios.getById(idUsuario);
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			Historial historial = new Historial(idUsuario, usuario.bloqueado(), usuario.tiempoUsoSemana(), usuario.getReservas(), usuario.getAlquileres());
 			return historial;			
-		} catch (EntidadNoEncontrada e) {
+		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -87,13 +94,27 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	@Override
 	public void liberarBloqueo(String idUsuario) {
 		try {
-			Usuario usuario = repoUsuarios.getById(idUsuario);
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			usuario.eliminarCaducadas();
-			repoUsuarios.update(usuario);
-		} catch (EntidadNoEncontrada e) {
+			usuarioJPA = this.encodeUsuarioJPA(usuario);
+			repoUsuarios.update(usuarioJPA);
+		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private Usuario decodeUsuarioJPA (UsuarioJPA usuarioJPA) {
+		Usuario usuario = new Usuario(usuarioJPA.getId());
+		usuario.setReservas(usuarioJPA.getReservas());
+		usuario.setAlquileres(usuarioJPA.getAlquileres());
+		return usuario;
+	}
+	
+	private UsuarioJPA encodeUsuarioJPA (Usuario usuario) {
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), usuario.getReservas(), usuario.getAlquileres());
+		return usuarioJPA;
 	}
 
 }

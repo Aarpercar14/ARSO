@@ -31,8 +31,16 @@ public class Usuario implements Identificable {
 		return reservas;
 	}
 	
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = (ArrayList<Reserva>)reservas;
+	}
+	
 	public List<Alquiler> getAlquileres() {
 		return alquileres;
+	}
+	
+	public void setAlquileres(List<Alquiler> alquileres) {
+		this.alquileres = (ArrayList<Alquiler>) alquileres;
 	}
 	
 	public int reservasCaducadas() {

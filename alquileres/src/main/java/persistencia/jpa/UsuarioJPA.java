@@ -1,6 +1,7 @@
 package persistencia.jpa;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import repositorio.Identificable;
 
@@ -23,31 +25,22 @@ public class UsuarioJPA implements Identificable {
 	@JoinTable(name = "usuario_reserva", 
 			   joinColumns = @JoinColumn(name = "usuario_fk"), 
 			   inverseJoinColumns = @JoinColumn(name = "reserva_fk"))
-	private ArrayList<ReservasJPA> reservas;
+	private ArrayList<Reserva> reservas;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(name = "usuario_alquiler", 
 			   joinColumns = @JoinColumn(name = "usuario_fk"),
 			   inverseJoinColumns = @JoinColumn(name = "alquiler_fk"))
-	private ArrayList<AlquilerJPA> alquileres;
-	@Column(name = "reservasCaducadas")
-	private int reservasCaducadas;
-	@Column(name = "superaTiempo")
-	private boolean superaTiempo;
-	@Column(name = "bloqueado")
-	private boolean bloqueado;
-
-	public UsuarioJPA(String id, int reservasCaducadas, boolean superaTiempo, boolean bloqueado,ArrayList<ReservasJPA> reservas,ArrayList<AlquilerJPA>alquileres) {
-		super();
-		this.id = id;
-		this.reservas = new ArrayList<ReservasJPA>(reservas);
-		this.alquileres = new ArrayList<AlquilerJPA>(alquileres);
-		this.reservasCaducadas = reservasCaducadas;
-		this.superaTiempo = superaTiempo;
-		this.bloqueado = bloqueado;
-	}
-
+	private ArrayList<Alquiler> alquileres;
+	
 	public UsuarioJPA() {
 
+	}
+
+	public UsuarioJPA(String id, List<Reserva> reservas, List<Alquiler> alquileres) {
+		super();
+		this.id = id;
+		this.reservas = new ArrayList<Reserva>(reservas);
+		this.alquileres = new ArrayList<Alquiler>(alquileres);
 	}
 
 	public String getId() {
@@ -58,44 +51,19 @@ public class UsuarioJPA implements Identificable {
 		this.id = id;
 	}
 
-	public ArrayList<ReservasJPA> getReservas() {
+	public List<Reserva> getReservas() {
 		return reservas;
 	}
 
-	public void setReservas(ArrayList<ReservasJPA> reservas) {
+	public void setReservas(ArrayList<Reserva> reservas) {
 		this.reservas = reservas;
 	}
 
-	public ArrayList<AlquilerJPA> getAlquileres() {
+	public ArrayList<Alquiler> getAlquileres() {
 		return alquileres;
 	}
 
-	public void setAlquileres(ArrayList<AlquilerJPA> alquileres) {
+	public void setAlquileres(ArrayList<Alquiler> alquileres) {
 		this.alquileres = alquileres;
 	}
-
-	public int getReservasCaducadas() {
-		return reservasCaducadas;
-	}
-
-	public void setReservasCaducadas(int reservasCaducadas) {
-		this.reservasCaducadas = reservasCaducadas;
-	}
-
-	public boolean isSuperaTiempo() {
-		return superaTiempo;
-	}
-
-	public void setSuperaTiempo(boolean superaTiempo) {
-		this.superaTiempo = superaTiempo;
-	}
-
-	public boolean isBloqueado() {
-		return bloqueado;
-	}
-
-	public void setBloqueado(boolean bloqueado) {
-		this.bloqueado = bloqueado;
-	}
-
 }

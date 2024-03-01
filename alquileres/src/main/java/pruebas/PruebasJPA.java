@@ -13,7 +13,7 @@ public class PruebasJPA {
 	public static void main(String[] args) {
 		Repositorio<UsuarioJPA,String> repoUser=FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 		try {
-			repoUser.add(new UsuarioJPA("2ç",0,false,false,new ArrayList<ReservasJPA>(),new ArrayList<AlquilerJPA>()));
+			repoUser.add(new UsuarioJPA());
 		} catch (RepositorioException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
