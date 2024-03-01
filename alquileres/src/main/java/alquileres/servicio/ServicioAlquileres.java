@@ -21,6 +21,30 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	
 
 	@Override
+	public void crearUsuario(String idUsuario) {
+		Usuario usuario = new Usuario(idUsuario);
+		UsuarioJPA usuarioJPA = this.encodeUsuarioJPA(usuario);
+		try {
+			repoUsuarios.add(usuarioJPA);
+		} catch (RepositorioException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public Usuario getUsuario(String idUsuario) {
+		UsuarioJPA usuarioJPA;
+		try {
+			usuarioJPA = repoUsuarios.getById(idUsuario);
+			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+			return usuario;
+		} catch (EntidadNoEncontrada | RepositorioException e) {
+			e.printStackTrace();
+		}		
+		return null;
+	}
+	
+	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
