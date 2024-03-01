@@ -1,8 +1,6 @@
 package alquileres.rest;
 
 import java.net.URI;
-
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import alquileres.servicio.IServicioAlquileres;
 import servicio.FactoriaServicios;
 
@@ -35,7 +32,7 @@ public class AlquilerControladorRest {
     
     @GET
     @Path("/usuarios/{idUsuario}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Response getUsuario(@PathParam("idUsuario") String idUsusario) {
     	return Response.status(Response.Status.OK)
     			.entity(servicio.getUsuario(idUsusario)).build();
@@ -49,11 +46,10 @@ public class AlquilerControladorRest {
     	
     		servicio.reservar(idUsuario, idBicicleta);   		
     		return Response.status(Response.Status.NO_CONTENT).build();
-    		
     	}
     
     @POST
-    @Path("/usuarios/{idUsuario}/reserva/confirmar")
+    @Path("/usuarios/{idUsuario}/reserva/confirmacion")
     public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.confirmarReserva(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -69,7 +65,7 @@ public class AlquilerControladorRest {
     }
     
     @POST
-    @Path("/usuarios/{idUsuario}/desbloquear")
+    @Path("/usuarios/{idUsuario}/desbloqueo")
     public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.liberarBloqueo(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -77,7 +73,7 @@ public class AlquilerControladorRest {
     
     @GET
     @Path("/usuarios/{idUsuario}/historial")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	return Response.status(Response.Status.OK)
     			.entity(servicio.historialUsuario(idUsuario)).build();
