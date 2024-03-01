@@ -7,17 +7,17 @@ import alquileres.modelo.Alquiler;
 import alquileres.modelo.Historial;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
-import alquileres.repositorio.RepositorioJPAUsuario;
+//github.com/Aarpercar14/ARSO.git
 import persistencia.jpa.UsuarioJPA;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
+import repositorio.Repositorio;
 import repositorio.RepositorioException;
-import repositorio.RepositorioJPA;
-import repositorio.RepositorioMemoria;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 	
-	private RepositorioJPA<UsuarioJPA> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
+
+	private Repositorio<UsuarioJPA,String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	
 
 	@Override
