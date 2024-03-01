@@ -5,28 +5,32 @@ import java.time.temporal.ChronoUnit;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Historial;
-import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
+import persistencia.jpa.ReservasJPA;
+import persistencia.jpa.UsuarioJPA;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
+import repositorio.Repositorio;
+import repositorio.RepositorioException;
 import repositorio.RepositorioMemoria;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 	
 	private RepositorioMemoria<Usuario> repoUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
+	private Repositorio<UsuarioJPA,String> repositorio=FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	
 
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
-			Usuario usuario = repoUsuarios.getById(idUsuario);
-			if(usuario.reservaActiva() == null && 
-					usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(), LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
-				usuario.addReserva(reserva);
-				repoUsuarios.update(usuario);
+			UsuarioJPA usuario = repositorio.getById(idUsuario);
+			Usuario u=new Usuario(usuario.getId());
+			if(usuario.reservaActiva() == null && u.alquilerActivo() == null && !u.bloqueado()) {
+				ReservasJPA reserva = new ReservasJPA(IdBicicleta, LocalDateTime.now(), LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
+				u.addReserva(reserva);
+				repositorio.update(usuario);
 			}
-		} catch (EntidadNoEncontrada e) {
+		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
 	}
