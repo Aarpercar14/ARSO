@@ -20,6 +20,13 @@ public class AlquilerControladorRest {
     @Context
 	private UriInfo uriInfo;
     
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/TestService")
+    public String info(){
+        return "This is the testservice";
+    }
+    
     @POST
     @Path("/usuario/{idUsuario}")
     public Response crearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {

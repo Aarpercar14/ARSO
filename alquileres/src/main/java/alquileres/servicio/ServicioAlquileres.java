@@ -13,12 +13,13 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
+import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 	
 
 	private Repositorio<UsuarioJPA,String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
-	
+	private IServicioEstaciones servEstaciones=FactoriaServicios.getServicio(IServicioEstaciones.class);
 
 	@Override
 	public void crearUsuario(String idUsuario) {
@@ -111,8 +112,18 @@ public class ServicioAlquileres implements IServicioAlquileres {
 
 	@Override
 	public void dejarBicicleta(String idUsuario, String isBicicleta) {
-		// TODO Auto-generated method stub
-
+		try {
+			UsuarioJPA user=repoUsuarios.getById(idUsuario);
+			Usuario usuario=this.decodeUsuarioJPA(user);
+			if(usuario.alquilerActivo().activa()) {
+				if(servEstaciones.peticionAparcarBicicleta()) {
+					usuario.getAlquileres().remove(usuario.alquilerActivo());
+				}
+			}
+		} catch (RepositorioException | EntidadNoEncontrada e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>arso</groupId>
 	<artifactId>alquileres</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -15,7 +16,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dep.slf4j.version>1.7.30</dep.slf4j.version>
 	</properties>
+	
 	<dependencies>
+		
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
