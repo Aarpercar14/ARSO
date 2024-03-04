@@ -25,22 +25,22 @@ public class UsuarioJPA implements Identificable {
 	@JoinTable(name = "usuario_reserva", 
 			   joinColumns = @JoinColumn(name = "usuario_fk"), 
 			   inverseJoinColumns = @JoinColumn(name = "reserva_fk"))
-	private ArrayList<Reserva> reservas;
+	private List<Reserva> reservas;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(name = "usuario_alquiler", 
 			   joinColumns = @JoinColumn(name = "usuario_fk"),
 			   inverseJoinColumns = @JoinColumn(name = "alquiler_fk"))
-	private ArrayList<Alquiler> alquileres;
+	private List<Alquiler> alquileres;
 	
-	public UsuarioJPA() {
-
-	}
-
 	public UsuarioJPA(String id, List<Reserva> reservas, List<Alquiler> alquileres) {
 		super();
 		this.id = id;
 		this.reservas = new ArrayList<Reserva>(reservas);
 		this.alquileres = new ArrayList<Alquiler>(alquileres);
+	}
+	
+	public UsuarioJPA() {
+
 	}
 
 	public String getId() {
@@ -59,7 +59,7 @@ public class UsuarioJPA implements Identificable {
 		this.reservas = reservas;
 	}
 
-	public ArrayList<Alquiler> getAlquileres() {
+	public List<Alquiler> getAlquileres() {
 		return alquileres;
 	}
 

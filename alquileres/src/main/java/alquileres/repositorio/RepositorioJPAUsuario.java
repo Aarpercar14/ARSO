@@ -31,7 +31,7 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA>{
 		query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 		return (UsuarioJPA)query.getResultList().get(0);
 		}catch(RuntimeException ru) {
-			throw new RepositorioException("Error buscando bicicletas por palabra clave", ru);
+			throw new RepositorioException("Error buscando usuario por palabra clave", ru);
 		}
 	}
 

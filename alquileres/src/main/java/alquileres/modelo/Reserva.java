@@ -22,6 +22,8 @@ public class Reserva {
 		this.creada = creada;
 		this.caducidad = caducidad;
 	}
+	
+	public Reserva() {}
 
 	public String getIdBicicleta() {
 		return idBicicleta;

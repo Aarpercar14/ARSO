@@ -24,6 +24,8 @@ public class Alquiler {
 		this.inicio = inicio;
 		this.fin = null;
 	}
+	
+	public Alquiler() {}
 
 	public String getIdBicicleta() {
 		return idBicicleta;

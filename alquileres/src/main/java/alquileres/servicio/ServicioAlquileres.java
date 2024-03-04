@@ -2,6 +2,7 @@ package alquileres.servicio;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Historial;
