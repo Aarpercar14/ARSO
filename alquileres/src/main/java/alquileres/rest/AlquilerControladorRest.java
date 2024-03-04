@@ -27,7 +27,7 @@ public class AlquilerControladorRest {
         return "This is the testservice";
     }
     
-    @POST
+   /* @POST
     @Path("/usuario/{idUsuario}")
     public Response crearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.crearUsuario(idUsuario);
@@ -44,7 +44,7 @@ public class AlquilerControladorRest {
     	return Response.status(Response.Status.OK)
     			.entity(servicio.getUsuario(idUsusario)).build();
     }
-    
+    */
     @POST
     @Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
     public Response reservar( @PathParam("idUsuario") String idUsuario, 

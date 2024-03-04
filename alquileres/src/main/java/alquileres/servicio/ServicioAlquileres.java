@@ -21,7 +21,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	private Repositorio<UsuarioJPA,String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	private IServicioEstaciones servEstaciones=FactoriaServicios.getServicio(IServicioEstaciones.class);
 
-	@Override
+	/*@Override
 	public void crearUsuario(String idUsuario) {
 		Usuario usuario = new Usuario(idUsuario);
 		UsuarioJPA usuarioJPA = this.encodeUsuarioJPA(usuario);
@@ -43,7 +43,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			e.printStackTrace();
 		}		
 		return null;
-	}
+	}*/
 	
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
