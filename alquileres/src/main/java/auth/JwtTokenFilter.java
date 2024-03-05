@@ -31,7 +31,7 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) {
 		
-		if (resourceInfo.getResourceMethod().isAnnotationPresent(PermitAll.class)) {
+		if (resourceInfo.getResourceMethod().isAnnotationPresent(PermitAll.class)) {//Para permitir todos los roles todo el rato
 		return; 
 		}
 		// Implementación del control de autorización
