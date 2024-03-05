@@ -8,15 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="alquiler")
+@Table(name = "alquiler")
 public class Alquiler {
 	@Id
 	private String idBicicleta;
-	@Column(name="inicio",columnDefinition="DATE")
+	@Column(name = "inicio", columnDefinition = "DATE")
 	private LocalDateTime inicio;
-	@Column(name="fin",columnDefinition="DATE")
+	@Column(name = "fin", columnDefinition = "DATE")
 	private LocalDateTime fin;
 
 	public Alquiler(String idBicicleta, LocalDateTime inicio) {
@@ -24,8 +23,9 @@ public class Alquiler {
 		this.inicio = inicio;
 		this.fin = null;
 	}
-	
-	public Alquiler() {}
+
+	public Alquiler() {
+	}
 
 	public String getIdBicicleta() {
 		return idBicicleta;
@@ -54,11 +54,11 @@ public class Alquiler {
 	public int tiempo() {
 		if (this.activa()) {
 			Duration duracion = Duration.between(inicio, LocalDateTime.now());
-			int duracionMinutos = duracion.toMinutesPart();
+			int duracionMinutos = (int) duracion.toMinutes();
 			return duracionMinutos;
 		}
 		Duration duracion = Duration.between(inicio, fin);
-		int duracionMinutos = duracion.toMinutesPart();
+		int duracionMinutos = (int) duracion.toMinutes();
 		return duracionMinutos;
 	}
 
