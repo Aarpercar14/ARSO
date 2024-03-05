@@ -29,11 +29,13 @@ public class AlquilerJPA implements Identificable{
 	public AlquilerJPA() {
 	}
 
-	public String getIdBicicleta() {
+	@Override
+	public String getId() {
 		return idBicicleta;
 	}
 
-	public void setIdBicicleta(String idBicicleta) {
+	@Override
+	public void setId(String idBicicleta) {
 		this.idBicicleta = idBicicleta;
 	}
 
@@ -52,17 +54,4 @@ public class AlquilerJPA implements Identificable{
 	public void setFin(LocalDateTime fin) {
 		this.fin = fin;
 	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -11,31 +11,33 @@ import repositorio.Identificable;
 
 @Entity
 @Table(name="reservas")
-public class ReservasJPA implements Identificable{
+public class ReservaJPA implements Identificable{
 	@Id
-	private String idBicicletas;
+	private String idBicicleta;
 	@Column(name="creada",columnDefinition="DATE")
 	private LocalDateTime creada;
 	@Column(name="caducidad",columnDefinition="DATE")
 	private LocalDateTime caducidad;
 	
-	public ReservasJPA(String idBicicletas, LocalDateTime creada, LocalDateTime caducidad) {
+	public ReservaJPA(String idBicicleta, LocalDateTime creada, LocalDateTime caducidad) {
 		super();
-		this.idBicicletas = idBicicletas;
+		this.idBicicleta = idBicicleta;
 		this.creada = creada;
 		this.caducidad = caducidad;
 	}
 
-	public ReservasJPA() {
+	public ReservaJPA() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getIdBicicletas() {
-		return idBicicletas;
+	@Override
+	public String getId() {
+		return idBicicleta;
 	}
 
-	public void setIdBicicletas(String idBicicletas) {
-		this.idBicicletas = idBicicletas;
+	@Override
+	public void setId(String idBicicleta) {
+		this.idBicicleta = idBicicleta;
 	}
 
 	public LocalDateTime getCreada() {
@@ -52,18 +54,6 @@ public class ReservasJPA implements Identificable{
 
 	public void setCaducidad(LocalDateTime caducidad) {
 		this.caducidad = caducidad;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
