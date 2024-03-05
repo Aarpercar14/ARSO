@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import alquileres.servicio.IServicioAlquileres;
+import io.jsonwebtoken.Claims;
 import servicio.FactoriaServicios;
 
 @Path("alquileres")
@@ -32,6 +33,11 @@ public class AlquilerControladorRest {
     @RolesAllowed("alumno")
     @Path("/TestService")
     public String info(){
+    	if (this.servletRequest.getAttribute("claims") != null) {//Mostrar por consola identificacion del usuario
+    	    Claims claims = (Claims) this.servletRequest.getAttribute("claims");
+    	    System.out.println("Usuario autenticado: " + claims.getSubject());
+    	    System.out.println("Roles: " + claims.get("roles"));
+    	}
         return "This is the testservice";
     }
     

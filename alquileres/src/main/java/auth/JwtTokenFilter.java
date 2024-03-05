@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Priority;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
@@ -29,6 +30,10 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) {
+		
+		if (resourceInfo.getResourceMethod().isAnnotationPresent(PermitAll.class)) {
+		return; 
+		}
 		// Implementación del control de autorización
 		String authorization = requestContext.getHeaderString("Authorization");
 		if (authorization == null || !authorization.startsWith("Bearer ")) {
