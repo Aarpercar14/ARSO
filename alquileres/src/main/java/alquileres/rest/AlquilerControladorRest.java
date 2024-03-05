@@ -1,15 +1,18 @@
 package alquileres.rest;
 
-import java.net.URI;
+import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
 import alquileres.servicio.IServicioAlquileres;
 import servicio.FactoriaServicios;
 
@@ -19,9 +22,14 @@ public class AlquilerControladorRest {
     private IServicioAlquileres servicio =  FactoriaServicios.getServicio(IServicioAlquileres.class);
     @Context
 	private UriInfo uriInfo;
+    @Context
+    private ResourceInfo resourceInfo;
+    @Context
+    private HttpServletRequest servletRequest;
     
     @GET
     @Produces(MediaType.TEXT_PLAIN)
+    @RolesAllowed("alumno")
     @Path("/TestService")
     public String info(){
         return "This is the testservice";
