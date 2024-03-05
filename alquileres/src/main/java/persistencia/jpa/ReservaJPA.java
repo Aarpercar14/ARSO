@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import repositorio.Identificable;
@@ -18,6 +20,9 @@ public class ReservaJPA implements Identificable{
 	private LocalDateTime creada;
 	@Column(name="caducidad",columnDefinition="DATE")
 	private LocalDateTime caducidad;
+	@ManyToOne
+	@JoinColumn(name="usuario_fk")
+	private UsuarioJPA user;
 	
 	public ReservaJPA(String idBicicleta, LocalDateTime creada, LocalDateTime caducidad) {
 		super();

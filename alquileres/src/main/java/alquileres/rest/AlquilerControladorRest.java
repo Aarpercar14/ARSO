@@ -94,7 +94,8 @@ public class AlquilerControladorRest {
     
     @GET
     @Path("/usuarios/{idUsuario}/historial")
-    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed("alumno")
+      @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	return Response.status(Response.Status.OK)
     			.entity(servicio.historialUsuario(idUsuario)).build();

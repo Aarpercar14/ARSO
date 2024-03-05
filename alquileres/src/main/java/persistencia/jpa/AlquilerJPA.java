@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import repositorio.Identificable;
@@ -18,6 +20,9 @@ public class AlquilerJPA implements Identificable{
 	private LocalDateTime inicio;
 	@Column(name="fin",columnDefinition="DATE")
 	private LocalDateTime fin;
+	@ManyToOne
+	@JoinColumn(name="usuario_fk")
+	private UsuarioJPA user;
 	
 	public AlquilerJPA(String idBicicleta, LocalDateTime inicio, LocalDateTime fin) {
 		super();
