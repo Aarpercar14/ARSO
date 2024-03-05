@@ -66,7 +66,7 @@ public class AlquilerControladorRest {
     									throws Exception {
     	
     		servicio.reservar(idUsuario, idBicicleta);   		
-    		return Response.status(Response.Status.NO_CONTENT).build();
+    		return Response.status(Response.Status.OK).build();
     	}
     
     @POST
