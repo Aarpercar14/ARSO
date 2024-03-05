@@ -1,9 +1,8 @@
 package pruebas;
 
 import java.util.ArrayList;
-
-import alquileres.modelo.Alquiler;
-import alquileres.modelo.Reserva;
+import persistencia.jpa.AlquilerJPA;
+import persistencia.jpa.ReservaJPA;
 import persistencia.jpa.UsuarioJPA;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
@@ -13,7 +12,7 @@ public class PruebasJPA {
 	public static void main(String[] args) {
 		Repositorio<UsuarioJPA,String> repoUser=FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 		try {
-			repoUser.add(new UsuarioJPA("5",new ArrayList<Reserva>(),new ArrayList<Alquiler>()));
+			repoUser.add(new UsuarioJPA("Pepe Martinez",new ArrayList<ReservaJPA>(),new ArrayList<AlquilerJPA>()));
 		} catch (RepositorioException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,9 +26,7 @@ public class ReservaJPA implements Identificable{
 		this.caducidad = caducidad;
 	}
 
-	public ReservaJPA() {
-		// TODO Auto-generated constructor stub
-	}
+	public ReservaJPA() {}
 
 	@Override
 	public String getId() {

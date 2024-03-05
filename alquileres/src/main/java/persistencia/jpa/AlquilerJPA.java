@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import repositorio.Identificable;
 
 @Entity
-@Table(name="alquiler")
+@Table(name="alquileres")
 public class AlquilerJPA implements Identificable{
 	@Id
 	private String idBicicleta;
