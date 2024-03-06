@@ -4,10 +4,10 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -69,7 +69,7 @@ public class AlquilerControladorRest {
     	}
     
     @POST
-    @Path("/usuarios/{idUsuario}/reserva/confirmacion")
+    @Path("/usuarios/{idUsuario}/reservas/confirmacion")
     public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.confirmarReserva(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -84,8 +84,8 @@ public class AlquilerControladorRest {
     	return Response.status(Response.Status.NO_CONTENT).build();
     }
     
-    @POST
-    @Path("/usuarios/{idUsuario}/desbloqueo")
+    @PUT
+    @Path("/usuarios/{idUsuario}")
     public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.liberarBloqueo(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -93,7 +93,7 @@ public class AlquilerControladorRest {
     
     @GET
     @Path("/usuarios/{idUsuario}/historial")
-    @RolesAllowed("alumno")
+    @RolesAllowed("vip")
       @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	Usuario usuario = servicio.historialUsuario(idUsuario);

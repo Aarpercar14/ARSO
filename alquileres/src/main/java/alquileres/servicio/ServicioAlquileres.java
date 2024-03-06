@@ -26,14 +26,17 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			System.out.println("Encontrada el usuarioJPA");
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+			System.out.println("Creado el usuario");
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
-						LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
+				
+				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
 				usuario.addReserva(reserva);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
 			}
+			System.out.println("Reserva ya creada y añadiendo en jpa");
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +101,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			user=encodeUsuarioJPA(usuario);
 			repoUsuarios.update(user);
 		} catch (RepositorioException | EntidadNoEncontrada e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -153,35 +155,35 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
-		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas()), encodeAlquileresJPA(usuario.getAlquileres()));
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas(),usuario.getId()), encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
 		return usuarioJPA;
 	}
 	
 	
-	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas) {
+	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas,String id) {
 		List<ReservaJPA> reservasJPA = new ArrayList<ReservaJPA>();
 		for(Reserva r : reservas) {
-			reservasJPA.add(encodeReservaJPA(r));
+			reservasJPA.add(encodeReservaJPA(r,id));
 		}
 		return reservasJPA;
 	}
 	
-	private ReservaJPA encodeReservaJPA(Reserva reserva) {
-		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad());
+	private ReservaJPA encodeReservaJPA(Reserva reserva,String id) {
+		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad(),id);
 		return reservaJPA;
 	}
 	
 	
-	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres) {
+	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres,String id) {
 		List<AlquilerJPA> alquileresJPA = new ArrayList<>();
 		for(Alquiler a : alquileres) {
-			alquileresJPA.add(encodeAlquilerJPA(a));
+			alquileresJPA.add(encodeAlquilerJPA(a,id));
 		}
 		return alquileresJPA;
 	}
 	
-	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler) {
-		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin());
+	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler,String id) {
+		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin(),id);
 		return alquilerJPA;
 	}
 
