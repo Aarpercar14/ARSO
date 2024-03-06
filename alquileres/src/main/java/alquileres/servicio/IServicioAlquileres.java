@@ -1,7 +1,7 @@
 package alquileres.servicio;
 
-import alquileres.modelo.Historial;
-//import alquileres.modelo.Usuario;
+
+import alquileres.modelo.Usuario;
 
 public interface IServicioAlquileres {
 	
@@ -10,7 +10,7 @@ public interface IServicioAlquileres {
 	void reservar(String idUsuario, String IdBicicleta);
 	void confirmarReserva(String idUsuario);
 	void alquilar(String idUsuario, String idBicicleta);
-	Historial historialUsuario(String idUsuario);
+	Usuario historialUsuario(String idUsuario);
 	void dejarBicicleta(String idUsuario, String isBicicleta);
 	void liberarBloqueo(String idUsuario);
 }

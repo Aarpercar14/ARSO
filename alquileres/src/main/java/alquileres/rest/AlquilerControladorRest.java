@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import alquileres.modelo.Usuario;
 import alquileres.servicio.IServicioAlquileres;
 import io.jsonwebtoken.Claims;
 import servicio.FactoriaServicios;
@@ -97,8 +98,16 @@ public class AlquilerControladorRest {
     @RolesAllowed("alumno")
       @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
+    	Usuario usuario = servicio.historialUsuario(idUsuario);
     	return Response.status(Response.Status.OK)
-    			.entity(servicio.historialUsuario(idUsuario)).build();
+    			.entity(usuarioToDTO(usuario)).build();
+    }
+    
+    private UsuarioDTO usuarioToDTO(Usuario usuario) {
+    	UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getId());
+    	usuarioDTO.setReservas(usuario.getReservas());
+    	usuarioDTO.setAlquileres(usuario.getAlquileres());
+    	return usuarioDTO;
     }
     
     

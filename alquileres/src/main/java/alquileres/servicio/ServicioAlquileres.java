@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alquileres.modelo.Alquiler;
-import alquileres.modelo.Historial;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
-import persistencia.jpa.UsuarioJPA;
-import persistencia.jpa.ReservaJPA;
 import persistencia.jpa.AlquilerJPA;
+import persistencia.jpa.ReservaJPA;
+import persistencia.jpa.UsuarioJPA;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
@@ -75,13 +74,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	@Override
-	public Historial historialUsuario(String idUsuario) {
+	public Usuario historialUsuario(String idUsuario) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			Historial historial = new Historial(idUsuario, usuario.bloqueado(), usuario.tiempoUsoSemana(),
-					usuario.getReservas(), usuario.getAlquileres());
-			return historial;
+			return usuario;
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
