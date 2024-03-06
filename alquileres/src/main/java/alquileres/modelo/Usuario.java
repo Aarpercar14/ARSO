@@ -75,23 +75,25 @@ public class Usuario implements Identificable {
 	}
 
 	public Reserva reservaActiva() {
-		System.out.println("Probando 1");
-		if (reservas.get(reservas.size() - 1).activa())
-			return reservas.get(reservas.size() - 1);
+		if (!reservas.isEmpty()) {
+			if (reservas.get(reservas.size() - 1).activa()) {
+				return reservas.get(reservas.size() - 1);
+			}
+		}
 		return null;
 	}
 
 	public Alquiler alquilerActivo() {
-		System.out.println("Probando 2");
-		if (alquileres.get(alquileres.size() - 1).activa()) {
-			System.out.println("Probando 3");
-			return alquileres.get(alquileres.size() - 1);
+		if (!alquileres.isEmpty()) {
+			if (alquileres.get(alquileres.size() - 1).activa()) {
+				return alquileres.get(alquileres.size() - 1);
+			}
 		}
-		System.out.println("Probando 4");
 		return null;
 	}
 
 	public boolean bloqueado() {
+		System.out.println(this.reservasCaducadas());
 		return this.reservasCaducadas() >= 3;
 	}
 

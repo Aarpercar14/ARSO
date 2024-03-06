@@ -41,7 +41,7 @@ public class Alquiler {
 	}
 
 	public boolean activa() {
-		return this.fin.equals(null);
+		return this.fin!=null;
 	}
 
 	public int tiempo() {

@@ -26,17 +26,13 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
-			System.out.println("Encontrada el usuarioJPA");
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			System.out.println("Creado el usuario");
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				
 				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
 				usuario.addReserva(reserva);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
 			}
-			System.out.println("Reserva ya creada y añadiendo en jpa");
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
@@ -56,7 +52,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -73,7 +68,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -155,7 +149,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
-		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas(),usuario.getId()), encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas(),usuario.getId()),
+									encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
 		return usuarioJPA;
 	}
 	

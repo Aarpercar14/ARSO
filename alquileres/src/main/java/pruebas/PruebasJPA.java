@@ -25,7 +25,7 @@ public class PruebasJPA {
 			alq.add(alqi);
 			*/
 			
-			repoUser.add(new UsuarioJPA("7",res,alq));
+			repoUser.add(new UsuarioJPA("1",res,alq));
 		} catch (RepositorioException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
