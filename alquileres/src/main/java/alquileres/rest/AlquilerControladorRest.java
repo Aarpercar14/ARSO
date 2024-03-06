@@ -40,24 +40,6 @@ public class AlquilerControladorRest {
         return "This is the testservice";
     }
     
-   /* @POST
-    @Path("/usuario/{idUsuario}")
-    public Response crearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
-    	servicio.crearUsuario(idUsuario);
-    	
-    	URI nuevaURL = this.uriInfo.getAbsolutePathBuilder().path(idUsuario).build();
-    	
-    	return Response.created(nuevaURL).build();
-    }
-    
-    @GET
-    @Path("/usuarios/{idUsuario}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getUsuario(@PathParam("idUsuario") String idUsusario) {
-    	return Response.status(Response.Status.OK)
-    			.entity(servicio.getUsuario(idUsusario)).build();
-    }
-    */
     @POST
     @Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
     public Response reservar( @PathParam("idUsuario") String idUsuario, 
