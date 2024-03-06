@@ -24,8 +24,6 @@ public class AlquilerControladorRest {
     @Context
 	private UriInfo uriInfo;
     @Context
-    private ResourceInfo resourceInfo;
-    @Context
     private HttpServletRequest servletRequest;
     
     @GET

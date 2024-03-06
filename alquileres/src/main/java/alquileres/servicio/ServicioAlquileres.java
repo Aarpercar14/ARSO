@@ -98,6 +98,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 					usuario.getAlquileres().remove(usuario.alquilerActivo());
 				}
 			}
+			user=encodeUsuarioJPA(usuario);
+			repoUsuarios.update(user);
 		} catch (RepositorioException | EntidadNoEncontrada e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
