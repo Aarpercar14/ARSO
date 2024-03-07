@@ -26,6 +26,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			if(usuarioJPA == null)
+				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
 				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
@@ -60,6 +62,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void alquilar(String idUsuario, String idBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idBicicleta);
+			if(usuarioJPA == null)
+				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
 				Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
@@ -77,6 +81,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public Usuario historialUsuario(String idUsuario) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
+			if(usuarioJPA == null)
+				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			return usuario;
 		} catch (EntidadNoEncontrada | RepositorioException e) {
@@ -183,6 +189,17 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler) {
 		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin());
 		return alquilerJPA;
+	}
+	
+	private UsuarioJPA crearUsuario(String idUsuario) {
+		UsuarioJPA usuario = new UsuarioJPA(idUsuario, new ArrayList<ReservaJPA>(), new ArrayList<AlquilerJPA>());
+		try {
+			repoUsuarios.add(usuario);
+			return usuario;
+		} catch (RepositorioException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	
