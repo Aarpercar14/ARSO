@@ -6,8 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -15,12 +14,13 @@ import repositorio.Identificable;
 
 @Entity
 @Table(name = "usuario")
+@NamedQuery(name="Usuario.getById", query=" SELECT u FROM UsuarioJPA u WHERE u.id = :iD")
 public class UsuarioJPA implements Identificable {
 	@Id
 	private String id;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuarioR",cascade = CascadeType.ALL)
 	private List<ReservaJPA> reservas;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuarioA",cascade = CascadeType.ALL)
 	private List<AlquilerJPA> alquileres;
 	
 	public UsuarioJPA(String id, List<ReservaJPA> arrayList, List<AlquilerJPA> arrayList2) {
@@ -32,6 +32,14 @@ public class UsuarioJPA implements Identificable {
 	
 	public UsuarioJPA() {
 
+	}
+
+	public void setReservas(List<ReservaJPA> reservas) {
+		this.reservas = reservas;
+	}
+
+	public void setAlquileres(List<AlquilerJPA> alquileres) {
+		this.alquileres = alquileres;
 	}
 
 	public String getId() {

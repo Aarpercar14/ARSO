@@ -1,6 +1,7 @@
 package persistencia.jpa;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,13 +23,15 @@ public class AlquilerJPA implements Identificable{
 	private LocalDateTime fin;
 	@ManyToOne
 	@JoinColumn(name="usuario_fk")
-	private UsuarioJPA user;
+	private UsuarioJPA usuarioA;
 	
-	public AlquilerJPA(String idBicicleta, LocalDateTime inicio, LocalDateTime fin) {
+	public AlquilerJPA(String idBicicleta, LocalDateTime inicio, LocalDateTime fin,String idUser) {
 		super();
 		this.idBicicleta = idBicicleta;
 		this.inicio = inicio;
 		this.fin = fin;
+		this.usuarioA=new UsuarioJPA(idUser,new ArrayList<ReservaJPA>(),new ArrayList<AlquilerJPA>());
+
 	}
 
 	public AlquilerJPA() {
@@ -37,6 +40,22 @@ public class AlquilerJPA implements Identificable{
 	@Override
 	public String getId() {
 		return idBicicleta;
+	}
+
+	public String getIdBicicleta() {
+		return idBicicleta;
+	}
+
+	public void setIdBicicleta(String idBicicleta) {
+		this.idBicicleta = idBicicleta;
+	}
+
+	public UsuarioJPA getUsuarioA() {
+		return usuarioA;
+	}
+
+	public void setUsuarioA(UsuarioJPA usuarioA) {
+		this.usuarioA = usuarioA;
 	}
 
 	@Override
