@@ -13,6 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
 import alquileres.modelo.Usuario;
 import alquileres.servicio.IServicioAlquileres;
 import io.jsonwebtoken.Claims;
@@ -27,9 +30,15 @@ public class AlquilerControladorRest {
     @Context
     private HttpServletRequest servletRequest;
     
+    //Por defecto la aplicacion no soportaba los 
+    //tipos de datos de localDiteTime sin este modulo
+    ObjectMapper mapper = JsonMapper.builder()
+            .findAndAddModules()
+            .build();
+    
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @RolesAllowed("alumno")
+    @RolesAllowed("usuario")
     @Path("/TestService")
     public String info(){
     	if (this.servletRequest.getAttribute("claims") != null) {//Mostrar por consola identificacion del usuario
@@ -42,6 +51,7 @@ public class AlquilerControladorRest {
     
     @POST
     @Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
+    @RolesAllowed("usuario")
     public Response reservar( @PathParam("idUsuario") String idUsuario, 
     							@PathParam("idBicicleta") String idBicicleta)
     									throws Exception {
@@ -52,6 +62,7 @@ public class AlquilerControladorRest {
     
     @POST
     @Path("/usuarios/{idUsuario}/reserva")
+    @RolesAllowed("usuario")
     public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.confirmarReserva(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -59,6 +70,7 @@ public class AlquilerControladorRest {
     
     @POST
     @Path("/usuarios/{idUsuario}/alquileres/{idBicicleta}")
+    @RolesAllowed("usuario")
     public Response alquilar(@PathParam("idUsuario") String idUsuario,
     									@PathParam("idBicicleta") String idBicicleta)
     											throws Exception {
@@ -68,6 +80,7 @@ public class AlquilerControladorRest {
     
     @PUT
     @Path("/usuarios/{idUsuario}")
+    @RolesAllowed("admin")
     public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	servicio.liberarBloqueo(idUsuario);
     	return Response.status(Response.Status.NO_CONTENT).build();
@@ -75,7 +88,7 @@ public class AlquilerControladorRest {
     
     @GET
     @Path("/usuarios/{idUsuario}/historial")
-    @RolesAllowed("alumno")
+    @RolesAllowed("admin")
       @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	Usuario usuario = servicio.historialUsuario(idUsuario);

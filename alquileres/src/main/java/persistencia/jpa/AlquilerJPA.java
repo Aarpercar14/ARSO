@@ -17,9 +17,9 @@ import repositorio.Identificable;
 public class AlquilerJPA implements Identificable{
 	@Id
 	private String idBicicleta;
-	@Column(name="inicio",columnDefinition="DATE")
+	@Column(name="inicio",columnDefinition="TIMESTAMP")
 	private LocalDateTime inicio;
-	@Column(name="fin",columnDefinition="DATE")
+	@Column(name="fin",columnDefinition="TIMESTAMP")
 	private LocalDateTime fin;
 	@ManyToOne
 	@JoinColumn(name="usuario_fk")

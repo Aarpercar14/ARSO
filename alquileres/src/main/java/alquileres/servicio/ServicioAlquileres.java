@@ -59,7 +59,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	@Override
 	public void alquilar(String idUsuario, String idBicicleta) {
 		try {
-			UsuarioJPA usuarioJPA = repoUsuarios.getById(idBicicleta);
+			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			if(usuarioJPA == null)
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
@@ -128,7 +128,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	
 	private List<Reserva> decodeReservasJPA(List<ReservaJPA> reservasJPA) {
 		List<Reserva> reservas = new ArrayList<Reserva>();
-		
 		for(ReservaJPA r : reservasJPA) {
 			reservas.add(decodeReservaJPA(r));
 		}
@@ -155,8 +154,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
-		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas(),usuario.getId()),
-									encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), 
+											   encodeReservasJPA(usuario.getReservas(),usuario.getId()),
+											   encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
 		return usuarioJPA;
 	}
 	

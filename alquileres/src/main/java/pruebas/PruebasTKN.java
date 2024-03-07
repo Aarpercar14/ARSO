@@ -14,7 +14,7 @@ public class PruebasTKN {
 		Map<String, Object> claims = new HashMap<String, Object>();
 
 		claims.put("sub", "yo");
-		claims.put("roles", "alumno");
+		claims.put("roles", "a");
 		Date caducidad = Date.from(Instant.now().plusSeconds(3600)); // 1 hora de validez
 		String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, "master_key")
 				.setExpiration(caducidad).compact();

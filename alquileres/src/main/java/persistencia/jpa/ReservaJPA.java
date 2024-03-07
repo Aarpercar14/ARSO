@@ -17,9 +17,9 @@ import repositorio.Identificable;
 public class ReservaJPA implements Identificable{
 	@Id
 	private String idBicicleta;
-	@Column(name="creada",columnDefinition="DATE")
+	@Column(name="creada",columnDefinition="TIMESTAMP")
 	private LocalDateTime creada;
-	@Column(name="caducidad",columnDefinition="DATE")
+	@Column(name="caducidad",columnDefinition="TIMESTAMP")
 	private LocalDateTime caducidad;
 	@ManyToOne
 	@JoinColumn(name="usuario_fk")
