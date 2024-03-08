@@ -35,9 +35,7 @@ public class ControladorAuth {
 				        .compact();
 		    return Response.ok(token).build();
 		} else {
-		    return Response
-		            .status(Response.Status.UNAUTHORIZED)
-		            .entity("Credenciales inválidas").build();
+		    return Response.status(Response.Status.UNAUTHORIZED).entity("Credenciales inválidas").build();
 		}
 		
 	}
