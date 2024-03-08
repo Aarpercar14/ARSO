@@ -29,7 +29,7 @@ public class AlquilerJPA implements Identificable{
 		super();
 		this.idBicicleta = idBicicleta;
 		this.inicio = inicio;
-		this.fin = fin;
+		this.fin = inicio.plusMinutes(30);
 		this.usuarioA=new UsuarioJPA(idUser,new ArrayList<ReservaJPA>(),new ArrayList<AlquilerJPA>());
 
 	}

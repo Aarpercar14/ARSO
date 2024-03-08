@@ -78,10 +78,12 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public Usuario historialUsuario(String idUsuario) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
-			if(usuarioJPA == null)
-				usuarioJPA = crearUsuario(idUsuario);
-			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+			if(usuarioJPA != null) {
+				Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			return usuario;
+			}
+			System.out.println("El usuario no existe");
+			return null;
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}

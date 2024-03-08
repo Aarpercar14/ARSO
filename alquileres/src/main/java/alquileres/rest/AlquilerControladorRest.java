@@ -92,6 +92,7 @@ public class AlquilerControladorRest {
       @Produces({MediaType.APPLICATION_JSON})
     public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
     	Usuario usuario = servicio.historialUsuario(idUsuario);
+    	if(usuario==null) return Response.status(Response.Status.NO_CONTENT).build();
     	return Response.status(Response.Status.OK)
     			.entity(usuarioToDTO(usuario)).build();
     }
