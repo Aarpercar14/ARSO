@@ -28,7 +28,7 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA>{
 			Query query = em.createQuery("SELECT u FROM UsuarioJPA u WHERE u.id LIKE :iD");
 			query.setParameter("iD", "%" + keyword + "%");			
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-			return (UsuarioJPA)query.getResultList().get(0);
+			return (UsuarioJPA)query.getSingleResult();
 		}catch(RuntimeException ru) {
 			throw new RepositorioException("Error buscando usuario por palabra clave", ru);
 		}
