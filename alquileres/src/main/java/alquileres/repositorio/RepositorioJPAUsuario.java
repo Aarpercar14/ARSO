@@ -11,7 +11,7 @@ import repositorio.RepositorioException;
 import repositorio.RepositorioJPA;
 import utils.EntityManagerHelper;
 
-public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA>{
+public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA> {
 
 	@Override
 	public Class<UsuarioJPA> getClase() {
@@ -20,16 +20,20 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA>{
 
 	@Override
 	public String getNombre() {
-		return UsuarioJPA.class.getName().substring(UsuarioJPA.class.getName().lastIndexOf(".")+1);
+		return UsuarioJPA.class.getName().substring(UsuarioJPA.class.getName().lastIndexOf(".") + 1);
 	}
-	public UsuarioJPA getById(String keyword) throws RepositorioException{
+
+	public UsuarioJPA getById(String keyword) throws RepositorioException {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		try {
 			Query query = em.createQuery("SELECT u FROM UsuarioJPA u WHERE u.id LIKE :iD");
-			query.setParameter("iD", "%" + keyword + "%");			
+			query.setParameter("iD", "%" + keyword + "%");
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-			return (UsuarioJPA)query.getSingleResult();
-		}catch(RuntimeException ru) {
+			if (query.getResultList().isEmpty())
+				return null;
+
+			return (UsuarioJPA) query.getSingleResult();
+		} catch (RuntimeException ru) {
 			throw new RepositorioException("Error buscando usuario por palabra clave", ru);
 		}
 	}
