@@ -22,6 +22,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	private IServicioEstaciones servEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
 
+	
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {

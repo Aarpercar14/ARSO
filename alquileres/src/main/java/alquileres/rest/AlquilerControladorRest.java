@@ -23,86 +23,86 @@ import servicio.FactoriaServicios;
 
 @Path("alquileres")
 public class AlquilerControladorRest {
-	
-    private IServicioAlquileres servicio =  FactoriaServicios.getServicio(IServicioAlquileres.class);
-    @Context
+
+	private IServicioAlquileres servicio = FactoriaServicios.getServicio(IServicioAlquileres.class);
+	@Context
 	private UriInfo uriInfo;
-    @Context
-    private HttpServletRequest servletRequest;
-    
-    //Por defecto la aplicacion no soportaba los 
-    //tipos de datos de localDiteTime sin este modulo
-    ObjectMapper mapper = JsonMapper.builder()
-            .findAndAddModules()
-            .build();
-    
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @RolesAllowed("usuario")
-    @Path("/TestService")
-    public String info(){
-    	if (this.servletRequest.getAttribute("claims") != null) {//Mostrar por consola identificacion del usuario
-    	    Claims claims = (Claims) this.servletRequest.getAttribute("claims");
-    	    System.out.println("Usuario autenticado: " + claims.getSubject());
-    	    System.out.println("Roles: " + claims.get("roles"));
-    	}
-        return "This is the testservice";
-    }
-    
-    @POST
-    @Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
-    @RolesAllowed("usuario")
-    public Response reservar( @PathParam("idUsuario") String idUsuario, 
-    							@PathParam("idBicicleta") String idBicicleta)
-    									throws Exception {
-    	
-    		servicio.reservar(idUsuario, idBicicleta);   		
-    		return Response.status(Response.Status.OK).build();
-    	}
-    
-    @POST
-    @Path("/usuarios/{idUsuario}/reserva")
-    @RolesAllowed("usuario")
-    public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
-    	servicio.confirmarReserva(idUsuario);
-    	return Response.status(Response.Status.NO_CONTENT).build();
-    }
-    
-    @POST
-    @Path("/{idBicicleta}/usuarios/{idUsuario}")
-    @RolesAllowed("usuario")
-    public Response alquilar(@PathParam("idUsuario") String idUsuario,
-    									@PathParam("idBicicleta") String idBicicleta)
-    											throws Exception {
-    	servicio.alquilar(idUsuario, idBicicleta);
-    	return Response.status(Response.Status.NO_CONTENT).build();
-    }
-    
-    @PUT
-    @Path("/usuarios/{idUsuario}")
-    @RolesAllowed("admin")
-    public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
-    	servicio.liberarBloqueo(idUsuario);
-    	return Response.status(Response.Status.NO_CONTENT).build();
-    }
-    
-    @GET
-    @Path("/usuarios/{idUsuario}/historial")
-    @RolesAllowed("admin")
-      @Produces({MediaType.APPLICATION_JSON})
-    public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
-    	Usuario usuario = servicio.historialUsuario(idUsuario);
-    	if(usuario==null) return Response.status(Response.Status.NO_CONTENT).build();
-    	return Response.status(Response.Status.OK)
-    			.entity(usuarioToDTO(usuario)).build();
-    }
-    
-    private UsuarioDTO usuarioToDTO(Usuario usuario) {
-    	UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getId());
-    	usuarioDTO.setReservas(usuario.getReservas());
-    	usuarioDTO.setAlquileres(usuario.getAlquileres());
-    	return usuarioDTO;
-    }
-    
-    
+	@Context
+	private HttpServletRequest servletRequest;
+
+	// Por defecto la aplicacion no soportaba los
+	// tipos de datos de localDiteTime sin este modulo
+	ObjectMapper mapper = JsonMapper.builder().findAndAddModules().build();
+
+	// curl -X POST
+	// http://localhost:8080/api/alquileres/usuarios/Pedro/reservas/Bici1 -H
+	// 'Authorization: Bearer "Token a generar usando pruebasTKN donde roles sea
+	// usuario"'
+	@POST
+	@Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
+	@RolesAllowed("usuario")
+	public Response reservar(@PathParam("idUsuario") String idUsuario,
+							 @PathParam("idBicicleta") String idBicicleta)
+							 throws Exception {
+
+		servicio.reservar(idUsuario, idBicicleta);
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// curl -X POST http://localhost:8080/api/alquileres/usuarios/Pedro/reserva -H
+	// 'Authorization: Bearer "Token a generar usando pruebasTKN donde roles sea
+	// usuario"'
+	@POST
+	@Path("/usuarios/{idUsuario}/reserva")
+	@RolesAllowed("usuario")
+	public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
+		servicio.confirmarReserva(idUsuario);
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// curl -X POST http://localhost:8080/api/alquileres/Bici2/usuarios/Pedro -H
+	// 'Authorization: Bearer "Token a generar usando pruebasTKN donde roles sea
+	// usuario"'
+	@POST
+	@Path("/{idBicicleta}/usuarios/{idUsuario}")
+	@RolesAllowed("usuario")
+	public Response alquilar(@PathParam("idUsuario") String idUsuario,
+							 @PathParam("idBicicleta") String idBicicleta)
+							 throws Exception {
+		servicio.alquilar(idUsuario, idBicicleta);
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// curl -X PUT http://localhost:8080/api/alquileres/usuarios/Pedro -H
+	// 'Authorization: Bearer "Token a generar usando pruebasTKN donde roles sea
+	// admin"'
+	@PUT
+	@Path("/usuarios/{idUsuario}")
+	@RolesAllowed("admin")
+	public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
+		servicio.liberarBloqueo(idUsuario);
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// curl -i -X GET http://localhost:8080/api/alquileres/usuarios/Pedro/historial
+	// -H 'Authorization: Bearer "Token a generar usando pruebasTKN donde roles sea
+	// admin"'
+	@GET
+	@Path("/usuarios/{idUsuario}/historial")
+	@RolesAllowed("admin")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
+		Usuario usuario = servicio.historialUsuario(idUsuario);
+		if (usuario == null)
+			return Response.status(Response.Status.NO_CONTENT).build();
+		return Response.status(Response.Status.OK).entity(usuarioToDTO(usuario)).build();
+	}
+
+	private UsuarioDTO usuarioToDTO(Usuario usuario) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getId());
+		usuarioDTO.setReservas(usuario.getReservas());
+		usuarioDTO.setAlquileres(usuario.getAlquileres());
+		return usuarioDTO;
+	}
+
 }
