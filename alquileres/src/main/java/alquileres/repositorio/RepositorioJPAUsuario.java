@@ -26,12 +26,11 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA> {
 	public UsuarioJPA getById(String keyword) throws RepositorioException {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		try {
-			Query query = em.createQuery("SELECT u FROM UsuarioJPA u WHERE u.id LIKE :iD");
-			query.setParameter("iD", "%" + keyword + "%");
+			Query query = em.createQuery("SELECT u FROM UsuarioJPA u WHERE u.id = :iD");
+			query.setParameter("iD", keyword);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-			if (query.getResultList().isEmpty())
+			if (query.getSingleResult() == null)
 				return null;
-
 			return (UsuarioJPA) query.getSingleResult();
 		} catch (RuntimeException ru) {
 			throw new RepositorioException("Error buscando usuario por palabra clave", ru);
