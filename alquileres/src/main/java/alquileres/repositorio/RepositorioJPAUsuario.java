@@ -37,5 +37,4 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA> {
 			throw new RepositorioException("Error buscando usuario por palabra clave", ru);
 		}
 	}
-
 }
