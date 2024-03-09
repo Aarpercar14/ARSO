@@ -69,7 +69,7 @@ public class AlquilerControladorRest {
     }
     
     @POST
-    @Path("/usuarios/{idUsuario}/alquileres/{idBicicleta}")
+    @Path("/{idBicicleta}/usuarios/{idUsuario}")
     @RolesAllowed("usuario")
     public Response alquilar(@PathParam("idUsuario") String idUsuario,
     									@PathParam("idBicicleta") String idBicicleta)

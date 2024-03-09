@@ -46,7 +46,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() != null) {
-				Alquiler alquiler = new Alquiler(idUsuario, LocalDateTime.now());
+				Alquiler alquiler = new Alquiler(usuario.reservaActiva().getIdBicicleta(), LocalDateTime.now());
 				usuario.addAlquiler(alquiler);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);

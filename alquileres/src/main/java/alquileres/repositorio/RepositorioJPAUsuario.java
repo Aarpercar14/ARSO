@@ -29,7 +29,7 @@ public class RepositorioJPAUsuario extends RepositorioJPA<UsuarioJPA> {
 			Query query = em.createQuery("SELECT u FROM UsuarioJPA u WHERE u.id = :iD");
 			query.setParameter("iD", keyword);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-			if (query.getSingleResult() == null)
+			if (query.getResultList().isEmpty())
 				return null;
 			return (UsuarioJPA) query.getSingleResult();
 		} catch (RuntimeException ru) {
