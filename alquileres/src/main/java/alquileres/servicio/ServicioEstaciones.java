@@ -1,5 +1,8 @@
 package alquileres.servicio;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ServicioEstaciones implements IServicioEstaciones{
 
 	@Override
