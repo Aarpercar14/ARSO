@@ -2,6 +2,8 @@ package alquileres.modelo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import repositorio.Identificable;
 import repositorio.RepositorioException;
@@ -45,6 +47,10 @@ public class Estacionamiento implements Identificable {
 			}
 		}
 		numPuestos++;
+	}
+	
+	public List<Bicicleta> findDisponibles(){
+		return bicicletas.stream().filter(b->b.getEstado()!="Disponible").collect(Collectors.toList());
 	}
 
 	@Override
