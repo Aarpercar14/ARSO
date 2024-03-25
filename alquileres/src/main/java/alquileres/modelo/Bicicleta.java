@@ -1,6 +1,11 @@
 package alquileres.modelo;
 import java.time.LocalDateTime;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import repositorio.Identificable;
+
+@Document(collection = "bicicletas")
 public class Bicicleta implements Identificable {
 	private String id;
 	private String modelo;

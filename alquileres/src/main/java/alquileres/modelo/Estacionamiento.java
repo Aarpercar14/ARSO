@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import repositorio.Identificable;
 import repositorio.RepositorioException;
-
+@Document(collection = "estacionamiento")
 public class Estacionamiento implements Identificable {
 	private String id;
 	private String nombre;
