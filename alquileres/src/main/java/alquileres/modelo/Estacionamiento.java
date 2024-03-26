@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import repositorio.Identificable;
 import repositorio.RepositorioException;
+
 @Document(collection = "estacionamiento")
 public class Estacionamiento implements Identificable {
+	@Id
 	private String id;
 	private String nombre;
 	private int numPuestos;
@@ -52,7 +55,7 @@ public class Estacionamiento implements Identificable {
 	}
 	
 	public List<Bicicleta> findDisponibles(){
-		return bicicletas.stream().filter(b->b.getEstado()!="Disponible").collect(Collectors.toList());
+		return bicicletas.stream().filter(b->b.getEstado()=="Disponible").collect(Collectors.toList());
 	}
 
 	@Override

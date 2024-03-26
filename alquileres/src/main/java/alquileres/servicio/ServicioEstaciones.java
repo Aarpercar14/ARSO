@@ -46,16 +46,17 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	}
 
 	@Override
-	public String altaDeUnaBici(String modelo, Estacionamiento estacion) {
+	public String altaBici(String modelo, String estacion) {
 		String id = UUID.randomUUID().toString();
+		Estacionamiento est=repositorioEst.findById(estacion).get();
 		Bicicleta bici = new Bicicleta(id, modelo);
 		repositorioBicicletas.save(bici);
-		this.estacionarUnaBicileta(id, estacion.getId());
+		this.estacionarUnaBicileta(id, est.getId());
 		return id;
 	}
 
 	@Override
-	public void darDeBajaUnaBici(String idEstacion, String idBici, String motivo) {
+	public void bajaBici(String idEstacion, String idBici, String motivo) {
 		Bicicleta bici = repositorioBicicletas.findById(idBici).get();
 		this.retirarUnaBicleta(idBici, idEstacion);
 		bici.cambioEstadoBici("no disponible");
@@ -100,6 +101,7 @@ public class ServicioEstaciones implements IServicioEstaciones {
 			Estacionamiento estacion = repositorioEst.findById(idEstacion).get();
 			Bicicleta bici = repositorioBicicletas.findById(idBici).get();
 			estacion.estacionarBici(bici);
+			
 			repositorioEst.save(estacion);
 		} catch (RepositorioException e) {
 			e.printStackTrace();

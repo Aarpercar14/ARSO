@@ -14,9 +14,9 @@ public interface IServicioEstaciones {
 
 	public String altaEstacion(String nombre, int puestos, String direccion, int cordX, int cordY);
 
-	public void darDeBajaUnaBici(String idEstacion, String idBici, String motivo);
+	public void bajaBici(String idEstacion, String idBici, String motivo);
 
-	public String altaDeUnaBici(String modelo, Estacionamiento estacion);
+	public String altaBici(String modelo, String estacion);
 
 	public Page<Bicicleta> getListadoPaginadoGestor(String idEstacion,Pageable pageable);
 
