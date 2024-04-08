@@ -11,6 +11,6 @@ public interface IServicioAlquileres {
 	void confirmarReserva(String idUsuario);
 	void alquilar(String idUsuario, String idBicicleta);
 	Usuario historialUsuario(String idUsuario);
-	void dejarBicicleta(String idUsuario, String isBicicleta);
+	void dejarBicicleta(String idUsuario, String idEstacion);
 	void liberarBloqueo(String idUsuario);
 }

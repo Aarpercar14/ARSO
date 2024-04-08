@@ -15,12 +15,15 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
+import retrofit2.Retrofit;
+import retrofit2.converter.jaxb.JaxbConverterFactory;
 import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres {
-
+	
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	private IServicioEstaciones servEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	
 
 	
 	@Override
@@ -92,7 +95,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	@Override
-	public void dejarBicicleta(String idUsuario, String isBicicleta) {
+	public void dejarBicicleta(String idUsuario, String idEstacion) {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
