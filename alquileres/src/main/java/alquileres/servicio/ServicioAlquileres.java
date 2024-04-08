@@ -100,7 +100,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
-				if (servEstaciones.peticionAparcarBicicleta()) {
+				if (servEstaciones.peticionAparcarBicicleta(idEstacion)) {
 					usuario.getAlquileres().remove(usuario.alquilerActivo());
 				}
 			}
@@ -166,7 +166,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		return usuarioJPA;
 	}
 	
-	
 	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas,String id) {
 		List<ReservaJPA> reservasJPA = new ArrayList<ReservaJPA>();
 		for(Reserva r : reservas) {
@@ -179,7 +178,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad(),id);
 		return reservaJPA;
 	}
-	
 	
 	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres,String id) {
 		List<AlquilerJPA> alquileresJPA = new ArrayList<>();
