@@ -1,5 +1,6 @@
 package alquileres.servicio;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -100,8 +101,13 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
-				if (servEstaciones.peticionAparcarBicicleta(idEstacion)) {
-					usuario.getAlquileres().remove(usuario.alquilerActivo());
+				try {
+					if (servEstaciones.peticionAparcarBicicleta(idEstacion).execute().body()) {
+						usuario.getAlquileres().remove(usuario.alquilerActivo());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			user=encodeUsuarioJPA(usuario);
