@@ -3,8 +3,8 @@ package alquileres;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import alquileres.repositorio.RepositorioBicicletas;
-import alquileres.repositorio.RepositorioEstaciones;
+import estaciones.repositorio.RepositorioBicicletas;
+import estaciones.repositorio.RepositorioEstaciones;
 
 public class ProgramaRepositorio {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package alquileres.repositorio;
+package estaciones.repositorio;
 
 import java.util.List;
 import org.springframework.data.repository.NoRepositoryBean;

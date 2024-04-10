@@ -1,4 +1,4 @@
-package alquileres.rest;
+package estaciones.rest;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

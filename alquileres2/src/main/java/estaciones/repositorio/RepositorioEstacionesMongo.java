@@ -1,4 +1,4 @@
-package alquileres.repositorio;
+package estaciones.repositorio;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

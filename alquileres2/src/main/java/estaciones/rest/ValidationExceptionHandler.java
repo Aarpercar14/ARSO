@@ -1,4 +1,4 @@
-package alquileres.rest;
+package estaciones.rest;
 
 import java.util.HashMap;
 import java.util.Map;

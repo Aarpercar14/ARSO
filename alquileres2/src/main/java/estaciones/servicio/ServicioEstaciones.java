@@ -1,4 +1,4 @@
-package alquileres.servicio;
+package estaciones.servicio;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import alquileres.repositorio.RepositorioBicicletas;
-import alquileres.repositorio.RepositorioEstaciones;
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.EstacionDTOUsuario;
 import estaciones.modelo.Estacionamiento;
+import estaciones.repositorio.RepositorioBicicletas;
+import estaciones.repositorio.RepositorioEstaciones;
 import repositorio.RepositorioException;
 
 @Service

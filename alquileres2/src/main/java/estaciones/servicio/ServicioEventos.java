@@ -1,4 +1,4 @@
-package alquileres.servicio;
+package estaciones.servicio;
 
 import java.time.LocalDateTime;
 
