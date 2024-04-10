@@ -1,4 +1,4 @@
-package alquileres.modelo;
+package estaciones.modelo;
 
 import java.time.LocalDateTime;
 

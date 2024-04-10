@@ -11,11 +11,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import alquileres.modelo.Bicicleta;
-import alquileres.modelo.EstacionDTOUsuario;
-import alquileres.modelo.Estacionamiento;
 import alquileres.repositorio.RepositorioBicicletas;
 import alquileres.repositorio.RepositorioEstaciones;
+import estaciones.modelo.Bicicleta;
+import estaciones.modelo.EstacionDTOUsuario;
+import estaciones.modelo.Estacionamiento;
 import repositorio.RepositorioException;
 
 @Service

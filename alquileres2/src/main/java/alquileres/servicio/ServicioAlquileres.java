@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import alquileres.modelo.Alquiler;
-import alquileres.modelo.Reserva;
-import alquileres.modelo.Usuario;
+import estaciones.modelo.Alquiler;
+import estaciones.modelo.Reserva;
+import estaciones.modelo.Usuario;
 import persistencia.jpa.AlquilerJPA;
 import persistencia.jpa.ReservaJPA;
 import persistencia.jpa.UsuarioJPA;

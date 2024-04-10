@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import alquileres.modelo.Alquiler;
-import alquileres.modelo.Reserva;
+import estaciones.modelo.Alquiler;
+import estaciones.modelo.Reserva;
 import repositorio.Identificable;
 
 public class UsuarioDTO implements Identificable{

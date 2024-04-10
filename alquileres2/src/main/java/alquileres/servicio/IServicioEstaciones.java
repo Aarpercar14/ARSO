@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import alquileres.modelo.Bicicleta;
-import alquileres.modelo.EstacionDTOUsuario;
+import estaciones.modelo.Bicicleta;
+import estaciones.modelo.EstacionDTOUsuario;
 
 public interface IServicioEstaciones {
 

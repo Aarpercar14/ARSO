@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import alquileres.modelo.Bicicleta;
+import estaciones.modelo.Bicicleta;
 
 @NoRepositoryBean
 public interface RepositorioBicicletas

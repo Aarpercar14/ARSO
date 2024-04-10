@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import alquileres.modelo.Bicicleta;
-import alquileres.modelo.EstacionDTOUsuario;
 import alquileres.servicio.IServicioEstaciones;
+import estaciones.modelo.Bicicleta;
+import estaciones.modelo.EstacionDTOUsuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 

@@ -1,7 +1,7 @@
 package alquileres.servicio;
 
 
-import alquileres.modelo.Usuario;
+import estaciones.modelo.Usuario;
 
 public interface IServicioAlquileres {
 	
