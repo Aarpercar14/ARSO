@@ -21,6 +21,7 @@ import repositorio.RepositorioException;
 import retrofit.alquileres.AlquileresRestClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jaxb.JaxbConverterFactory;
+import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 
@@ -28,6 +29,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8080/")
 			.addConverterFactory(JaxbConverterFactory.create()).build();
 	private AlquileresRestClient alquileresClient = retrofit.create(AlquileresRestClient.class);
+	private IServicioEventos servEventos = FactoriaServicios.getServicio(IServicioEventos.class);
 
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
@@ -58,6 +60,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				usuario.addAlquiler(alquiler);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
+				try {
+					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -76,6 +83,12 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				usuario.addAlquiler(alquiler);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
+				try {
+					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -108,6 +121,12 @@ public class ServicioAlquileres implements IServicioAlquileres {
 					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
 					if (hayHuecosDisponibles(info)) {
 						alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
+						try {
+							servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						usuario.getAlquileres().remove(usuario.alquilerActivo());
 					}
 				user=encodeUsuarioJPA(usuario);

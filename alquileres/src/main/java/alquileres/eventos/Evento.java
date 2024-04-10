@@ -2,18 +2,16 @@ package alquileres.eventos;
 
 import java.time.LocalDateTime;
 
-public class EventoAlquilerConcluido {
-	
+public class Evento {
 	private String idBicicleta;
 	private LocalDateTime fecha;
 	
-	public EventoAlquilerConcluido(String idBicicleta, LocalDateTime fecha) {
-		super();
+	public Evento(String idBicicleta, LocalDateTime fecha) {
 		this.idBicicleta = idBicicleta;
 		this.fecha = fecha;
 	}
 	
-	public EventoAlquilerConcluido() {}
+	public Evento() {}
 	
 	public String getIdBicicleta() {
 		return idBicicleta;
