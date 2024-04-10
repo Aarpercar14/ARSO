@@ -17,13 +17,14 @@ import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
 import retrofit2.Retrofit;
-import retrofit2.converter.jaxb.JaxbConverterFactory;
-import servicio.FactoriaServicios;
-
+import retrofit2.converter.jackson.JacksonConverterFactory;
+ 
 public class ServicioAlquileres implements IServicioAlquileres {
 	
+	private Retrofit retro = new Retrofit.Builder().baseUrl("http://localhost:8080/estaciones/publico/")
+			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
-	private IServicioEstaciones servEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	private IServicioEstaciones servEstaciones = retro.create(IServicioEstaciones.class);
 	
 
 	
@@ -106,7 +107,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 						usuario.getAlquileres().remove(usuario.alquilerActivo());
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
