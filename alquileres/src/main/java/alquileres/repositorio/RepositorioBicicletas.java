@@ -11,6 +11,6 @@ import alquileres.modelo.Bicicleta;
 public interface RepositorioBicicletas
     extends PagingAndSortingRepository<Bicicleta, String> {
 
-	List<Bicicleta> findByTitulo(String titulo);
+	List<Bicicleta> findByModelo(String modelo);
 
 }

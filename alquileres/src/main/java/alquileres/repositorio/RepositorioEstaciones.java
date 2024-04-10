@@ -9,6 +9,6 @@ import alquileres.modelo.Estacionamiento;
 public interface RepositorioEstaciones
     extends PagingAndSortingRepository<Estacionamiento, String> {
 
-	List<Estacionamiento> findByTitulo(String titulo);
+	List<Estacionamiento> findByNombre(String nombre);
 
 }

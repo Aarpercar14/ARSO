@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 
-
+import javax.persistence.Id;
 
 public class Alquiler {
 	private String idBicicleta;
