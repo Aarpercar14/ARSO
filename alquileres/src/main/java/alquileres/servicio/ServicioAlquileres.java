@@ -18,6 +18,7 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
+import retrofit.alquileres.AlquileresRestClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jaxb.JaxbConverterFactory;
 
@@ -26,7 +27,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8080/")
 			.addConverterFactory(JaxbConverterFactory.create()).build();
-	private IServicioEstaciones alquileresClient = retrofit.create(IServicioEstaciones.class);
+	private AlquileresRestClient alquileresClient = retrofit.create(AlquileresRestClient.class);
 
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
