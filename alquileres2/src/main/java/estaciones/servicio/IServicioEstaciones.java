@@ -24,7 +24,7 @@ public interface IServicioEstaciones {
 
 	public Page<EstacionDTOUsuario> getListadoPaginadoUsuario(Pageable pageable);
 
-	public EstacionDTOUsuario infoEstacion(String idEstacio);
+	public String infoEstacion(String idEstacio);
 
 	public Page<Bicicleta> getListadoBicisDisponibles(String estacion,Pageable pageable);
 

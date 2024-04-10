@@ -91,9 +91,9 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	}
 
 	@Override
-	public EstacionDTOUsuario infoEstacion(String idEstacio) {
-		return this.parseToEstacionDTOUsuario(repositorioEst.findById(idEstacio).get());
-		}
+	public String infoEstacion(String idEstacio) {
+		return this.parseToEstacionDTOUsuario(repositorioEst.findById(idEstacio).get()).toString();
+	}
 
 	@Override
 	public Page<Bicicleta> getListadoBicisDisponibles(String estacion, Pageable pageable) {

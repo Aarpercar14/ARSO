@@ -128,12 +128,11 @@ public class EstacionesControladorRest {
 		return new ResponseEntity<>("Bici estacionada", HttpStatus.OK);
 	}
 	
-	@Operation(summary = "informacion de las estaciones",description="informacion npara el usuario sobre una estacion concreta")
-	@GetMapping("/info/{id}")
-	@PreAuthorize("hasAuthority('usuario')")
-	public EntityModel<EstacionDTOUsuario> infoEstacionUsuario(@PathVariable String id){
-		EntityModel<EstacionDTOUsuario> model=EntityModel.of(servicio.infoEstacion(id));
-		return model;
+	@Operation(summary = "Envía info estacion", description= "Envía la info de una estacion")
+	@GetMapping("/infoEstacion/{idEstacion}")
+	public ResponseEntity<String> infoEstacion(@PathVariable String idEstacion) {
+		String info = servicio.infoEstacion(idEstacion);
+		return ResponseEntity.ok(info);		 
 	}
 
 }
