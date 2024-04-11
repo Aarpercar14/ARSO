@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import estaciones.modelo.Bicicleta;
+import estaciones.modelo.BicicletaDTO;
 import estaciones.modelo.EstacionDTOUsuario;
 
 public interface IServicioEstaciones {
@@ -26,7 +27,7 @@ public interface IServicioEstaciones {
 
 	public String infoEstacion(String idEstacio);
 
-	public Page<Bicicleta> getListadoBicisDisponibles(String estacion,Pageable pageable);
+	public Page<BicicletaDTO> getListadoBicisDisponibles(String estacion,Pageable pageable);
 
 	public void estacionarUnaBicileta(String idBici, String idEstacion);
 

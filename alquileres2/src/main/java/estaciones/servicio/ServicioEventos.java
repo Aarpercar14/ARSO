@@ -24,7 +24,7 @@ public class ServicioEventos implements IServicioEventos {
 	public void publicarEventoBicicletaDesactivada(String idBici) {
 		Evento evento = new Evento(idBici, LocalDateTime.now());
 		
-		publicador.sendMessage(evento.toString(), ".bicicleta-desactivada");
+		publicador.sendMessage(evento, ".bicicleta-desactivada");
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import estaciones.modelo.Bicicleta;
+import estaciones.modelo.BicicletaDTO;
 import estaciones.modelo.EstacionDTOUsuario;
 import estaciones.modelo.Estacionamiento;
 import estaciones.repositorio.RepositorioBicicletas;
@@ -99,13 +100,17 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	}
 
 	@Override
-	public Page<Bicicleta> getListadoBicisDisponibles(String estacion, Pageable pageable) {
-		List<Bicicleta> bicis=repositorioEst.findById(estacion).get().findDisponibles();
+	public Page<BicicletaDTO> getListadoBicisDisponibles(String estacion, Pageable pageable) {
+		List<BicicletaDTO> bicis=new ArrayList<BicicletaDTO>();
+		repositorioEst.findById(estacion).get().findDisponibles().forEach(bici->{
+			BicicletaDTO biciDTO=this.parseToBicicletaDTO(bici);
+			bicis.add(biciDTO);
+		});
 		int start;
 		if(pageable.getOffset()>bicis.size()) start=1;
 		else start= (int) pageable.getOffset();
 		int end = Math.min((start + pageable.getPageSize()), bicis.size());
-		List<Bicicleta> bicisP = bicis.subList(start, end);
+		List<BicicletaDTO> bicisP = bicis.subList(start, end);
 		return new PageImpl<>(bicisP, pageable, bicis.size());
 	}
 
@@ -138,5 +143,9 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	
 	private EstacionDTOUsuario parseToEstacionDTOUsuario(Estacionamiento estacion) {
 		return new EstacionDTOUsuario(estacion.getNombre(), estacion.getNumPuestos()>0, estacion.getPostal(), estacion.getCordY(), estacion.getCordX(), estacion.getFechaAlta());
+	}
+	
+	private BicicletaDTO parseToBicicletaDTO(Bicicleta bici) {
+		return new BicicletaDTO(bici.getId(),bici.getModelo(),bici.getEstado());
 	}
 }

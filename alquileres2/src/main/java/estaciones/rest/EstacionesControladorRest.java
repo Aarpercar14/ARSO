@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estaciones.modelo.Bicicleta;
+import estaciones.modelo.BicicletaDTO;
 import estaciones.modelo.EstacionDTOUsuario;
 import estaciones.servicio.IServicioEstaciones;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,8 @@ public class EstacionesControladorRest {
 	private PagedResourcesAssembler<EstacionDTOUsuario> pagedResourcesAssemblerEstDTO;
 	@Autowired
 	private PagedResourcesAssembler<Bicicleta> pagedResourcesAssemblerBici;
+	@Autowired
+	private PagedResourcesAssembler<BicicletaDTO> pagedResourcesAssemblerBiciDto;
 
 	@Autowired
 	public EstacionesControladorRest(IServicioEstaciones servicio) {
@@ -113,11 +116,11 @@ public class EstacionesControladorRest {
 	@Operation(summary = "Dar de alta estacion", description = "Crea una estacion y la da de alta en la base de datos")
 	@GetMapping("/listado/bicisDisponibles/{idEstacion}")
 	@PreAuthorize("hasAuthority('usuario')")
-	public PagedModel<EntityModel<Bicicleta>> getListadoBicisBisponibles(@PathVariable String idEstacion,
+	public PagedModel<EntityModel<BicicletaDTO>> getListadoBicisBisponibles(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
-		Page<Bicicleta> resultado = servicio.getListadoBicisDisponibles(idEstacion, paginacion);
-		return this.pagedResourcesAssemblerBici.toModel(resultado);
+		Page<BicicletaDTO> resultado = servicio.getListadoBicisDisponibles(idEstacion, paginacion);
+		return this.pagedResourcesAssemblerBiciDto.toModel(resultado);
 	}
 
 	@Operation(summary = "Aparca una bicicleta", description = "Aparca una bicicleta en una estacion si esta tiene algun hueco disponible")
