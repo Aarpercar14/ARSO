@@ -23,11 +23,13 @@ public class ServicioEstaciones implements IServicioEstaciones {
 
 	private RepositorioEstaciones repositorioEst;
 	private RepositorioBicicletas repositorioBicicletas;
+	private IServicioEventos servEventos;
 
 	@Autowired
-	public ServicioEstaciones(RepositorioEstaciones repositorioEst, RepositorioBicicletas repositorioBicicletas) {
+	public ServicioEstaciones(RepositorioEstaciones repositorioEst, RepositorioBicicletas repositorioBicicletas, IServicioEventos servEventos) {
 		this.repositorioEst = repositorioEst;
 		this.repositorioBicicletas = repositorioBicicletas;
+		this.servEventos = servEventos;
 	}
 
 	@Override
@@ -62,10 +64,11 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	public void bajaBici(String idBici, String motivo) {
 		Bicicleta bici = repositorioBicicletas.findById(idBici).get();
 		this.retirarUnaBicleta(idBici);
-		bici.cambioEstadoBici("no disponible");
+		bici.cambioEstadoBici("desactivada");
 		bici.setFechaBaja(LocalDateTime.now());
 		bici.setMotivoBaja(motivo);
 		repositorioBicicletas.save(bici);
+		servEventos.publicarEventoBicicletaDesactivada(idBici);		
 	}
 
 	@Override
