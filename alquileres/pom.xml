@@ -10,10 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>arso</groupId>
-	<artifactId>alquileres2</artifactId>
+	<artifactId>alquileres</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alquileres2</name>
-	<description>Demo project for Spring Boot</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>8</java.version>
 	</properties>
@@ -159,21 +158,18 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-
-		<!-- RabbitMQ -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.4.53.v20231009</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>

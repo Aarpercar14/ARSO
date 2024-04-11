@@ -70,12 +70,13 @@ public class Consumidor {
 						
 					
 						
-						//Evento evento = mapper.readValue(contenido, Evento.class);
+						Evento evento = mapper.readValue(contenido, Evento.class);
+						System.out.println(evento);
 						String funcionalidad = routingKey.replaceFirst("citybike\\.estaciones\\.", "");
 						System.out.println(funcionalidad);
 						switch (funcionalidad) {
 						case "bicicleta-alquilada":
-							//servEventos.suscribirEventoBicicletaDesactivada(evento.getIdBicicleta());
+							servEventos.suscribirEventoBicicletaDesactivada(evento.getIdBicicleta());
 							break;
 						default:
 							break;

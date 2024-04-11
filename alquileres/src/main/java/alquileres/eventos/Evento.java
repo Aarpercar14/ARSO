@@ -29,4 +29,10 @@ public class Evento {
 	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
+
+	@Override
+	public String toString() {
+		return "Evento [idBicicleta=" + idBicicleta + ", fecha=" + fecha + "]";
+	}
+	
 }

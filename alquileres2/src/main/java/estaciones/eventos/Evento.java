@@ -1,5 +1,6 @@
 package estaciones.eventos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Evento implements Serializable{
