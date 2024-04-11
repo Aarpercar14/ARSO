@@ -1,6 +1,5 @@
 package estaciones.eventos;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Evento {
@@ -33,9 +32,6 @@ public class Evento {
 		this.fecha = fecha;
 	}
 
-	@Override
-	public String toString() {
-		return "Evento [idBicicleta=" + idBicicleta + ", fecha=" + fecha + "]";
-	}
+
 	
 }
