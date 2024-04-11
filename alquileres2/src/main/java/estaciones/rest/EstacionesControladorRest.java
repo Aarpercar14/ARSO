@@ -122,7 +122,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Aparca una bicicleta", description = "Aparca una bicicleta en una estacion si esta tiene algun hueco disponible")
 	@PostMapping("/aparcamientoBici/{idEstacion}/{idBici}")
-	@PreAuthorize("hasAuthority('usuario')")
 	public ResponseEntity<String> estacionarBici(@PathVariable String idEstacion, @PathVariable String idBici) {
 		servicio.estacionarUnaBicileta(idBici, idEstacion);
 		return new ResponseEntity<>("Bici estacionada", HttpStatus.OK);

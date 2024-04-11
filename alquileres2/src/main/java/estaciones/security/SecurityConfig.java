@@ -20,6 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.httpBasic().disable().csrf().disable().authorizeRequests()
 					.antMatchers("/publico/**").permitAll()
+					.antMatchers("/aparcamientoBici/**").permitAll()
+					.antMatchers("/infoEstacion/**").permitAll()
 					.and()
 					.oauth2Login()
 					.successHandler(this.successHandler)
