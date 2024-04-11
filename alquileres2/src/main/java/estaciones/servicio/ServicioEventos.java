@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import estaciones.eventos.Evento;
 import estaciones.eventos.bus.PublicadorEventos;
 import estaciones.modelo.Bicicleta;
@@ -22,7 +23,8 @@ public class ServicioEventos implements IServicioEventos {
 	@Override
 	public void publicarEventoBicicletaDesactivada(String idBici) {
 		Evento evento = new Evento(idBici, LocalDateTime.now());
-		publicador.sendMessage(evento, ".bicicleta-desactivada");
+		
+		publicador.sendMessage(evento.toString(), ".bicicleta-desactivada");
 	}
 
 	@Override
