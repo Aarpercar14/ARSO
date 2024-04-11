@@ -3,7 +3,6 @@ package alquileres.eventos.bus;
 import java.io.IOException;
 import java.util.Map;
 
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,7 +16,6 @@ import com.rabbitmq.client.Envelope;
 
 import alquileres.eventos.Evento;
 import alquileres.servicio.IServicioEventos;
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import servicio.FactoriaServicios;
 
 public class Consumidor {

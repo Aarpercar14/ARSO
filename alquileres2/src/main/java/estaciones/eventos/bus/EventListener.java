@@ -24,10 +24,14 @@ public class EventListener {
 	public void handleEvent(Message mensaje, @Header("amqp_receivedRoutingKey") String routingKey) {
 		ObjectMapper mapper = new ObjectMapper();
 		String body = new String(mensaje.getBody());
+		System.out.println(body);
 		try {
 			Evento evento = mapper.readValue(body, Evento.class);
 			
+			
+			
 			String funcionalidad = routingKey.replaceFirst("citybike\\.alquileres\\.", "");
+			System.out.println(funcionalidad);
 			switch (funcionalidad) {
 			case "bicicleta-alquilada":
 				servEventos.suscribirEventoBicicletaAlquilada(evento.getIdBicicleta(), evento.getFecha());
