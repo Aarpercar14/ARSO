@@ -7,6 +7,7 @@ public class Evento {
 	private LocalDateTime fecha;
 	
 	public Evento(String idBicicleta, LocalDateTime fecha) {
+		super();
 		this.idBicicleta = idBicicleta;
 		this.fecha = fecha;
 	}

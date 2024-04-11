@@ -3,7 +3,11 @@ package alquileres.eventos.bus;
 import java.io.IOException;
 import java.util.Map;
 
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -29,7 +33,7 @@ public class Consumidor {
 		
 		final String exchangeName = "citybike";
 		final String queueName = "citybike-alquileres";
-		final String bindingKey = "citybike-estaciones.*";
+		final String bindingKey = "citybike.estaciones.*";
 		
 		boolean durable = true;
 		boolean exclusive = false;
@@ -57,14 +61,21 @@ public class Consumidor {
 						long deliveryTag = envelope.getDeliveryTag();
 						
 						String contenido = new String(body);
+						System.out.println("Hola");						
+						System.out.println(contenido);
 						
 						ObjectMapper mapper = new ObjectMapper();
+						mapper.registerModule(new JavaTimeModule());
+						mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 						
-						Evento evento = mapper.readValue(contenido, Evento.class);
+					
+						
+						//Evento evento = mapper.readValue(contenido, Evento.class);
 						String funcionalidad = routingKey.replaceFirst("citybike\\.estaciones\\.", "");
+						System.out.println(funcionalidad);
 						switch (funcionalidad) {
 						case "bicicleta-alquilada":
-							servEventos.suscribirEventoBicicletaDesactivada(evento.getIdBicicleta());
+							//servEventos.suscribirEventoBicicletaDesactivada(evento.getIdBicicleta());
 							break;
 						default:
 							break;
@@ -72,11 +83,7 @@ public class Consumidor {
 						
 						channel.basicAck(deliveryTag, false);
 					}
-		});
-		
-		channel.close();
-		connection.close();
-		
+		});		
 	}
 
 }
