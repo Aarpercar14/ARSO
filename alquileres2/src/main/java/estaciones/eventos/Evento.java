@@ -3,9 +3,9 @@ package estaciones.eventos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Evento implements Serializable{
+public class Evento {
 	
-	private static final long serialVersionUID = 1L;
+	
 	private String idBicicleta;
 	private LocalDateTime fecha;
 	
