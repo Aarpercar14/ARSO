@@ -23,7 +23,7 @@ public class Bicicleta implements Identificable {
 		this.fechaAlta = LocalDateTime.now();
 		this.fechaBaja = null;
 		this.motivoBaja = null;
-		this.estado="Disponible";
+		this.estado="disponible";
 	}
 
 	public Bicicleta() {

@@ -3,36 +3,39 @@ package estaciones.servicio;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-
-import estaciones.eventos.EventoDesactivarBicicleta;
+import estaciones.eventos.Evento;
 import estaciones.eventos.bus.PublicadorEventos;
+import estaciones.modelo.Bicicleta;
+import estaciones.repositorio.RepositorioBicicletas;
 
+@Service
 public class ServicioEventos implements IServicioEventos {
 	
 	@Autowired
 	private PublicadorEventos publicador;
+	
+	@Autowired
+	private RepositorioBicicletas repBicis;
 
 	@Override
 	public void publicarEventoBicicletaDesactivada(String idBici) {
-		EventoDesactivarBicicleta evento = new EventoDesactivarBicicleta(idBici, LocalDateTime.now());
+		Evento evento = new Evento(idBici, LocalDateTime.now());
 		publicador.sendMessage(evento, ".bicicleta-desactivada");
 	}
 
 	@Override
-	public void suscribirEventoAlquilerConcluido() {
-		// TODO Auto-generated method stub
-
+	public void suscribirEventoAlquilerConcluido(String idBici, LocalDateTime fecha) {
+		Bicicleta bici = repBicis.findById(idBici).get();
+		bici.cambioEstadoBici("disponible");
+		repBicis.save(bici);
 	}
 
 	@Override
-	public void suscribirEventoBicicletaAlquilada() {
-		// TODO Auto-generated method stub
-
+	public void suscribirEventoBicicletaAlquilada(String idBici, LocalDateTime fecha) {
+		Bicicleta bici = repBicis.findById(idBici).get();
+		bici.cambioEstadoBici("no disponible");
+		repBicis.save(bici);
 	}
 }

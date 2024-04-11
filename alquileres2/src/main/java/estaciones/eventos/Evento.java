@@ -2,18 +2,18 @@ package estaciones.eventos;
 
 import java.time.LocalDateTime;
 
-public class EventoDesactivarBicicleta {
+public class Evento {
 	
 	private String idBicicleta;
 	private LocalDateTime fecha;
 	
-	public EventoDesactivarBicicleta(String idBicicleta, LocalDateTime fecha) {
+	public Evento(String idBicicleta, LocalDateTime fecha) {
 		super();
 		this.idBicicleta = idBicicleta;
 		this.fecha = fecha;
 	}
 	
-	public EventoDesactivarBicicleta() {}
+	public Evento() {}
 	
 	public String getIdBicicleta() {
 		return this.idBicicleta;
