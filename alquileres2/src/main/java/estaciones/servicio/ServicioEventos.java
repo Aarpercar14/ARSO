@@ -35,7 +35,7 @@ public class ServicioEventos implements IServicioEventos {
 	@Override
 	public void suscribirEventoBicicletaAlquilada(String idBici, LocalDateTime fecha) {
 		Bicicleta bici = repBicis.findById(idBici).get();
-		bici.cambioEstadoBici("no disponible");
+		bici.cambioEstadoBici("disponible");
 		repBicis.save(bici);
 	}
 }
