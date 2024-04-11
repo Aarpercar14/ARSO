@@ -2,6 +2,8 @@ package alquileres.eventos.bus;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -44,6 +46,8 @@ public class Productor {
 		channel.queueBind(queueName, exchangeName, routingKey+".*");
 				
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		String jsonEvento = mapper.writeValueAsString(evento);
 		
 		channel.basicPublish(exchangeName, routingKey + tipo, new AMQP.BasicProperties.Builder()

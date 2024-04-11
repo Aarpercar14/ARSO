@@ -88,7 +88,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -117,22 +117,23 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
-				String info;
-					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
-					if (hayHuecosDisponibles(info)) {
-						alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
-						try {
-							servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						usuario.getAlquileres().remove(usuario.alquilerActivo());
+//				String info;
+//					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+//					if (hayHuecosDisponibles(info)) 
+				if (true) {
+//					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
+					try {
+						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				user=encodeUsuarioJPA(usuario);
+					usuario.getAlquileres().remove(usuario.alquilerActivo());
+				}
+				user = encodeUsuarioJPA(usuario);
 				repoUsuarios.update(user);
-			}	
-		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
+			}
+		} catch (RepositorioException | EntidadNoEncontrada /**| IOException**/ e) {
 			e.printStackTrace();
 		}
 	}
