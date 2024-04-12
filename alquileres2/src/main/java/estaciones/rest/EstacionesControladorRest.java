@@ -128,14 +128,15 @@ public class EstacionesControladorRest {
 	@PostMapping("/aparcamientoBici/{idEstacion}/{idBici}")
 	public ResponseEntity<String> estacionarBici(@PathVariable String idEstacion, @PathVariable String idBici) {
 		servicio.estacionarUnaBicileta(idBici, idEstacion);
-		return new ResponseEntity<>("Bici estacionada", HttpStatus.OK);
+		return new ResponseEntity<>("\"Bici estacionada\"", HttpStatus.OK);
 	}
 	
 	@Operation(summary = "Envía info estacion", description= "Envía la info de una estacion")
-	@GetMapping(value="/infoEstacion/{idEstacion}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/infoEstacion/{idEstacion}",produces="application/json")
 	public ResponseEntity<String> infoEstacion(@PathVariable String idEstacion) {
 		String info = servicio.infoEstacion(idEstacion);
-		return ResponseEntity.ok(info);		 
+		info = info.replaceFirst("Estacionamiento ", "\"Estacionamiento:");
+		return ResponseEntity.ok(info + "\"");		 
 	}
 
 }

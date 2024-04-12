@@ -20,14 +20,14 @@ import repositorio.Repositorio;
 import repositorio.RepositorioException;
 import retrofit.alquileres.AlquileresRestClient;
 import retrofit2.Retrofit;
-import retrofit2.converter.jaxb.JaxbConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8080/")
-			.addConverterFactory(JaxbConverterFactory.create()).build();
+			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private AlquileresRestClient alquileresClient = retrofit.create(AlquileresRestClient.class);
 	private IServicioEventos servEventos = FactoriaServicios.getServicio(IServicioEventos.class);
 
@@ -119,8 +119,8 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			if (usuario.alquilerActivo().activa()) {
 				String info;
 				info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+				System.out.println(info);
 				if (hayHuecosDisponibles(info)) {
-					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
 					try {
 						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(),
 								idEstacion);
@@ -128,6 +128,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute().body();
 					usuario.getAlquileres().remove(usuario.alquilerActivo());
 				}
 				user = encodeUsuarioJPA(usuario);

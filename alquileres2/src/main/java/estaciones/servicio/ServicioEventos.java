@@ -48,7 +48,7 @@ public class ServicioEventos implements IServicioEventos {
 		Bicicleta bici = repBicis.findById(idBici).get();
 		bici.cambioEstadoBici("disponible");
 		repBicis.save(bici);
-		estacionarBici(idBici, idEstacion);
+//		estacionarBici(idBici, idEstacion);
 	}
 	
 	private boolean retirarBici(String idBici) {
