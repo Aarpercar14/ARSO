@@ -43,7 +43,7 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	private Map<String, Object> fetchUserInfo(DefaultOAuth2User usuario) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("sub", usuario.getAttribute("login"));
-		claims.put("rol", "gestor");
+		claims.put("rol", "usuario");
 		return claims;
 	}
 }

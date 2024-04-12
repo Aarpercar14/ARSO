@@ -16,7 +16,7 @@ public class TestEventos {
 		
 		PublicadorEventos sender = context.getBean(PublicadorEventos.class);
 		
-		Evento evento = new Evento("test", LocalDateTime.now());
+		Evento evento = new Evento("test", LocalDateTime.now(), "");
 		
 		sender.sendMessage(evento, "test");
 		

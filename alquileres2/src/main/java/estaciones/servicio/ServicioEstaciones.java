@@ -64,7 +64,7 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	@Override
 	public void bajaBici(String idBici, String motivo) {
 		Bicicleta bici = repositorioBicicletas.findById(idBici).get();
-		this.retirarUnaBicleta(idBici);
+		this.retirarUnaBicicleta(idBici);
 		bici.cambioEstadoBici("desactivada");
 		bici.setFechaBaja(LocalDateTime.now());
 		bici.setMotivoBaja(motivo);
@@ -128,7 +128,8 @@ public class ServicioEstaciones implements IServicioEstaciones {
 		}
 	}
 
-	private boolean retirarUnaBicleta(String idBici) {
+	
+	private boolean retirarUnaBicicleta(String idBici) {
 		for(Estacionamiento e:repositorioEst.findAll()) {
 			for(Bicicleta b:e.getBicicletas()) {
 				if(b.getId().equals(idBici)) {

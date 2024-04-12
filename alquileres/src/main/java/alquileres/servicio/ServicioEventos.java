@@ -22,10 +22,10 @@ public class ServicioEventos implements IServicioEventos {
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
 
 	@Override
-	public void publicarEventoAlquilerConcluido(String idBici) throws Exception {
+	public void publicarEventoAlquilerConcluido(String idBici, String idEstacion) throws Exception {
 		Productor productor = Productor.getInstance();
 		productor.abrirConexion();
-		productor.enviarEvento(".alquiler-concluido", new Evento(idBici, LocalDateTime.now()));
+		productor.enviarEvento(".alquiler-concluido", new Evento(idBici, LocalDateTime.now(), idEstacion));
 		productor.cerrarConexion();
 	}
 
@@ -33,7 +33,7 @@ public class ServicioEventos implements IServicioEventos {
 	public void publicarEventoBicicletaAlquilada(String idBici) throws Exception {
 		Productor productor = Productor.getInstance();
 		productor.abrirConexion();
-		productor.enviarEvento(".bicicleta-alquilada", new Evento(idBici, LocalDateTime.now()));
+		productor.enviarEvento(".bicicleta-alquilada", new Evento(idBici, LocalDateTime.now(), ""));
 		productor.cerrarConexion();
 	}
 

@@ -123,7 +123,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				if (true) {
 //					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
 					try {
-						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
+						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(), idEstacion);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

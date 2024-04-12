@@ -3,14 +3,11 @@ package pruebas;
 import alquileres.servicio.IServicioAlquileres;
 import servicio.FactoriaServicios;
 
-public class PruebaRabbitMQ {
+public class PruebaRabbitMQAparcar {
 
 	public static void main(String[] args) {
 		IServicioAlquileres servAlquileres = FactoriaServicios.getServicio(IServicioAlquileres.class);
 		
-		servAlquileres.alquilar("Rabbit5", "bicicletaRabbit5");
-		servAlquileres.dejarBicicleta("Rabbit5", "bicicletaRabbit5");
-
+		servAlquileres.dejarBicicleta("Rabbit7", "6618f064e1548259620ca9ee");
 	}
-
 }
