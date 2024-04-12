@@ -1,9 +1,12 @@
 package alquileres.servicio;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
@@ -15,23 +18,29 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
+import retrofit.alquileres.AlquileresRestClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres {
 
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
-	private IServicioEstaciones servEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8080/")
+			.addConverterFactory(JacksonConverterFactory.create()).build();
+	private AlquileresRestClient alquileresClient = retrofit.create(AlquileresRestClient.class);
+	private IServicioEventos servEventos = FactoriaServicios.getServicio(IServicioEventos.class);
 
-	
 	@Override
 	public void reservar(String idUsuario, String IdBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
-			if(usuarioJPA == null)
+			if (usuarioJPA == null)
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
+				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
+						LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
 				usuario.addReserva(reserva);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
@@ -51,6 +60,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				usuario.addAlquiler(alquiler);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
+				try {
+					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -61,7 +75,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void alquilar(String idUsuario, String idBicicleta) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
-			if(usuarioJPA == null)
+			if (usuarioJPA == null)
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
@@ -69,6 +83,12 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				usuario.addAlquiler(alquiler);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
+				try {
+					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -79,9 +99,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public Usuario historialUsuario(String idUsuario) {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
-			if(usuarioJPA != null) {
+			if (usuarioJPA != null) {
 				Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			return usuario;
+				return usuario;
 			}
 			System.out.println("El usuario no existe");
 			return null;
@@ -92,18 +112,29 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	@Override
-	public void dejarBicicleta(String idUsuario, String isBicicleta) {
+	public void dejarBicicleta(String idUsuario, String idEstacion) {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
-				if (servEstaciones.peticionAparcarBicicleta()) {
+				String info;
+				info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+				System.out.println(info);
+				if (hayHuecosDisponibles(info)) {
+					try {
+						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(),
+								idEstacion);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute().body();
 					usuario.getAlquileres().remove(usuario.alquilerActivo());
 				}
+				user = encodeUsuarioJPA(usuario);
+				repoUsuarios.update(user);
 			}
-			user=encodeUsuarioJPA(usuario);
-			repoUsuarios.update(user);
-		} catch (RepositorioException | EntidadNoEncontrada e) {
+		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -128,10 +159,10 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		usuario.setAlquileres(decodeAlquileresJPA(usuarioJPA.getAlquileres()));
 		return usuario;
 	}
-	
+
 	private List<Reserva> decodeReservasJPA(List<ReservaJPA> reservasJPA) {
 		List<Reserva> reservas = new ArrayList<Reserva>();
-		for(ReservaJPA r : reservasJPA) {
+		for (ReservaJPA r : reservasJPA) {
 			reservas.add(decodeReservaJPA(r));
 		}
 		return reservas;
@@ -141,11 +172,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		Reserva reserva = new Reserva(reservaJPA.getId(), reservaJPA.getCreada(), reservaJPA.getCaducidad());
 		return reserva;
 	}
-	
+
 	private List<Alquiler> decodeAlquileresJPA(List<AlquilerJPA> alquileresJPA) {
 		List<Alquiler> alquileres = new ArrayList<Alquiler>();
-		
-		for(AlquilerJPA a : alquileresJPA) {
+
+		for (AlquilerJPA a : alquileresJPA) {
 			alquileres.add(decodeAlquilerJPA(a));
 		}
 		return alquileres;
@@ -157,40 +188,40 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
-		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), 
-											   encodeReservasJPA(usuario.getReservas(),usuario.getId()),
-											   encodeAlquileresJPA(usuario.getAlquileres(),usuario.getId()));
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(),
+				encodeReservasJPA(usuario.getReservas(), usuario.getId()),
+				encodeAlquileresJPA(usuario.getAlquileres(), usuario.getId()));
 		return usuarioJPA;
 	}
-	
-	
-	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas,String id) {
+
+	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas, String id) {
 		List<ReservaJPA> reservasJPA = new ArrayList<ReservaJPA>();
-		for(Reserva r : reservas) {
-			reservasJPA.add(encodeReservaJPA(r,id));
+		for (Reserva r : reservas) {
+			reservasJPA.add(encodeReservaJPA(r, id));
 		}
 		return reservasJPA;
 	}
-	
-	private ReservaJPA encodeReservaJPA(Reserva reserva,String id) {
-		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad(),id);
+
+	private ReservaJPA encodeReservaJPA(Reserva reserva, String id) {
+		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad(),
+				id);
 		return reservaJPA;
 	}
-	
-	
-	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres,String id) {
+
+	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres, String id) {
 		List<AlquilerJPA> alquileresJPA = new ArrayList<>();
-		for(Alquiler a : alquileres) {
-			alquileresJPA.add(encodeAlquilerJPA(a,id));
+		for (Alquiler a : alquileres) {
+			alquileresJPA.add(encodeAlquilerJPA(a, id));
 		}
 		return alquileresJPA;
 	}
-	
-	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler,String id) {
-		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin(),id);
+
+	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler, String id) {
+		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin(),
+				id);
 		return alquilerJPA;
 	}
-	
+
 	private UsuarioJPA crearUsuario(String idUsuario) {
 		UsuarioJPA usuario = new UsuarioJPA(idUsuario, new ArrayList<ReservaJPA>(), new ArrayList<AlquilerJPA>());
 		try {
@@ -202,6 +233,18 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		return null;
 	}
 
-	
+	private boolean hayHuecosDisponibles(String info) {
+
+		Pattern pattern = Pattern.compile("numPuestos=(\\d+)");
+		Matcher matcher = pattern.matcher(info);
+		if (matcher.find()) {
+			String numPuestosStr = matcher.group(1); // Obtiene el primer grupo de captura
+			int numPuestos = Integer.parseInt(numPuestosStr);
+			if (numPuestos > 0)
+				return true;
+			return false;
+		}
+		return false;
+	}
 
 }
