@@ -132,7 +132,7 @@ public class EstacionesControladorRest {
 	}
 	
 	@Operation(summary = "Envía info estacion", description= "Envía la info de una estacion")
-	@GetMapping("/infoEstacion/{idEstacion}")
+	@GetMapping(value="/infoEstacion/{idEstacion}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> infoEstacion(@PathVariable String idEstacion) {
 		String info = servicio.infoEstacion(idEstacion);
 		return ResponseEntity.ok(info);		 
