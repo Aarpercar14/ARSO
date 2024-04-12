@@ -117,11 +117,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
-//				String info;
-//					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
-//					if (hayHuecosDisponibles(info)) 
+				String info;
+					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+					if (hayHuecosDisponibles(info)) 
 				if (true) {
-//					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
+					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
 					try {
 						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
 					} catch (Exception e) {
@@ -133,7 +133,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				user = encodeUsuarioJPA(usuario);
 				repoUsuarios.update(user);
 			}
-		} catch (RepositorioException | EntidadNoEncontrada /**| IOException**/ e) {
+		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
 	}

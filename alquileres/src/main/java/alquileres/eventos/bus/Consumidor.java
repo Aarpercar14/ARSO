@@ -59,8 +59,6 @@ public class Consumidor {
 						long deliveryTag = envelope.getDeliveryTag();
 						
 						String contenido = new String(body);
-						System.out.println("Hola");						
-						System.out.println(contenido);
 						
 						ObjectMapper mapper = new ObjectMapper();
 						mapper.registerModule(new JavaTimeModule());
@@ -69,9 +67,7 @@ public class Consumidor {
 					
 						
 						Evento evento = mapper.readValue(contenido, Evento.class);
-						System.out.println(evento);
 						String funcionalidad = routingKey.replaceFirst("citybike\\.estaciones\\.", "");
-						System.out.println(funcionalidad);
 						switch (funcionalidad) {
 						case "bicicleta-alquilada":
 							servEventos.suscribirEventoBicicletaDesactivada(evento.getIdBicicleta());
