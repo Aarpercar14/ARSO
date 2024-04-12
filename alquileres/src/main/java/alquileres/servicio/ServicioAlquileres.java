@@ -118,12 +118,12 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			Usuario usuario = this.decodeUsuarioJPA(user);
 			if (usuario.alquilerActivo().activa()) {
 				String info;
-					info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
-					if (hayHuecosDisponibles(info)) 
-				if (true) {
+				info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+				if (hayHuecosDisponibles(info)) {
 					alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta());
 					try {
-						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta());
+						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(),
+								idEstacion);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -48,7 +48,8 @@ public class Productor {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
 		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-		String jsonEvento = mapper.writeValueAsString(evento);
+		
+		String jsonEvento = mapper.writeValueAsString(evento);		
 		
 		channel.basicPublish(exchangeName, routingKey + tipo, new AMQP.BasicProperties.Builder()
 					.build(), jsonEvento.getBytes());

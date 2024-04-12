@@ -30,5 +30,5 @@ public interface IServicioEstaciones {
 	public Page<BicicletaDTO> getListadoBicisDisponibles(String estacion,Pageable pageable);
 
 	public void estacionarUnaBicileta(String idBici, String idEstacion);
-
+	
 }

@@ -11,6 +11,6 @@ public interface AlquileresRestClient {
 	Call<String> getInfoEstacion(@Path("idEstacion") String idEstacion);
 	
 	@POST("estaciones/aparcamientoBici/{idEstacion}/{idBici}")
-	Call<Void> dejarBicicleta(@Path("idEstacion") String idEstacion, @Path("idBici") String idBici);
+	Call<String> dejarBicicleta(@Path("idEstacion") String idEstacion, @Path("idBici") String idBici);
 
 }

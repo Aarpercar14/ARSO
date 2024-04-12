@@ -38,12 +38,12 @@ public class EventListener {
 			System.out.println(funcionalidad);
 			switch (funcionalidad) {
 			case "bicicleta-alquilada":
-				//servEventos.suscribirEventoBicicletaAlquilada(evento.getIdBicicleta(), evento.getFecha());
+				servEventos.suscribirEventoBicicletaAlquilada(evento.getIdBicicleta(), evento.getFecha());
 				System.out.println(evento.getIdBicicleta());
 				System.out.println(evento.getFecha());
 				break;
 			case "alquiler-concluido":
-				//servEventos.suscribirEventoAlquilerConcluido(evento.getIdBicicleta(), evento.getFecha());
+				servEventos.suscribirEventoAlquilerConcluido(evento.getIdBicicleta(), evento.getIdEstacion(), evento.getFecha());
 				System.out.println(evento.getIdBicicleta());
 				System.out.println(evento.getFecha());
 				break;
