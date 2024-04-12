@@ -96,7 +96,7 @@ public class ServicioEstaciones implements IServicioEstaciones {
 
 	@Override
 	public String infoEstacion(String idEstacio) {
-		return this.parseToEstacionDTOUsuario(repositorioEst.findById(idEstacio).get()).toString();
+		return repositorioEst.findById(idEstacio).get().toString();
 	}
 
 	@Override
