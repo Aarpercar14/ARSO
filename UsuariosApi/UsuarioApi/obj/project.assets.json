@@ -1110,11 +1110,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/sergioillan/Desktop/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+      "projectUniqueName": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
       "projectName": "UsuarioApi",
-      "projectPath": "/Users/sergioillan/Desktop/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+      "projectPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
       "packagesPath": "/Users/sergioillan/.nuget/packages/",
-      "outputPath": "/Users/sergioillan/Desktop/UsuariosApi/UsuarioApi/obj/",
+      "outputPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/sergioillan/.nuget/NuGet/NuGet.Config"

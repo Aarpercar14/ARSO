@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iOPuBCbLYHB3o6s96T6ogN39pQmiv63vGgpfjrvlonxzHxig7twz6kLJPV6beQ4VXLo15K1Q4qFxFAm+ulvfWg==",
+  "dgSpecHash": "8XuyuDYhU3oA8XOt0MlosUUOmz0ml+jIsuCW7J5XQP6Xzea6BtJ72CWWzyoZlT24kexiDRTd0KV5fAXgxOPCyw==",
   "success": true,
-  "projectFilePath": "/Users/sergioillan/Desktop/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+  "projectFilePath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
   "expectedPackageFiles": [
     "/Users/sergioillan/.nuget/packages/dnsclient/1.6.0/dnsclient.1.6.0.nupkg.sha512",
     "/Users/sergioillan/.nuget/packages/microsoft.aspnetcore.openapi/8.0.4/microsoft.aspnetcore.openapi.8.0.4.nupkg.sha512",
