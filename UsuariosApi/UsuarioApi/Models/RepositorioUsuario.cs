@@ -22,7 +22,7 @@ namespace Usuarios.Repositorio{
             usuarios.DeleteOne(usuario=>usuario.Id==user.Id);
         }
         public Usuario GetById(string id){
-            return usuarios.Find(user=>user.Id==id).FirstOrDefault;
+            return usuarios.Find(user=>user.Id==id).FirstOrDefault();
         }
         public List<Usuario> GetAll(){
             return usuarios.Find(_=>true).ToList();

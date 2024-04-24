@@ -26,7 +26,7 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
 		Map<String, Object> claims = fetchUserInfo(usuario);
 		if (claims != null) {
-			Date caducidad = Date.from(Instant.now().plusSeconds(1000000000));
+			Date caducidad = Date.from(Instant.now().plusSeconds(3600));
 			String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, "secreto")
 					.setExpiration(caducidad).compact();
 			try {
