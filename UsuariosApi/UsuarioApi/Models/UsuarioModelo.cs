@@ -5,11 +5,22 @@ namespace Usuarios.Modelo{
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id{get;set;}
-        public string Nombre{get;set;}
-        public string Apellidos{get;set;}
-        public string Email{get;set;}
-        public string Password{get;set;}
-        public string Telefono{get;set;}
-        public DateTime Nacimiento{get;set;}
+        public string? Nombre{get;set;}
+        public string? Acceso{get;set;}
+        public bool? Autenticacion{get;set;}
+        public string? CodigoActivacion{get;set;}
+        public Usuario(string id,string code){
+            Id=id;
+            CodigoActivacion=code;
+        }
+        public Usuario(string id, string nombre, string acceso,bool autenticacion,string code){
+            Id=id;
+            Nombre=nombre;
+            Acceso=acceso;
+            Autenticacion=autenticacion;
+            CodigoActivacion=code;
+
+        }
     }
+    
 }
