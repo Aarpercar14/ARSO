@@ -4,8 +4,7 @@ using System.Security.Claims;
 namespace Usuarios.Servicio{
     public interface IServicioUsuarios{
         string solicitudCodeActiv(string id);
-        void altaUsuarioOAuth(string id,string nombre,string code,string oauth);
-        void altaUsuarioContra(string id,string nombre,string code,string password);
+        void altaUsuario(string id,string nombre,string code,string oauth);
         void bajaUsuario(string id);
         Dictionary<string,object> verificar(string id,string contra);
         Dictionary<string,object> verificarOauth(string oauth);
@@ -22,18 +21,12 @@ namespace Usuarios.Servicio{
             string code= new string(Enumerable.Repeat(caracteres, 6)
                 .Select(s => s[rnd.Next(s.Length)]).ToArray());
             repositorio.Add(new Usuario(id,code+DateTime.Now.AddDays(7).ToString("MMMM dd")));
-            return code+DateTime.Now.AddDays(7);
+            return code+DateTime.Now.AddDays(7).ToString("MMMM dd");
         }
-        public void altaUsuarioOAuth(string id,string nombre,string code,string oauth){
+        public void altaUsuario(string id,string nombre,string code,string oauth){
             Usuario user=repositorio.GetById(id);
             if(user.CodigoActivacion==code && DateTime.Parse(code.Substring(6))>DateTime.Now){
                 repositorio.Update(new Usuario(id,nombre,oauth,true,code));
-            }
-        }
-        public void altaUsuarioContra(string id,string nombre,string code,string password){
-            Usuario user=repositorio.GetById(id);
-            if(user.CodigoActivacion==code && DateTime.Parse(code.Substring(6))>DateTime.Now){
-                repositorio.Update(new Usuario(id,nombre,password,false,code));
             }
         }
         public void bajaUsuario(string id){

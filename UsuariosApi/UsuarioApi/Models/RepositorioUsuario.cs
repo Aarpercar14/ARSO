@@ -7,7 +7,7 @@ namespace Usuarios.Repositorio{
         public readonly IMongoCollection<Usuario> usuarios;
         public RepositorioUsuarioMongoDB(){
             var database=new MongoClient("mongodb+srv://sergiosanchezi:XnaMwJE9TlWuw1HU@cluster0.bysasxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").GetDatabase("arso");
-            usuarios=database.GetCollection<Usuario>("usuarios.net");
+            usuarios=database.GetCollection<Usuario>("usuarios");
         }
         
         
