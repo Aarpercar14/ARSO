@@ -13,8 +13,18 @@ namespace Usuarios.Controllers{
             this.servicio = servicio;
         }
         [HttpGet("codigo/{id}")]
-        public ActionResult<string> codigoActivacion(string id){
+        public ActionResult<string> CodigoActivacion(string id){
             return servicio.solicitudCodeActiv(id);
         }
+        [HttpPost("alta/{id}")]
+        public ActionResult<string> Alta(string id,[FromQuery] string nombre,[FromQuery]string code,[FromQuery]string oauth){
+            return servicio.altaUsuario(id,nombre,code,oauth);
+            //TODO pasarela
+        }
+        [HttpPost("baja/{id}")]
+        public ActionResult<string> Baja(string id){
+            return servicio.bajaUsuario(id);
+        }
+
     }
 }
