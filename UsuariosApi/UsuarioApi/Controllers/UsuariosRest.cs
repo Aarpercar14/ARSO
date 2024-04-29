@@ -14,7 +14,6 @@ namespace Usuarios.Controllers{
         }
         [HttpGet("codigo/{id}")]
         public ActionResult<string> codigoActivacion(string id){
-            Console.Write("Ha entrado");
             return servicio.solicitudCodeActiv(id);
         }
     }

@@ -3,7 +3,7 @@ using Usuarios.Modelo;
 using Repositorio;
 
 namespace Usuarios.Repositorio{
-    public class RepositorioUsuarioMongoDB{
+    public class RepositorioUsuarioMongoDB:Repositorio<Usuario,string>{
         public readonly IMongoCollection<Usuario> usuarios;
         public RepositorioUsuarioMongoDB(){
             var database=new MongoClient("mongodb+srv://sergiosanchezi:XnaMwJE9TlWuw1HU@cluster0.bysasxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").GetDatabase("arso");
