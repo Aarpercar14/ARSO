@@ -53,8 +53,7 @@ namespace Usuarios.Servicio
         public Dictionary<string, object> verificar(string id, string contra)
         {
             Dictionary<string, object> claims = new Dictionary<string, object>();
-            if (repositorio.GetById(id).Autenticacion == true) claims = verificarOauthAsync(contra);
-            else if (repositorio.GetById(id).Acceso == contra)
+            if (repositorio.GetById(id).Acceso == contra)
             {
                 claims.Add("id", id);
                 claims.Add("nombre", repositorio.GetById(id).Nombre);
