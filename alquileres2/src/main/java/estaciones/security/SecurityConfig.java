@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/publico/**").permitAll()
 					.antMatchers("/aparcamientoBici/**").permitAll()
 					.antMatchers("/infoEstacion/**").permitAll()
+					.antMatchers("/usuarios/**").authenticated()
 					.and()
 					.oauth2Login()
 					.successHandler(this.successHandler)

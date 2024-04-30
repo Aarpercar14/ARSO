@@ -23,7 +23,12 @@ namespace Usuarios.Controllers{
         }
         [HttpPost("baja/{id}")]
         public ActionResult<string> Baja(string id){
-            return servicio.bajaUsuario(id);
+          
+          return servicio.bajaUsuario(id);
+        }
+        [HttpGet("listadoUsuario")]
+        public ActionResult<List<Usuario>> Listado(){
+            return servicio.listadoUsuarios();
         }
 
     }
