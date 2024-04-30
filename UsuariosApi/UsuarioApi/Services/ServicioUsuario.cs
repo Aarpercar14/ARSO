@@ -76,10 +76,8 @@ namespace Usuarios.Servicio
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
             string url = "http://localhost:8090/estaciones";
             string tokenJWT = oauth;
-            using (HttpClient cliente = new HttpClient())
-            {
-                try
-                {
+            using (HttpClient cliente = new HttpClient()){
+                try{
                     cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJWT);
                     var respuesta = await cliente.GetAsync(url);
                     string contenidoRespuesta = await respuesta.Content.ReadAsStringAsync();
@@ -94,8 +92,9 @@ namespace Usuarios.Servicio
             return claims;
         }
         public List<Usuario> listadoUsuarios()
-        {
-            List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            return usuarios;
+                {
+                    List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
+                    return usuarios;
+                }
+            }
         }
-    }
