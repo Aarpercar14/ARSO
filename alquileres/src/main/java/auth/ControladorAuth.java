@@ -9,6 +9,7 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import io.jsonwebtoken.Jwts;
@@ -17,13 +18,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Path("auth")
 public class ControladorAuth {
 	@POST
-	@Path("/login")
+	@Path("/login/{username}/{password}")
 	@PermitAll
 	public Response login(
-	    @FormParam("username") String username,
-	    @FormParam("password") String password) {
+	    @PathParam("username") String username,
+	    @PathParam("password") String password) {
 		// Verificar las credenciales y emisión del token
 		Map<String, Object> claims = verificarCredenciales(username, password);
+		System.out.println("Entra");
 		if (claims != null) {
 			Date caducidad = Date.from(
 				    Instant.now()
@@ -43,6 +45,7 @@ public class ControladorAuth {
 	private Map<String, Object> verificarCredenciales(String username, String password) {
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("sub", username);
+		claims.put("pass", password);
 		claims.put("roles", "alumno");
 		return claims;
 	}

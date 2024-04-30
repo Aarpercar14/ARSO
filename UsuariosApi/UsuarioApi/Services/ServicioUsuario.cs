@@ -73,7 +73,7 @@ namespace Usuarios.Servicio
         public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth){
             Dictionary<string, object> claims = new Dictionary<string, object>();
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            string url = "http://localhost:8090/estaciones/listado/bicis/662ffb8b8b639d07d103d896?page=1&size=10";
+            string url = "http://localhost:8090/api/alquileres/";
             string tokenJWT = oauth;
             Console.Write("entra\n ");
             using (HttpClient cliente = new HttpClient()){
