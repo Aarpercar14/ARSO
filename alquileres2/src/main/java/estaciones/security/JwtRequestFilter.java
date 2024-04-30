@@ -33,7 +33,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			String token = header.replace("Bearer ", "");
 			claim = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
 		}
-
 		if (claim != null) {
 			ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority(claim.get("rol").toString()));

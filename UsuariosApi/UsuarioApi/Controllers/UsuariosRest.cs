@@ -50,7 +50,7 @@ namespace Usuarios.Controllers
             return result;
         }
 
-        [HttpGet("verificarOAuth/{oauth}")]
+        [HttpGet("prueba/{oauth}")]
         public async Task<ActionResult<Dictionary<string, object>>> verificarOAuth(string oauth)
         {
             var result = await servicio.verificarOauthAsync(oauth);

@@ -24,6 +24,7 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) {
 
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
+		System.out.println(usuario.toString());
 		Map<String, Object> claims = fetchUserInfo(usuario);
 		if (claims != null) {
 			Date caducidad = Date.from(Instant.now().plusSeconds(3600));

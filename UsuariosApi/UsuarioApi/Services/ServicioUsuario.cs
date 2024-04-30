@@ -70,29 +70,27 @@ namespace Usuarios.Servicio
             return Task.FromResult(verificar(id, contra));
         }
 
-        public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth)
-        {
+        public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth){
             Dictionary<string, object> claims = new Dictionary<string, object>();
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            string url = "http://localhost:8090/estaciones";
+            string url = "http://localhost:8090/estaciones/listado/bicis/662ffb8b8b639d07d103d896?page=1&size=10";
             string tokenJWT = oauth;
+            Console.Write("entra\n ");
             using (HttpClient cliente = new HttpClient()){
                 try{
                     cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJWT);
                     var respuesta = await cliente.GetAsync(url);
-                    string contenidoRespuesta = await respuesta.Content.ReadAsStringAsync();
-                    Console.Write(contenidoRespuesta);
+                    string contenidoRespuesta =await respuesta.Content.ReadAsStringAsync();
+                    Console.Write("Valor de la respuesta  "+respuesta);
                     return claims;
                 }
-                catch (Exception e)
-                {
+                catch (Exception e){
                     Console.WriteLine(e.Message);
                 }
             }
             return claims;
         }
-        public List<Usuario> listadoUsuarios()
-                {
+        public List<Usuario> listadoUsuarios(){
                     List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
                     return usuarios;
                 }
