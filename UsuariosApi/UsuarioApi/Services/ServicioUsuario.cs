@@ -11,6 +11,9 @@ namespace Usuarios.Servicio
         string altaUsuario(string id, string nombre, string code, string oauth);
         string bajaUsuario(string id);
         Dictionary<string, object> verificar(string id, string contra);
+
+        Task<Dictionary<string, object>> verificarAsync(string id, string contra);
+
         Task<Dictionary<string, object>> verificarOauthAsync(string oauth);
         List<Usuario> listadoUsuarios();
     }
@@ -61,28 +64,38 @@ namespace Usuarios.Servicio
             }
             return claims;
         }
-        public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth){
+
+        public Task<Dictionary<string, object>> verificarAsync(string id, string contra)
+        {
+            return Task.FromResult(verificar(id, contra));
+        }
+
+        public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth)
+        {
             Dictionary<string, object> claims = new Dictionary<string, object>();
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
             string url = "http://localhost:8090/estaciones";
-            string tokenJWT = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJnaW9zYW5jMTYiLCJleHAiOjI3MTI2ODE2NzQsInJvbCI6InVzdWFyaW8ifQ.QuNBs59EHuGyFg2BeNB8-1QX_rZVW5F9AcpvTVmtorg";
-            using (HttpClient cliente = new HttpClient()){
-                try{
+            string tokenJWT = oauth;
+            using (HttpClient cliente = new HttpClient())
+            {
+                try
+                {
                     cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJWT);
                     var respuesta = await cliente.GetAsync(url);
                     string contenidoRespuesta = await respuesta.Content.ReadAsStringAsync();
                     Console.Write(contenidoRespuesta);
                     return claims;
-                }catch(Exception e){
+                }
+                catch (Exception e)
+                {
                     Console.WriteLine(e.Message);
                 }
             }
             return claims;
         }
         public List<Usuario> listadoUsuarios()
-                {
-                    List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-                    return usuarios;
-                }
-            }
+        {
+            List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
+            return usuarios;
         }
+    }
