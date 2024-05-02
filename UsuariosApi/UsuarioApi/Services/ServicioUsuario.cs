@@ -8,13 +8,9 @@ namespace Usuarios.Servicio
     public interface IServicioUsuarios
     {
         string solicitudCodeActiv(string id);
-        string altaUsuario(string id, string nombre, string code, string oauth);
+        string altaUsuario(string id, string nombre, string code, string oauth,string rol);
         string bajaUsuario(string id);
-        Dictionary<string, object> verificar(string id, string contra);
-
-        Task<Dictionary<string, object>> verificarAsync(string id, string contra);
-
-        Task<Dictionary<string, object>> verificarOauthAsync(string oauth);
+        Dictionary<string, object> verificarOauth(string oauth);
         List<Usuario> listadoUsuarios();
     }
     public class ServicioUsuarios : IServicioUsuarios
@@ -33,12 +29,12 @@ namespace Usuarios.Servicio
             repositorio.Add(new Usuario(id, code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy")));
             return code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy");
         }
-        public string altaUsuario(string id, string nombre, string code, string oauth)
+        public string altaUsuario(string id, string nombre, string code, string oauth,string rol)
         {
             Usuario user = repositorio.GetById(id);
             if (user.CodigoActivacion == code && DateTime.Parse(code.Substring(6)) > DateTime.Now)
             {
-                repositorio.Update(new Usuario(id, nombre, oauth, true, code));
+                repositorio.Update(new Usuario(id, nombre, oauth, code,rol));
                 return "Alta realizada con exito";
             }
             return "Codigo de alta caducado o incorrecto";
@@ -53,39 +49,16 @@ namespace Usuarios.Servicio
             }
             return "Usuario nulo, no se puede dar de baja";
         }
-        public Dictionary<string, object> verificar(string id, string contra)
-        {
-            Dictionary<string, object> claims = new Dictionary<string, object>();
-            if (repositorio.GetById(id).Acceso == contra)
-            {
-                claims.Add("id", id);
-                claims.Add("nombre", repositorio.GetById(id).Nombre);
-                claims.Add("rol", "gestor");
-            }
-            return claims;
-        }
 
-        public Task<Dictionary<string, object>> verificarAsync(string id, string contra)
-        {
-            return Task.FromResult(verificar(id, contra));
-        }
-
-        public async Task<Dictionary<string, object>> verificarOauthAsync(string oauth){
+        public Dictionary<string, object> verificarOauth(string oauth){
             Dictionary<string, object> claims = new Dictionary<string, object>();
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            string url = "http://localhost:8090/api/alquileres/";
-            string tokenJWT = oauth;
-            Console.Write("entra\n ");
-            using (HttpClient cliente = new HttpClient()){
-                try{
-                    cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenJWT);
-                    var respuesta = await cliente.GetAsync(url);
-                    string contenidoRespuesta =await respuesta.Content.ReadAsStringAsync();
-                    Console.Write("Valor de la respuesta  "+respuesta);
+            foreach (Usuario user in usuarios){
+                if (user.Acceso == oauth){
+                    claims.Add("id",user.Id);
+                    claims.Add("nombre",user.Nombre);
+                    claims.Add("rol",user.Rol);
                     return claims;
-                }
-                catch (Exception e){
-                    Console.WriteLine(e.Message);
                 }
             }
             return claims;

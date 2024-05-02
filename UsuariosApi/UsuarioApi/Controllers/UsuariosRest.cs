@@ -24,10 +24,9 @@ namespace Usuarios.Controllers
         }
 
         [HttpPost("alta/{id}")]
-        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string code, [FromQuery] string oauth)
+        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string code, [FromQuery] string oauth,[FromQuery] string rol)
         {
-            return servicio.altaUsuario(id, nombre, code, oauth);
-            //TODO pasarela
+            return servicio.altaUsuario(id, nombre, code, oauth,rol);
         }
 
         [HttpPost("baja/{id}")]
@@ -43,19 +42,11 @@ namespace Usuarios.Controllers
             return servicio.listadoUsuarios();
         }
 
-        [HttpGet("verificar/{id}/{contra}")]
-        public async Task<ActionResult<Dictionary<string, object>>> verificar(string id, string contra)
+        [HttpGet("verificarOauth")]
+        public ActionResult<Dictionary<string, object>> verificarOAuth(string oauth)
         {
-            var result = await servicio.verificarAsync(id, contra);
+            var result =servicio.verificarOauth(oauth);
             return result;
         }
-
-        [HttpGet("prueba/{oauth}")]
-        public async Task<ActionResult<Dictionary<string, object>>> verificarOAuth(string oauth)
-        {
-            var result = await servicio.verificarOauthAsync(oauth);
-            return result;
-        }
-
     }
 }
