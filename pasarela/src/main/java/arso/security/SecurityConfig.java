@@ -18,8 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.httpBasic().disable().csrf().disable().authorizeRequests()
-					.antMatchers("/login/**").authenticated()
-					.antMatchers("/ouath/**").authenticated()
+					.antMatchers("/estaciones/**").permitAll()
+					.antMatchers("/alquileres/**").permitAll()
 					.antMatchers("/usuarios/**").permitAll()
 					.and()
 					.oauth2Login()
