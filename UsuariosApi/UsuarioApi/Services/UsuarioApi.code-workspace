@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "UsuarioApi",
+			"path": ".."
+		},
+		{
+			"name": "ClaseMartes",
+			"path": "../../../../../Desktop/clase/ClaseMartes"
+		}
+	],
+	"settings": {
+		"dotnet.defaultSolution": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.sln"
+	}
+}
