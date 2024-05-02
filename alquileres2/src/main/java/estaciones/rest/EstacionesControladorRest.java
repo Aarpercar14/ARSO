@@ -53,7 +53,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de alta una estacion", description = "Crea una estacion y la da de alta en la base de datos")
 	@PostMapping("/estacion/{idEstacion}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> createEstacionamiento(@PathVariable String idEstacion, @RequestParam int puestos,
 			@RequestParam String direccion, @RequestParam int cordX, @RequestParam int cordY) {
 		String iden = servicio.altaEstacion(idEstacion, puestos, direccion, cordX, cordY);
@@ -62,7 +61,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de alta una bicicleta", description = "Crea una bicicleta y la da de alta en la base de datos y se aparca en la estacion especificada")
 	@PostMapping("/bicicleta/{idEstacion}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> createBicicleta(@RequestParam String modelo, @PathVariable String idEstacion) {
 		String iden = servicio.altaBici(modelo, idEstacion);
 		return new ResponseEntity<>(iden, HttpStatus.OK);
@@ -70,7 +68,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de baja estacion", description = "Da de baja una bicicleta, la retira de la estacion en la que este y cambia su estado")
 	@PostMapping("baja/{idBici}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> darDeBajaBicicleta(@PathVariable String idBici, @RequestParam String motivo) {
 		this.servicio.bajaBici(idBici, motivo);
 		return new ResponseEntity<>("Bicicleta dada de baja correctamente", HttpStatus.OK);
@@ -78,7 +75,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de bicicletas", description = "Muestra un listado paginado de todas las bicicletas guardadas en la base de datos")
 	@GetMapping("/listado/bicis/{idEstacion}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public PagedModel<EntityModel<Bicicleta>> getListadoPaginadoGestor(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -106,7 +102,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de estaciones", description = "Muestra un listado paginado de todas las estaciones en la base de datos una estacion y la da de alta en la base de datos")
 	@GetMapping("/listado/estaciones")
-	@PreAuthorize("hasAuthority('usuario')")
 	public PagedModel<EntityModel<EstacionDTOUsuario>> getListadoPaginadoUsuario(@RequestParam int page,
 			@RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -116,7 +111,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de alta estacion", description = "Crea una estacion y la da de alta en la base de datos")
 	@GetMapping("/listado/bicisDisponibles/{idEstacion}")
-	@PreAuthorize("hasAuthority('usuario')")
 	public PagedModel<EntityModel<BicicletaDTO>> getListadoBicisBisponibles(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
