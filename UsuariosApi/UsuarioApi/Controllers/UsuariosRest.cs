@@ -42,7 +42,7 @@ namespace Usuarios.Controllers
             return servicio.listadoUsuarios();
         }
 
-        [HttpGet("verificarOauth")]
+        [HttpGet("verificarOauth/{oauth}")]
         public ActionResult<Dictionary<string, object>> verificarOAuth(string oauth)
         {
             var result =servicio.verificarOauth(oauth);
