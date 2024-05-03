@@ -3,7 +3,6 @@ package arso.security;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +31,9 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	
 	
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
-
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
-		System.out.println(usuario.toString());
+		System.out.println(request);
 		try {
 			String idGitHub = (String) usuario.getAttribute("login");
 			String queriedClaims = pasarelaClient.getUserClaims(idGitHub).execute().body();
@@ -52,21 +49,11 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} else {
-
-			}
+			} else response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token JWT ha expirado");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		
-	}
-
-	private Map<String, Object> fetchUserInfo(DefaultOAuth2User usuario) {
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("sub", usuario.getAttribute("login"));
-		claims.put("rol", "usuario");
-		return claims;
 	}
 }

@@ -9,6 +9,7 @@ namespace Usuarios.Controllers
     [Route("api/usuarios")]
     [ApiController]
     public class UsuarioController : ControllerBase
+    
     {
         private readonly IServicioUsuarios servicio;
 

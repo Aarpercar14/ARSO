@@ -32,6 +32,9 @@ namespace Usuarios.Servicio
         public string altaUsuario(string id, string nombre, string code, string oauth,string rol)
         {
             Usuario user = repositorio.GetById(id);
+            Console.Write(code);
+            Console.Write(user.CodigoActivacion);
+            Console.Write(DateTime.Parse(code.Substring(6)) > DateTime.Now);
             if (user.CodigoActivacion == code && DateTime.Parse(code.Substring(6)) > DateTime.Now)
             {
                 repositorio.Update(new Usuario(id, nombre, oauth, code,rol));
