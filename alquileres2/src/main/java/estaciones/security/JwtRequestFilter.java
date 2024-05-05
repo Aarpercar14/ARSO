@@ -1,7 +1,8 @@
-package arso.security;
+package estaciones.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,13 +26,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	public static final String TOKEN_PREFIX = "Bearer ";
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+
 		Claims claim = null;
 		String header = request.getHeader("Authorization");
-
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = header.replace("Bearer ", "");
 			claim = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
 		}
+
 		if (claim != null) {
 			ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority(claim.get("rol").toString()));

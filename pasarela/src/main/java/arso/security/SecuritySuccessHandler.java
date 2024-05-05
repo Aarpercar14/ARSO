@@ -25,7 +25,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Component
 public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	
-	private Retrofit retrofit = new Retrofit.Builder().baseUrl("https://localhost:5058/api/")
+	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:5058/api/")
 			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private PasarelaClientRest pasarelaClient = retrofit.create(PasarelaClientRest.class);
 	
@@ -33,9 +33,10 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
-		System.out.println(request);
-		try {
+		System.out.println(usuario.toString());
+ 		try {
 			String idGitHub = (String) usuario.getAttribute("login");
+			System.out.println(idGitHub);
 			String queriedClaims = pasarelaClient.getUserClaims(idGitHub).execute().body();
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> claims = mapper.readValue(queriedClaims, new TypeReference<Map<String, Object>>() {});
