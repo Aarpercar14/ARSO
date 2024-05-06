@@ -3,6 +3,9 @@ package arso.security;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import arso.rest.ClaimsData;
 import arso.rest.PasarelaClientRest;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,12 +41,10 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
  		try {
 			String idGitHub = (String) usuario.getAttribute("login");
 			System.out.println(idGitHub);
-			String queriedClaims = pasarelaClient.getUserClaims(idGitHub).execute().body();
-			ObjectMapper mapper = new ObjectMapper();
-			Map<String, Object> claims = mapper.readValue(queriedClaims, new TypeReference<Map<String, Object>>() {});
+			ClaimsData claims = pasarelaClient.getUserClaims(idGitHub).execute().body();
 			if (claims != null) {
 				Date caducidad = Date.from(Instant.now().plusSeconds(3600));
-				String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, "secreto")
+				String token = Jwts.builder().setClaims(claims.getClaims()).signWith(SignatureAlgorithm.HS256, "secreto")
 						.setExpiration(caducidad).compact();
 				try {
 					response.getWriter().append(token);
