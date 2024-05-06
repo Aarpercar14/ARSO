@@ -9,7 +9,7 @@ namespace Usuarios.Controllers
     [Route("api/usuarios")]
     [ApiController]
     public class UsuarioController : ControllerBase
-    
+
     {
         private readonly IServicioUsuarios servicio;
 
@@ -25,9 +25,9 @@ namespace Usuarios.Controllers
         }
 
         [HttpPost("alta/{id}")]
-        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string code, [FromQuery] string oauth,[FromQuery] string rol)
+        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string code, [FromQuery] string oauth, [FromQuery] string rol)
         {
-            return servicio.altaUsuario(id, nombre, code, oauth,rol);
+            return servicio.altaUsuario(id, nombre, code, oauth, rol);
         }
 
         [HttpPost("baja/{id}")]
@@ -44,9 +44,9 @@ namespace Usuarios.Controllers
         }
 
         [HttpGet("verificarOauth/{oauth}")]
-        public ActionResult<Dictionary<string, object>> verificarOAuth(string oauth)
+        public ActionResult<string> verificarOAuth(string oauth)
         {
-            var result =servicio.verificarOauth(oauth);
+            var result = servicio.verificarOauth(oauth);
             return result;
         }
     }

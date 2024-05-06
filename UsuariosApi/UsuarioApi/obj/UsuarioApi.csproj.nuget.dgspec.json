@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj": {}
+    "/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/b1513a3cc4dd4406c9695b674029f05a15c26099631968c226452e0f8127ca4f/Desktop/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj": {}
   },
   "projects": {
-    "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj": {
+    "/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/b1513a3cc4dd4406c9695b674029f05a15c26099631968c226452e0f8127ca4f/Desktop/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+        "projectUniqueName": "/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/b1513a3cc4dd4406c9695b674029f05a15c26099631968c226452e0f8127ca4f/Desktop/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
         "projectName": "UsuarioApi",
-        "projectPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
-        "packagesPath": "/Users/sergioillan/.nuget/packages/",
-        "outputPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/obj/",
+        "projectPath": "/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/b1513a3cc4dd4406c9695b674029f05a15c26099631968c226452e0f8127ca4f/Desktop/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+        "packagesPath": "/home/alumno/.nuget/packages/",
+        "outputPath": "/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/b1513a3cc4dd4406c9695b674029f05a15c26099631968c226452e0f8127ca4f/Desktop/ARSO/UsuariosApi/UsuarioApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/sergioillan/.nuget/NuGet/NuGet.Config"
+          "/home/alumno/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

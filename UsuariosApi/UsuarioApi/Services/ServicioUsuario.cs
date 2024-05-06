@@ -8,9 +8,9 @@ namespace Usuarios.Servicio
     public interface IServicioUsuarios
     {
         string solicitudCodeActiv(string id);
-        string altaUsuario(string id, string nombre, string code, string oauth,string rol);
+        string altaUsuario(string id, string nombre, string code, string oauth, string rol);
         string bajaUsuario(string id);
-        Dictionary<string, object> verificarOauth(string oauth);
+        string verificarOauth(string oauth);
         List<Usuario> listadoUsuarios();
     }
     public class ServicioUsuarios : IServicioUsuarios
@@ -29,7 +29,7 @@ namespace Usuarios.Servicio
             repositorio.Add(new Usuario(id, code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy")));
             return code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy");
         }
-        public string altaUsuario(string id, string nombre, string code, string oauth,string rol)
+        public string altaUsuario(string id, string nombre, string code, string oauth, string rol)
         {
             Usuario user = repositorio.GetById(id);
             Console.Write(code);
@@ -37,7 +37,7 @@ namespace Usuarios.Servicio
             Console.Write(DateTime.Parse(code.Substring(6)) > DateTime.Now);
             if (user.CodigoActivacion == code && DateTime.Parse(code.Substring(6)) > DateTime.Now)
             {
-                repositorio.Update(new Usuario(id, nombre, oauth, code,rol));
+                repositorio.Update(new Usuario(id, nombre, oauth, code, rol));
                 return "Alta realizada con exito";
             }
             return "Codigo de alta caducado o incorrecto";
@@ -53,22 +53,23 @@ namespace Usuarios.Servicio
             return "Usuario nulo, no se puede dar de baja";
         }
 
-        public Dictionary<string, object> verificarOauth(string oauth){
-            Dictionary<string, object> claims = new Dictionary<string, object>();
+        public String verificarOauth(string oauth)
+        {
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            foreach (Usuario user in usuarios){
-                if (user.Acceso == oauth){
-                    claims.Add("id",user.Id);
-                    claims.Add("nombre",user.Nombre);
-                    claims.Add("rol",user.Rol);
-                    return claims;
+            foreach (Usuario user in usuarios)
+            {
+                if (user.Acceso == oauth)
+                {
+                    return "{\"id\": \"" + user.Id + "\", \"nombre\": \"" + user.Nombre +
+                        "\", \"rol\": \"" + user.Rol + "\"}";
                 }
             }
-            return claims;
+            return "";
         }
-        public List<Usuario> listadoUsuarios(){
-                    List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-                    return usuarios;
-                }
-            }
+        public List<Usuario> listadoUsuarios()
+        {
+            List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
+            return usuarios;
         }
+    }
+}
