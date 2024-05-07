@@ -36,9 +36,10 @@ public class ClaimsData {
 	
 	public Map<String, Object> getClaims() {
 		Map<String, Object> map = new HashMap<>();
-		map.put(id, this.id);
-		map.put(nombre, this.nombre);
-		map.put(rol, this.rol);
+		map.put("id", this.id);
+		map.put("nombre", this.nombre);
+		map.put("rol", this.rol);
 		return map;
 	}
+	
 }

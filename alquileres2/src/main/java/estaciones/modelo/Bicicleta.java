@@ -1,6 +1,7 @@
 package estaciones.modelo;
 import java.time.LocalDateTime;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,16 +10,15 @@ import repositorio.Identificable;
 @Document(collection = "bicicletas")
 public class Bicicleta implements Identificable {
 	@Id
-	private String id;
+	private ObjectId id;
 	private String modelo;
 	private LocalDateTime fechaAlta;
 	private LocalDateTime fechaBaja;
 	private String motivoBaja;
 	private String estado;
 
-	public Bicicleta(String id, String modelo) {
+	public Bicicleta(String modelo) {
 		super();
-		this.id = id;
 		this.modelo = modelo;
 		this.fechaAlta = LocalDateTime.now();
 		this.fechaBaja = null;
@@ -35,12 +35,12 @@ public class Bicicleta implements Identificable {
 
 	@Override
 	public String getId() {
-		return id;
+		return id.toString();
 	}
 
 	@Override
 	public void setId(String id) {
-		this.id = id;
+		this.id = new ObjectId(id);
 	}
 
 	public String getModelo() {

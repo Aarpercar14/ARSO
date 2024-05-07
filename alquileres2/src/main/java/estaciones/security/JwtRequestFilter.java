@@ -26,9 +26,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	public static final String TOKEN_PREFIX = "Bearer ";
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
-
 		Claims claim = null;
 		String header = request.getHeader("Authorization");
+		
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = header.replace("Bearer ", "");
 			claim = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
