@@ -52,17 +52,13 @@ namespace Usuarios.Servicio
             }
             return "Usuario nulo, no se puede dar de baja";
         }
-
-        public String verificarOauth(string oauth)
+        public string verificarOauth(string oauth)
         {
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            foreach (Usuario user in usuarios)
-            {
-                if (user.Acceso == oauth)
-                {
-                    return "{\"id\": \"" + user.Id + "\", \"nombre\": \"" + user.Nombre +
-                        "\", \"rol\": \"" + user.Rol + "\"}";
-                }
+            foreach (Usuario user in usuarios){
+                if (user.Acceso == oauth) return "{\"id\": " + user.Id + ", \"nombre\": " + user.Nombre +
+                        ", \"rol\": " + user.Rol + "}";
+                
             }
             return "";
         }
