@@ -17,8 +17,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.httpBasic().disable().csrf().disable().authorizeRequests()
-					.antMatchers("/alquileres/**").permitAll()
-					.antMatchers("/estaciones/**").permitAll()
+					.antMatchers("/alquileres/**").authenticated()
+					.antMatchers("/estaciones/**").authenticated()
 					.antMatchers("/api/usuarios/**").permitAll()
 					.antMatchers("/pasarela/**").hasAuthority("usuario")
 					.and()
