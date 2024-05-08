@@ -28,12 +28,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
 		Claims claim = null;
 		String header = request.getHeader("Authorization");
-		
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = header.replace("Bearer ", "");
 			claim = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
 		}
-
 		if (claim != null) {
 			ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority(claim.get("rol").toString()));

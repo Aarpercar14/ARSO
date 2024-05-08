@@ -19,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.httpBasic().disable().csrf().disable().authorizeRequests()
 					.antMatchers("/estaciones/aparcamientoBici/**").permitAll()
 					.antMatchers("/estaciones/infoEstacion/**").permitAll()
-					.antMatchers("/estaciones/listaEstaciones**").hasAuthority("usuario")
 					.and()
 					.sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
