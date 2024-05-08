@@ -28,12 +28,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
 		Claims claim = null;
 		String header = request.getHeader("Authorization");
-		Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            System.out.println(headerName + " - "+headerValue);
-        }
+		
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = header.replace("Bearer ", "");
 			claim = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
@@ -46,7 +41,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 					authorities);
 			// Establecemos la autenticación en el contexto de seguridad
 			// Se interpreta como que el usuario ha superado la autenticación
-			response.addHeader("Authoriation", header);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}
 		try {
