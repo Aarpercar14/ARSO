@@ -1,0 +1,395 @@
+{
+	"info": {
+		"_postman_id": "3d24931f-162c-43a1-aedb-e5ffb198e690",
+		"name": "citybike-PeronaCarrillo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33478039"
+	},
+	"item": [
+		{
+			"name": "localhost:8090/api/usuarios/codigo/prueba",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8090/api/usuarios/codigo/prueba"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/api/usuarios/alta/prueba?nombre=pedro&code=ORXA8B05/14/2024&oauth=sergiosanc16&rol=usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/usuarios/alta/prueba?nombre=pedro&code=ORXA8B05/14/2024&oauth=sergiosanc16&rol=usuario",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"usuarios",
+						"alta",
+						"prueba"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "pedro"
+						},
+						{
+							"key": "code",
+							"value": "ORXA8B05/14/2024"
+						},
+						{
+							"key": "oauth",
+							"value": "sergiosanc16"
+						},
+						{
+							"key": "rol",
+							"value": "usuario"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/api/usuarios/alta/prueba?nombre=pedro&code=ORXA8B05/14/2024&oauth=sergiosanc16&rol=usuario Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:5058/api/usuarios/alta/prueba?nombre=pedro&code=B0LJAD05/15/2024&oauth=Aarpercar14&rol=usuario",
+					"host": [
+						"localhost"
+					],
+					"port": "5058",
+					"path": [
+						"api",
+						"usuarios",
+						"alta",
+						"prueba"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "pedro"
+						},
+						{
+							"key": "code",
+							"value": "B0LJAD05/15/2024"
+						},
+						{
+							"key": "oauth",
+							"value": "Aarpercar14"
+						},
+						{
+							"key": "rol",
+							"value": "usuario"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/api/usuarios/baja/prueba",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Imdlc3RvciIsImV4cCI6MTcxNTE4Mzc3OCwibm9tYnJlIjoicGVkcm8iLCJyb2wiOiJnZXN0b3IifQ.Ekl93M66TRMYb0JHKgA3y_EhPHkTi_Ok9Gewe_ksNJ0"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "localhost:8090/api/usuarios/baja/gestor"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/api/usuarios/listadoUsuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Imdlc3RvciIsImV4cCI6MTcxNTE4Mzc3OCwibm9tYnJlIjoicGVkcm8iLCJyb2wiOiJnZXN0b3IifQ.Ekl93M66TRMYb0JHKgA3y_EhPHkTi_Ok9Gewe_ksNJ0"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8090/api/usuarios/listadoUsuario"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/api/usuarios/verificarOauth/aarpercar14",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8090/api/usuarios/verificarOauth/aarpercar14"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/api/alquileres/usuarios/Pedro/reservas/Bici",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8090/alquileres/usuarios/Pedro/reservas/Bici"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/alquileres/usuarios/Pedro/reserva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8090/alquileres/usuarios/Pedro/reserva"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/alquileres/Bici2/usuarios/Pedro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/api/alquileres/Bici2/usuarios/Pedro"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:090/alquileres/usuarios/Pedro",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:090/alquileres/usuarios/Pedro"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/alquileres/usuarios/Pedro/historial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8090/alquileres/usuarios/Pedro/historial"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/estaciones/alta",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Imdlc3RvciIsImV4cCI6MTcxNTE4Mzc3OCwibm9tYnJlIjoicGVkcm8iLCJyb2wiOiJnZXN0b3IifQ.Ekl93M66TRMYb0JHKgA3y_EhPHkTi_Ok9Gewe_ksNJ0"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\":\"Prueba\",\n    \"numPuestos\":\"10\",\n    \"postal\":\"30009\",\n    \"cordY\":\"10.0\",\n    \"cordX\":\"0.0\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8090/estaciones/alta"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/estaciones/bicicleta/663a82be69665c40ea37f563?modelo=competicion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/estaciones/bicicleta/663a82be69665c40ea37f563?modelo=competicion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"estaciones",
+						"bicicleta",
+						"663a82be69665c40ea37f563"
+					],
+					"query": [
+						{
+							"key": "modelo",
+							"value": "competicion"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/estaciones/baja/d43a358f-5622-4a20-83a1-209e8f18c77e?motivo=rota",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJnaW9zYW5jMTYiLCJleHAiOjI3MTI2ODE5MjMsInJvbCI6Imdlc3RvciJ9.xV1Pfk5_wlcZwcl0JeBzq7D1qsJMIvKBn4qQKEygJ60"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/estaciones/baja/d43a358f-5622-4a20-83a1-209e8f18c77e?motivo=rota",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"estaciones",
+						"baja",
+						"d43a358f-5622-4a20-83a1-209e8f18c77e"
+					],
+					"query": [
+						{
+							"key": "motivo",
+							"value": "rota"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/estaciones/listado/bicis/663b9d55ab29f678d18e8977?page=1&size=10",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJnaW9zYW5jMTYiLCJleHAiOjE3MTQ2NjgzNzUsInJvbCI6InVzdWFyaW8ifQ.fH3QxuSZKYjqM-4v1-_qWEFbM8zoIaswcNoLtd98YwY"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/estaciones/listado/bicis/662ffb8b8b639d07d103d896?page=1&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"estaciones",
+						"listado",
+						"bicis",
+						"662ffb8b8b639d07d103d896"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/estaciones/listado/estaciones?page=0&size=10",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6InBydWViYSIsImV4cCI6MTcxNTE4NzUyNSwibm9tYnJlIjoicGVkcm8iLCJyb2wiOiJ1c3VhcmlvIn0.ojsmDJTRH2FzIn_MeQG2mVILr_u-NdjWsZDNioUSfO0"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/estaciones/listaEstaciones?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"estaciones",
+						"listaEstaciones"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/estaciones/lbicisDisponibles/662ffb8b8b639d07d103d896?page=0&size=10",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJnaW9zYW5jMTYiLCJleHAiOjI3MTI2ODE2NzQsInJvbCI6InVzdWFyaW8ifQ.QuNBs59EHuGyFg2BeNB8-1QX_rZVW5F9AcpvTVmtorg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/estaciones/listado/bicisDisponibles/662ffb8b8b639d07d103d896?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"estaciones",
+						"listado",
+						"bicisDisponibles",
+						"662ffb8b8b639d07d103d896"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/estaciones/infoEstacion/662ffb8b8b639d07d103d896",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/estaciones/infoEstacion/662ffb8b8b639d07d103d896"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8090/estaciones/aparcamientoBici/idBici",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "localhost:8090/estaciones/aparcamientoBici/idBici"
+			},
+			"response": []
+		}
+	]
+}
