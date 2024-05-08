@@ -29,7 +29,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Component
 public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	
-	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:5058/api/")
+	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://usuarios:5058/api/")
 			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private PasarelaClientRest pasarelaClient = retrofit.create(PasarelaClientRest.class);
 	
