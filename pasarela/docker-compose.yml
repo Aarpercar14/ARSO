@@ -3,7 +3,7 @@ version: "3.7"
 services:
   pasarela:
     build: .
-    ports: 
+    ports:
       - "8090:8090"
   estaciones:
     build: ../alquileres2/
@@ -27,6 +27,10 @@ services:
     build: ../alquileres/
     ports:
       - "8080:8080"
+    environment:
+      - DATABASE_CONNECTION_STRING=mysql://user:password@mysql:3307/alquileresDb
+    depends_on:
+      - mysql
   mongo:
     image: mongo
     restart: always
@@ -59,7 +63,7 @@ services:
     image: mysql:5.7
     restart: always
     ports:
-      - "3306:3306"
+      - "3307:3307"
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: alquileresDb
