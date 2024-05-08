@@ -2,18 +2,14 @@ package estaciones.servicio;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import estaciones.modelo.Bicicleta;
-import estaciones.modelo.BicicletaDTO;
-import estaciones.modelo.EstacionDTOUsuario;
 import estaciones.modelo.Estacionamiento;
 import estaciones.repositorio.RepositorioBicicletas;
 import estaciones.repositorio.RepositorioEstaciones;
@@ -27,25 +23,15 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	private IServicioEventos servEventos;
 
 	@Autowired
-	public ServicioEstaciones(RepositorioEstaciones repositorioEst, RepositorioBicicletas repositorioBicicletas, IServicioEventos servEventos) {
+	public ServicioEstaciones(RepositorioEstaciones repositorioEst, RepositorioBicicletas repositorioBicicletas,
+			IServicioEventos servEventos) {
 		this.repositorioEst = repositorioEst;
 		this.repositorioBicicletas = repositorioBicicletas;
 		this.servEventos = servEventos;
 	}
 
 	@Override
-	public boolean consultaHueco(String id) {
-		Estacionamiento estacion=repositorioEst.findById(id).get();
-		return estacion.getNumPuestos()>0;
-	}
-
-	@Override
-	public boolean peticionAparcarBicicleta(String id) {
-		return this.consultaHueco(id);
-	}
-
-	@Override
-	public String altaEstacion(String nombre, int puestos, String direccion, int cordX, int cordY) {
+	public String altaEstacion(String nombre, int puestos, String direccion, double cordX, double cordY) {
 		Estacionamiento estacion = new Estacionamiento(nombre, puestos, direccion, cordX, cordY);
 		String id = repositorioEst.save(estacion).getId();
 		return id;
@@ -53,86 +39,99 @@ public class ServicioEstaciones implements IServicioEstaciones {
 
 	@Override
 	public String altaBici(String modelo, String estacion) {
-		String id = UUID.randomUUID().toString();
-		Estacionamiento est=repositorioEst.findById(estacion).get();
-		Bicicleta bici = new Bicicleta(id, modelo);
+		Optional<Estacionamiento> oestacion = repositorioEst.findById(estacion);
+		if (!oestacion.isPresent())
+			throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+		Estacionamiento est = oestacion.get();
+		Bicicleta bici = new Bicicleta(modelo);
 		repositorioBicicletas.save(bici);
-		this.estacionarUnaBicileta(id, est.getId());
-		return id;
+		this.estacionarUnaBicileta(bici.getId(), est.getId());
+		return bici.getId();
 	}
 
 	@Override
 	public void bajaBici(String idBici, String motivo) {
-		Bicicleta bici = repositorioBicicletas.findById(idBici).get();
+		Optional<Bicicleta> obici = repositorioBicicletas.findById(idBici);
+		if (!obici.isPresent())
+			throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+		Bicicleta bici = obici.get();
 		this.retirarUnaBicicleta(idBici);
 		bici.cambioEstadoBici("desactivada");
 		bici.setFechaBaja(LocalDateTime.now());
 		bici.setMotivoBaja(motivo);
 		repositorioBicicletas.save(bici);
-		servEventos.publicarEventoBicicletaDesactivada(idBici);		
+		servEventos.publicarEventoBicicletaDesactivada(idBici);
 	}
 
 	@Override
 	public List<Bicicleta> getListadoPaginadoGestor(String idEstacion) {
-		Estacionamiento est = repositorioEst.findById(idEstacion).get();
+		Optional<Estacionamiento> oestacion = repositorioEst.findById(idEstacion);
+		if (!oestacion.isPresent())
+			throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+		Estacionamiento est = oestacion.get();
 		return est.getBicicletas();
-		
 	}
 
 	@Override
-	public Page<EstacionDTOUsuario> getListadoPaginadoUsuario(Pageable pageable) {
-		List<EstacionDTOUsuario> est=new ArrayList<EstacionDTOUsuario>();
-		repositorioEst.findAll().forEach(estacion->{
-			EstacionDTOUsuario estacionDto= this.parseToEstacionDTOUsuario(estacion);
-			est.add(estacionDto);
-		});
-		int start;
-		if(pageable.getOffset()>est.size()) start=1;
-		else start= (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), est.size());
-		List<EstacionDTOUsuario> estacionesP = est.subList(start, end);
-		return new PageImpl<>(estacionesP, pageable, est.size());
+	public List<Estacionamiento> getListadoPaginadoUsuario() {
+		Iterator<Estacionamiento> est = repositorioEst.findAll().iterator();
+		List<Estacionamiento> estaciones = new ArrayList<Estacionamiento>();
+		while (est.hasNext()) {
+			estaciones.add(est.next());
+		}
+		return estaciones;
 	}
 
 	@Override
-	public String infoEstacion(String idEstacio) {
-		return repositorioEst.findById(idEstacio).get().toString();
+	public Estacionamiento infoEstacion(String idEstacion) {
+		if (repositorioEst.findById(idEstacion).get() == null) {
+			throw new IllegalArgumentException("Id erroneo");
+		}
+		Optional<Estacionamiento> oestacion = repositorioEst.findById(idEstacion);
+		if (!oestacion.isPresent())
+			throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+		Estacionamiento est = oestacion.get();
+		return est;
 	}
 
 	@Override
-	public Page<BicicletaDTO> getListadoBicisDisponibles(String estacion, Pageable pageable) {
-		List<BicicletaDTO> bicis=new ArrayList<BicicletaDTO>();
-		repositorioEst.findById(estacion).get().findDisponibles().forEach(bici->{
-			BicicletaDTO biciDTO=this.parseToBicicletaDTO(bici);
-			bicis.add(biciDTO);
-		});
-		int start;
-		if(pageable.getOffset()>bicis.size()) start=1;
-		else start= (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), bicis.size());
-		List<BicicletaDTO> bicisP = bicis.subList(start, end);
-		return new PageImpl<>(bicisP, pageable, bicis.size());
+	public List<Bicicleta> getListadoBicisDisponibles(String estacion) {
+		Iterator<Bicicleta> bici = repositorioBicicletas.findAll().iterator();
+		List<Bicicleta> bicis = new ArrayList<Bicicleta>();
+		Bicicleta biciActual = bici.next();
+		while (bici.hasNext()) {
+			if(biciActual.getEstado().equals("disponible"))
+				bicis.add(biciActual);
+			biciActual = bici.next();
+		}
+		return bicis;
 	}
 
 	@Override
 	public void estacionarUnaBicileta(String idBici, String idEstacion) {
 		try {
-			Estacionamiento estacion = repositorioEst.findById(idEstacion).get();
-			Bicicleta bici = repositorioBicicletas.findById(idBici).get();
-			if(estacion.getNumPuestos()>0) {
+			Optional<Estacionamiento> oestacion = repositorioEst.findById(idEstacion);
+			if (!oestacion.isPresent())
+				throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+			Estacionamiento estacion = oestacion.get();
+			Optional<Bicicleta> obici = repositorioBicicletas.findById(idBici);
+			if (!obici.isPresent())
+				throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
+			Bicicleta bici = obici.get();
+			if (estacion.getNumPuestos() > 0) {
 				estacion.estacionarBici(bici);
-			} else System.out.println("No hay sitios disponibles");
+			} else
+				System.out.println("No hay sitios disponibles");
 			repositorioEst.save(estacion);
 		} catch (RepositorioException e) {
 			e.printStackTrace();
 		}
 	}
 
-	
 	private boolean retirarUnaBicicleta(String idBici) {
-		for(Estacionamiento e:repositorioEst.findAll()) {
-			for(Bicicleta b:e.getBicicletas()) {
-				if(b.getId().equals(idBici)) {
+		for (Estacionamiento e : repositorioEst.findAll()) {
+			for (Bicicleta b : e.getBicicletas()) {
+				if (b.getId().equals(idBici)) {
 					e.sacarBici(idBici);
 					repositorioEst.save(e);
 					return true;
@@ -140,13 +139,5 @@ public class ServicioEstaciones implements IServicioEstaciones {
 			}
 		}
 		return false;
-	}	
-	
-	private EstacionDTOUsuario parseToEstacionDTOUsuario(Estacionamiento estacion) {
-		return new EstacionDTOUsuario(estacion.getNombre(), estacion.getNumPuestos()>0, estacion.getPostal(), estacion.getCordY(), estacion.getCordX(), estacion.getFechaAlta());
-	}
-	
-	private BicicletaDTO parseToBicicletaDTO(Bicicleta bici) {
-		return new BicicletaDTO(bici.getId(),bici.getModelo(),bici.getEstado());
 	}
 }

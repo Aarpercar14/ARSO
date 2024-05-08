@@ -19,7 +19,7 @@ public class Productor {
 	
 	public Productor() throws Exception {
 		this.factory = new ConnectionFactory();
-		factory.setUri("amqps://ppvihfpt:BDGv28w-UU11pgRbRFJTStZyrY0L77Yd@stingray.rmq.cloudamqp.com/ppvihfpt");
+		factory.setUri("amqp://guest:guest@rabbitmq:5672");
 	}
 	
 	public static synchronized Productor getInstance() throws Exception {

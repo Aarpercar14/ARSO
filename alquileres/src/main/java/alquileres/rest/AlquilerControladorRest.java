@@ -40,7 +40,7 @@ public class AlquilerControladorRest {
 	// usuario"'
 	@POST
 	@Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
-	@RolesAllowed("usuario")
+	//@RolesAllowed("usuario")
 	public Response reservar(@PathParam("idUsuario") String idUsuario,
 							 @PathParam("idBicicleta") String idBicicleta)
 							 throws Exception {
@@ -78,7 +78,7 @@ public class AlquilerControladorRest {
 	// admin"'
 	@PUT
 	@Path("/usuarios/{idUsuario}")
-	@RolesAllowed("admin")
+	@RolesAllowed("gestor")
 	public Response desbloquearUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.liberarBloqueo(idUsuario);
 		return Response.status(Response.Status.NO_CONTENT).build();
@@ -89,7 +89,7 @@ public class AlquilerControladorRest {
 	// admin"'
 	@GET
 	@Path("/usuarios/{idUsuario}/historial")
-	@RolesAllowed("admin")
+	@RolesAllowed("gestor")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getHistorialUsuario(@PathParam("idUsuario") String idUsuario) throws Exception {
 		Usuario usuario = servicio.historialUsuario(idUsuario);

@@ -26,7 +26,7 @@ import servicio.FactoriaServicios;
 public class ServicioAlquileres implements IServicioAlquileres {
 
 	private Repositorio<UsuarioJPA, String> repoUsuarios = FactoriaRepositorios.getRepositorio(UsuarioJPA.class);
-	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8080/")
+	private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://estaciones:8082/")
 			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private AlquileresRestClient alquileresClient = retrofit.create(AlquileresRestClient.class);
 	private IServicioEventos servEventos = FactoriaServicios.getServicio(IServicioEventos.class);
@@ -40,7 +40,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
 				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
-						LocalDateTime.now().plus(30, ChronoUnit.MINUTES));
+						LocalDateTime.now().plus(1, ChronoUnit.MINUTES));
+				// Aunque originalmente el tiempo de caducidad para las reservas era 30 minutos
+				// lo hemos reducido a un minuto para facilitar las pruebas
 				usuario.addReserva(reserva);
 				usuarioJPA = this.encodeUsuarioJPA(usuario);
 				repoUsuarios.update(usuarioJPA);
