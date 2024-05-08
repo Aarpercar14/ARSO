@@ -24,7 +24,6 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) {
 
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
-		System.out.println(usuario.toString());
 		Map<String, Object> claims = fetchUserInfo(usuario);
 		if (claims != null) {
 			Date caducidad = Date.from(Instant.now().plusSeconds(1000000000));
@@ -44,7 +43,7 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	private Map<String, Object> fetchUserInfo(DefaultOAuth2User usuario) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("sub", usuario.getAttribute("login"));
-		claims.put("rol", "usuario");
+		claims.put("rol", "gestor");
 		return claims;
 	}
 }

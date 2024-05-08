@@ -7,15 +7,11 @@ import org.springframework.data.domain.Pageable;
 
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.BicicletaDTO;
-import estaciones.modelo.EstacionDTOUsuario;
+import estaciones.modelo.Estacionamiento;
 
 public interface IServicioEstaciones {
 
-	public boolean consultaHueco(String id);
-
-	public boolean peticionAparcarBicicleta(String id);
-
-	public String altaEstacion(String nombre, int puestos, String direccion, int cordX, int cordY);
+	public String altaEstacion(String nombre, int puestos, String direccion, double cordX, double cordY);
 
 	public void bajaBici(String idBici, String motivo);
 
@@ -23,11 +19,11 @@ public interface IServicioEstaciones {
 
 	public List<Bicicleta> getListadoPaginadoGestor(String idEstacion);
 
-	public Page<EstacionDTOUsuario> getListadoPaginadoUsuario(Pageable pageable);
+	public List<Estacionamiento> getListadoPaginadoUsuario();
 
-	public String infoEstacion(String idEstacio);
+	public Estacionamiento infoEstacion(String idEstacio);
 
-	public Page<BicicletaDTO> getListadoBicisDisponibles(String estacion,Pageable pageable);
+	public List<Bicicleta> getListadoBicisDisponibles(String estacion);
 
 	public void estacionarUnaBicileta(String idBici, String idEstacion);
 	

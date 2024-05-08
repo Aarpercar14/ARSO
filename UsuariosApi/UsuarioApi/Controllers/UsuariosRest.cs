@@ -47,7 +47,6 @@ namespace Usuarios.Controllers
         public ActionResult<string> verificarOAuth(string oauth)
         {
             var result = servicio.verificarOauth(oauth);
-            Console.Write(result);
             return result;
         }
     }

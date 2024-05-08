@@ -2,6 +2,7 @@ using Usuarios.Modelo;
 using Repositorio;
 using System.Security.Claims;
 using System.Net.Http.Headers;
+using System.Globalization;
 
 namespace Usuarios.Servicio
 {
@@ -32,13 +33,15 @@ namespace Usuarios.Servicio
         public string altaUsuario(string id, string nombre, string code, string oauth, string rol)
         {
             Usuario user = repositorio.GetById(id);
-            Console.Write(code);
-            Console.Write(user.CodigoActivacion);
-            Console.Write(DateTime.Parse(code.Substring(6)) > DateTime.Now);
-            if (user.CodigoActivacion == code && DateTime.Parse(code.Substring(6)) > DateTime.Now)
+            DateTime date;
+            if (DateTime.TryParseExact(code.Substring(6), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
             {
-                repositorio.Update(new Usuario(id, nombre, oauth, code, rol));
-                return "Alta realizada con exito";
+                if (user.CodigoActivacion == code && date > DateTime.Now)
+                {
+                    repositorio.Update(new Usuario(id, nombre, oauth, code, rol));
+                    return "Alta realizada con exito";
+                }
+
             }
             return "Codigo de alta caducado o incorrecto";
         }
@@ -55,10 +58,11 @@ namespace Usuarios.Servicio
         public string verificarOauth(string oauth)
         {
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            foreach (Usuario user in usuarios){
-                if (user.Acceso == oauth) return "{\"id\": " + user.Id + ", \"nombre\": " + user.Nombre +
-                        ", \"rol\": " + user.Rol + "}";
-                
+            foreach (Usuario user in usuarios)
+            {
+                if (user.Acceso == oauth) return "{\"id\": \"" + user.Id + "\", \"nombre\": \"" + user.Nombre +
+                        "\", \"rol\": \"" + user.Rol + "\"}";
+
             }
             return "";
         }

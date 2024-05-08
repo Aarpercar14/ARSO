@@ -34,14 +34,14 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	private PasarelaClientRest pasarelaClient = retrofit.create(PasarelaClientRest.class);
 	
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
 		DefaultOAuth2User usuario = (DefaultOAuth2User) authentication.getPrincipal();
-		System.out.println(usuario.toString());
  		try {
 			String idGitHub = (String) usuario.getAttribute("login");
-			System.out.println(idGitHub);
 			ClaimsData claims = pasarelaClient.getUserClaims(idGitHub).execute().body();
+			System.out.println(claims.getClaims());
 			if (claims != null) {
 				Date caducidad = Date.from(Instant.now().plusSeconds(3600));
 				String token = Jwts.builder().setClaims(claims.getClaims()).signWith(SignatureAlgorithm.HS256, "secreto")

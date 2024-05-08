@@ -14,6 +14,6 @@ public class PasarelaControladorRest {
 	
 	@GetMapping("auth/oauth/{oauth}")
 	public ResponseEntity<String> autorizacion(@PathVariable String oauth){
-		 return new ResponseEntity<>(HttpStatus.OK);
+		 return new ResponseEntity<>("Token valido",HttpStatus.OK);
 	}
 }
