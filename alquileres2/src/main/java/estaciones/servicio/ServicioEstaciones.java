@@ -98,8 +98,11 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	public List<Bicicleta> getListadoBicisDisponibles(String estacion) {
 		Iterator<Bicicleta> bici = repositorioBicicletas.findAll().iterator();
 		List<Bicicleta> bicis = new ArrayList<Bicicleta>();
+		Bicicleta biciActual = bici.next();
 		while (bici.hasNext()) {
-			bicis.add(bici.next());
+			if(biciActual.getEstado().equals("disponible"))
+				bicis.add(biciActual);
+			biciActual = bici.next();
 		}
 		return bicis;
 	}

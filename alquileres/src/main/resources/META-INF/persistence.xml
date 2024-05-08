@@ -12,9 +12,9 @@
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password"
-				value="2012y300S" />
+				value="example" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/ARSO?serverTimezone=CET" />
+				value="jdbc:mysql://mysql:3306/ARSO?serverTimezone=CET" />
 			<property name="eclipselink.ddl-generation"
 				value="create-or-extend-tables" />
 			<property name="eclipselink.query-results-cache"

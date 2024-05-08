@@ -40,7 +40,7 @@ public class AlquilerControladorRest {
 	// usuario"'
 	@POST
 	@Path("/usuarios/{idUsuario}/reservas/{idBicicleta}")
-	@RolesAllowed("usuario")
+	//@RolesAllowed("usuario")
 	public Response reservar(@PathParam("idUsuario") String idUsuario,
 							 @PathParam("idBicicleta") String idBicicleta)
 							 throws Exception {

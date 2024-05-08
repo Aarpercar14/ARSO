@@ -3,6 +3,7 @@ package alquileres.modelo;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import repositorio.Identificable;
@@ -106,9 +107,12 @@ public class Usuario implements Identificable {
 	}
 
 	public void eliminarCaducadas() {
-		for (Reserva r : reservas) {
-			if (r.caducada())
-				reservas.remove(r);
+		Iterator<Reserva> iterator = reservas.iterator();
+		while (iterator.hasNext()) {
+		    Reserva r = iterator.next();
+		    if (r.caducada()) {
+		        iterator.remove();
+		    }
 		}
 	}
 }

@@ -42,6 +42,6 @@ public class Reserva {
 	}	
 	
 	public boolean caducada() {
-		return LocalDateTime.now().isAfter(caducidad);
+		return caducidad.isBefore(LocalDateTime.now());
 	}
 }
