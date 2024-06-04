@@ -18,16 +18,10 @@ namespace Usuarios.Controllers
             this.servicio = servicio;
         }
 
-        [HttpGet("codigo/{id}")]
-        public ActionResult<string> CodigoActivacion(string id)
-        {
-            return servicio.solicitudCodeActiv(id);
-        }
-
         [HttpPost("alta/{id}")]
-        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string code, [FromQuery] string oauth, [FromQuery] string rol)
+        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string oauth, [FromQuery] string rol)
         {
-            return servicio.altaUsuario(id, nombre, code, oauth, rol);
+            return servicio.altaUsuario(id, nombre, oauth, rol);
         }
 
         [HttpPost("baja/{id}")]

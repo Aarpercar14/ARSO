@@ -8,8 +8,7 @@ namespace Usuarios.Servicio
 {
     public interface IServicioUsuarios
     {
-        string solicitudCodeActiv(string id);
-        string altaUsuario(string id, string nombre, string code, string oauth, string rol);
+        string altaUsuario(string id, string nombre, string oauth,string rol);
         string bajaUsuario(string id);
         string verificarOauth(string oauth);
         List<Usuario> listadoUsuarios();
@@ -21,29 +20,11 @@ namespace Usuarios.Servicio
         {
             repositorio = repos;
         }
-        public string solicitudCodeActiv(string id)
+        public string altaUsuario(string id, string nombre, string oauth, string rol)
         {
-            const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            Random rnd = new Random();
-            string code = new string(Enumerable.Repeat(caracteres, 6)
-                .Select(s => s[rnd.Next(s.Length)]).ToArray());
-            repositorio.Add(new Usuario(id, code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy")));
-            return code + DateTime.Now.AddDays(7).ToString("MM/dd/yyyy");
-        }
-        public string altaUsuario(string id, string nombre, string code, string oauth, string rol)
-        {
-            Usuario user = repositorio.GetById(id);
-            DateTime date;
-            if (DateTime.TryParseExact(code.Substring(6), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
-            {
-                if (user.CodigoActivacion == code && date > DateTime.Now)
-                {
-                    repositorio.Update(new Usuario(id, nombre, oauth, code, rol));
-                    return "Alta realizada con exito";
-                }
-
-            }
-            return "Codigo de alta caducado o incorrecto";
+            Usuario user=new Usuario(id, nombre, oauth, rol);
+            repositorio.Add(user);
+            return "Usuario "+id+" ha sido dado de alta correctamente";
         }
         public string bajaUsuario(string id)
         {
