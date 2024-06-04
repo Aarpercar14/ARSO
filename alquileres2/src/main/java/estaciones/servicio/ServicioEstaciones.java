@@ -127,7 +127,6 @@ public class ServicioEstaciones implements IServicioEstaciones {
 			e.printStackTrace();
 		}
 	}
-
 	private boolean retirarUnaBicicleta(String idBici) {
 		for (Estacionamiento e : repositorioEst.findAll()) {
 			for (Bicicleta b : e.getBicicletas()) {
