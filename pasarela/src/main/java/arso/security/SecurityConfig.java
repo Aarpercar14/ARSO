@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/api/usuarios/baja**").hasAuthority("gestor")
 					.antMatchers("/api/usuarios/listadoUsuario**").hasAuthority("gestor")
 					.antMatchers("/api/usuarios/**").hasAuthority("gestor")
-					.antMatchers("/pasarela/**").hasAuthority("usuario")
+					.antMatchers("/pasarela/**").permitAll()
 					.and()
 					.oauth2Login()
 					.successHandler(this.successHandler)

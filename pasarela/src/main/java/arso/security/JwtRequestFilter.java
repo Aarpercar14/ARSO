@@ -37,10 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		if (claim != null) {
 			ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority(claim.get("rol").toString()));
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claim.getSubject(), null,
-					authorities);
-			// Establecemos la autenticación en el contexto de seguridad
-			// Se interpreta como que el usuario ha superado la autenticación
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claim.getSubject(), null,authorities);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}
 		try {

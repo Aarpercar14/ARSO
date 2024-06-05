@@ -26,6 +26,7 @@ public class Estacionamiento implements Identificable {
 	public Estacionamiento(String nombre, int numPuesto, String postal, double x, double y) {
 		this.nombre = nombre;
 		this.numPuestos = numPuesto;
+		this.postal=postal;
 		this.cordX = x;
 		this.cordY = y;
 		this.fechaAlta = LocalDateTime.now();

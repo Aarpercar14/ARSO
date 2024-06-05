@@ -81,7 +81,7 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de bicicletas", description = "Muestra un listado paginado de todas las bicicletas guardadas en la base de datos")
 	@GetMapping("/bicis/{idEstacion}")
-	@PreAuthorize("hasAuthority('usuario') nad hasAuthority('gestor')")
+	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<Bicicleta>> getListadoPaginadoGestor(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -109,7 +109,7 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de estaciones", description = "Muestra un listado paginado de todas las estaciones en la base de datos una estacion y la da de alta en la base de datos")
 	@GetMapping("/listaEstaciones")
-	@PreAuthorize("hasAuthority('usuario') nad hasAuthority('gestor')")
+	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<EstacionDTOUsuario>> getListadoPaginadoUsuario(@RequestParam int page,
 			@RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -130,7 +130,7 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Muestra bicicletas disponibles", description = "Muestra a los usuarios las bicicletas disponibles de una estacion")
 	@GetMapping("/bicisDisponibles/{idEstacion}")
-	@PreAuthorize("hasAuthority('usuario') nad hasAuthority('gestor')")
+	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<BicicletaDTO>> getListadoBicisBisponibles(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
