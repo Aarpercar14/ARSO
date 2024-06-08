@@ -26,7 +26,6 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			.addConverterFactory(JacksonConverterFactory.create()).build();
 	private PasarelaClientRest pasarelaClient = retrofit.create(PasarelaClientRest.class);
 	
-	
 	@SuppressWarnings("unused")
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
@@ -37,7 +36,9 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			System.out.println(claims.getClaims());
 			if (claims != null) {
 				Date caducidad = Date.from(Instant.now().plusSeconds(3600));
-				String token = Jwts.builder().setClaims(claims.getClaims()).signWith(SignatureAlgorithm.HS256, "secreto")
+				String token = Jwts.builder()
+						.setClaims(claims.getClaims())
+						.signWith(SignatureAlgorithm.HS256, "secreto")
 						.setExpiration(caducidad).compact();
 				try {
 					response.getWriter().append(token);
@@ -50,6 +51,5 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 	}
 }

@@ -11,5 +11,4 @@ public class PasarelaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PasarelaApplication.class, args);
 	}
-
 }
