@@ -1105,19 +1105,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/sergioillan/.nuget/packages/": {}
+    "C:\\Users\\aarpe\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
+      "projectUniqueName": "C:\\Users\\aarpe\\Desktop\\ARSO\\ARSO\\UsuariosApi\\UsuarioApi\\UsuarioApi.csproj",
       "projectName": "UsuarioApi",
-      "projectPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/UsuarioApi.csproj",
-      "packagesPath": "/Users/sergioillan/.nuget/packages/",
-      "outputPath": "/Users/sergioillan/git/ARSO/UsuariosApi/UsuarioApi/obj/",
+      "projectPath": "C:\\Users\\aarpe\\Desktop\\ARSO\\ARSO\\UsuariosApi\\UsuarioApi\\UsuarioApi.csproj",
+      "packagesPath": "C:\\Users\\aarpe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\aarpe\\Desktop\\ARSO\\ARSO\\UsuariosApi\\UsuarioApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/sergioillan/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\aarpe\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1178,7 +1178,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

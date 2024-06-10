@@ -19,9 +19,9 @@ namespace Usuarios.Controllers
         }
 
         [HttpPost("alta/{id}")]
-        public ActionResult<string> Alta(string id, [FromQuery] string nombre, [FromQuery] string oauth, [FromQuery] string rol)
+        public ActionResult<string> Alta(string id, [FromQuery] string password, [FromQuery] string nombre, [FromQuery] string oauth, [FromQuery] string rol)
         {
-            return servicio.altaUsuario(id, nombre, oauth, rol);
+            return servicio.altaUsuario(id, password, nombre, oauth, rol);
         }
 
         [HttpPost("baja/{id}")]
@@ -42,6 +42,12 @@ namespace Usuarios.Controllers
         {
             var result = servicio.verificarOauth(oauth);
             return result;
+        }
+
+        [HttpGet("login")]
+        public ActionResult<string> verificarLogin([FromQuery] string id, [FromQuery] string password)
+        {
+            return servicio.verficarLogin(id, password);
         }
     }
 }

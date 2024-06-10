@@ -8,9 +8,10 @@ namespace Usuarios.Servicio
 {
     public interface IServicioUsuarios
     {
-        string altaUsuario(string id, string nombre, string oauth,string rol);
+        string altaUsuario(string id, string password, string nombre, string oauth, string rol);
         string bajaUsuario(string id);
         string verificarOauth(string oauth);
+        string verficarLogin(string id, string password);
         List<Usuario> listadoUsuarios();
     }
     public class ServicioUsuarios : IServicioUsuarios
@@ -20,11 +21,11 @@ namespace Usuarios.Servicio
         {
             repositorio = repos;
         }
-        public string altaUsuario(string id, string nombre, string oauth, string rol)
+        public string altaUsuario(string id, string password, string nombre, string oauth, string rol)
         {
-            Usuario user=new Usuario(id, nombre, oauth, rol);
+            Usuario user = new Usuario(id, password, nombre, oauth, rol);
             repositorio.Add(user);
-            return "Usuario "+id+" ha sido dado de alta correctamente";
+            return "Usuario " + id + " ha sido dado de alta correctamente";
         }
         public string bajaUsuario(string id)
         {
@@ -46,6 +47,16 @@ namespace Usuarios.Servicio
 
             }
             return "";
+        }
+        public string verificarLogin(string id, string password)
+        {
+            List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
+            foreach (Usuario user in usuarios)
+            {
+                if (user.Id == id && user.Password == password)
+                    return user.Rol;
+            }
+            return "No existe usuario para este Id y Contraseña";
         }
         public List<Usuario> listadoUsuarios()
         {
