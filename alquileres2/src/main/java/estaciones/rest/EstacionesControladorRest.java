@@ -17,7 +17,6 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +55,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de alta una estacion", description = "Crea una estacion y la da de alta en la base de datos")
 	@PostMapping("/alta")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> createEstacionamiento(@Valid @RequestBody NuevaEstacionDTO estacion) {
 		String iden = servicio.altaEstacion(estacion.getNombre(), estacion.getPuestos(), estacion.getPostal(),
 				estacion.getCordY(), estacion.getCordX());
@@ -65,7 +63,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de alta una bicicleta", description = "Crea una bicicleta y la da de alta en la base de datos y se aparca en la estacion especificada")
 	@PostMapping("/bicicleta/{idEstacion}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> createBicicleta(@RequestParam String modelo, @PathVariable String idEstacion) {
 		String iden = servicio.altaBici(modelo, idEstacion);
 		return new ResponseEntity<>(iden, HttpStatus.OK);
@@ -73,7 +70,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Dar de baja estacion", description = "Da de baja una bicicleta, la retira de la estacion en la que este y cambia su estado")
 	@PostMapping("baja/{idBici}")
-	@PreAuthorize("hasAuthority('gestor')")
 	public ResponseEntity<String> darDeBajaBicicleta(@PathVariable String idBici, @RequestParam String motivo) {
 		this.servicio.bajaBici(idBici, motivo);
 		return new ResponseEntity<>("Bicicleta dada de baja correctamente", HttpStatus.OK);
@@ -81,7 +77,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de bicicletas", description = "Muestra un listado paginado de todas las bicicletas guardadas en la base de datos")
 	@GetMapping("/bicis/{idEstacion}")
-	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<Bicicleta>> getListadoPaginadoGestor(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -109,7 +104,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de estaciones", description = "Muestra un listado paginado de todas las estaciones en la base de datos una estacion y la da de alta en la base de datos")
 	@GetMapping("/listaEstaciones")
-	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<EstacionDTOUsuario>> getListadoPaginadoUsuario(@RequestParam int page,
 			@RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
@@ -130,7 +124,6 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Muestra bicicletas disponibles", description = "Muestra a los usuarios las bicicletas disponibles de una estacion")
 	@GetMapping("/bicisDisponibles/{idEstacion}")
-	@PreAuthorize("hasAuthority('usuario') and hasAuthority('gestor')")
 	public PagedModel<EntityModel<BicicletaDTO>> getListadoBicisBisponibles(@PathVariable String idEstacion,
 			@RequestParam int page, @RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());

@@ -8,9 +8,9 @@ namespace Usuarios.Servicio
 {
     public interface IServicioUsuarios
     {
-        string altaUsuario(string id, string password, string nombre, string oauth, string rol);
+        string altaUsuario(string id, string password, string nombre, string rol);
         string bajaUsuario(string id);
-        string verificarOauth(string oauth);
+        // string verificarOauth(string oauth);
         string verficarLogin(string id, string password);
         List<Usuario> listadoUsuarios();
     }
@@ -21,9 +21,9 @@ namespace Usuarios.Servicio
         {
             repositorio = repos;
         }
-        public string altaUsuario(string id, string password, string nombre, string oauth, string rol)
+        public string altaUsuario(string id, string password, string nombre, string rol)
         {
-            Usuario user = new Usuario(id, password, nombre, oauth, rol);
+            Usuario user = new Usuario(id, password, nombre, rol);
             repositorio.Add(user);
             return "Usuario " + id + " ha sido dado de alta correctamente";
         }
@@ -37,18 +37,18 @@ namespace Usuarios.Servicio
             }
             return "Usuario nulo, no se puede dar de baja";
         }
-        public string verificarOauth(string oauth)
-        {
-            List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
-            foreach (Usuario user in usuarios)
-            {
-                if (user.Acceso == oauth) return "{\"id\": \"" + user.Id + "\", \"nombre\": \"" + user.Nombre +
-                        "\", \"rol\": \"" + user.Rol + "\"}";
+        // public string verificarOauth(string oauth)
+        // {
+        //     List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
+        //     foreach (Usuario user in usuarios)
+        //     {
+        //         if (user.Acceso == oauth) return "{\"id\": \"" + user.Id + "\", \"nombre\": \"" + user.Nombre +
+        //                 "\", \"rol\": \"" + user.Rol + "\"}";
 
-            }
-            return "";
-        }
-        public string verificarLogin(string id, string password)
+        //     }
+        //     return "";
+        // }
+        public string verficarLogin(string id, string password)
         {
             List<Usuario> usuarios = new List<Usuario>(repositorio.GetAll());
             foreach (Usuario user in usuarios)
