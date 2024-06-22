@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "DTO de la entidad Estacion")
 public class EstacionDTOUsuario {
+	@Schema(description="Id de usuario")
+	private String id;
 	@Schema(description="Nombre de la estacion")
 	@NotNull
 	private String nombre;
@@ -24,8 +26,9 @@ public class EstacionDTOUsuario {
 	@Schema(description="Fecha de alta")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime fechaAlta;
-	public EstacionDTOUsuario(String nombre, boolean numPuestos, String postal, double cordY, double cordX, LocalDateTime fechaAlta) {
+	public EstacionDTOUsuario(String id,String nombre, boolean numPuestos, String postal, double cordY, double cordX, LocalDateTime fechaAlta) {
 		super();
+		this.id=id;
 		this.nombre = nombre;
 		this.puestosLibres = numPuestos;
 		this.postal = postal;

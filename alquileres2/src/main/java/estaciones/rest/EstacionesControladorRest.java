@@ -158,7 +158,7 @@ public class EstacionesControladorRest {
 	}
 
 	private EstacionDTOUsuario parseToEstacionDTOUsuario(Estacionamiento estacion) {
-		return new EstacionDTOUsuario(estacion.getNombre(), estacion.getNumPuestos() > 0, estacion.getPostal(),
+		return new EstacionDTOUsuario(estacion.getId(), estacion.getNombre(), estacion.getNumPuestos() > 0, estacion.getPostal(),
 				estacion.getCordY(), estacion.getCordX(), estacion.getFechaAlta());
 	}
 
