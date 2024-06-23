@@ -2,11 +2,7 @@ package estaciones.servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import estaciones.modelo.Bicicleta;
-import estaciones.modelo.BicicletaDTO;
 import estaciones.modelo.Estacionamiento;
 
 public interface IServicioEstaciones {
@@ -26,5 +22,7 @@ public interface IServicioEstaciones {
 	public List<Bicicleta> getListadoBicisDisponibles(String estacion);
 
 	public void estacionarUnaBicileta(String idBici, String idEstacion);
+	
+	public void borrarEstacion(String id);
 	
 }

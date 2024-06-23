@@ -139,4 +139,10 @@ public class ServicioEstaciones implements IServicioEstaciones {
 		}
 		return false;
 	}
+
+	@Override
+	public void borrarEstacion(String id) {
+		repositorioEst.delete(repositorioEst.findById(id).get());
+		
+	}
 }

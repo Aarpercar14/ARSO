@@ -17,6 +17,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +41,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class EstacionesControladorRest {
 
 	private IServicioEstaciones servicio;
-
+	
+	
+	@Autowired
+	private PagedResourcesAssembler<Estacionamiento> pagedResourcesAssemblerEst;
 	@Autowired
 	private PagedResourcesAssembler<EstacionDTOUsuario> pagedResourcesAssemblerEstDTO;
 	@Autowired
@@ -104,22 +108,18 @@ public class EstacionesControladorRest {
 
 	@Operation(summary = "Listado de estaciones", description = "Muestra un listado paginado de todas las estaciones en la base de datos una estacion y la da de alta en la base de datos")
 	@GetMapping("/listaEstaciones")
-	public PagedModel<EntityModel<EstacionDTOUsuario>> getListadoPaginadoUsuario(@RequestParam int page,
+	public PagedModel<EntityModel<Estacionamiento>> getListadoPaginadoUsuario(@RequestParam int page,
 			@RequestParam int size) {
 		Pageable paginacion = PageRequest.of(page, size, Sort.by("nombre").ascending());
 		List<Estacionamiento> resultado = servicio.getListadoPaginadoUsuario();
-		List<EstacionDTOUsuario> dtos = new ArrayList<EstacionDTOUsuario>();
-		for (Estacionamiento estacion : resultado) {
-			dtos.add(parseToEstacionDTOUsuario(estacion));
-		}
 		int start;
-		if (paginacion.getOffset() > dtos.size())
+		if (paginacion.getOffset() > resultado.size())
 			start = 1;
 		else
 			start = (int) paginacion.getOffset();
-		int end = Math.min((start + paginacion.getPageSize()), dtos.size());
-		List<EstacionDTOUsuario> estacionesP = dtos.subList(start, end);
-		return this.pagedResourcesAssemblerEstDTO.toModel(new PageImpl<>(estacionesP, paginacion, estacionesP.size()));
+		int end = Math.min((start + paginacion.getPageSize()), resultado.size());
+		List<Estacionamiento> estacionesP = resultado.subList(start, end);
+		return this.pagedResourcesAssemblerEst.toModel(new PageImpl<>(estacionesP, paginacion, estacionesP.size()));
 	}
 
 	@Operation(summary = "Muestra bicicletas disponibles", description = "Muestra a los usuarios las bicicletas disponibles de una estacion")
@@ -156,6 +156,12 @@ public class EstacionesControladorRest {
 		info = info.replaceFirst("Estacionamiento ", "\"Estacionamiento:");
 		return ResponseEntity.ok(info + "\"");
 	}
+	@DeleteMapping(value = "")
+	public ResponseEntity<String> deleteEstacion(@PathVariable String idEstacion) {
+		servicio.borrarEstacion(idEstacion);
+		return ResponseEntity.ok("borrado");
+	}
+
 
 	private EstacionDTOUsuario parseToEstacionDTOUsuario(Estacionamiento estacion) {
 		return new EstacionDTOUsuario(estacion.getId(), estacion.getNombre(), estacion.getNumPuestos() > 0, estacion.getPostal(),
