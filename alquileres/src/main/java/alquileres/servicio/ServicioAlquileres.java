@@ -1,6 +1,9 @@
 package alquileres.servicio;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -11,7 +14,6 @@ import java.util.regex.Pattern;
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import persistencia.jpa.AlquilerJPA;
 import persistencia.jpa.ReservaJPA;
 import persistencia.jpa.UsuarioJPA;
@@ -122,7 +124,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 
 			String info;
 			info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
-			System.out.println(info);
 			if (hayHuecosDisponibles(info)) {
 				try {
 					servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(), idEstacion);
@@ -132,10 +133,10 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				}
 				info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute()
 						.body();
-				System.out.println("idBici= " + usuario.alquilerActivo().getIdBicicleta() + ", fechaFin= "
-						+ usuario.alquilerActivo().getFin());
+				Alquiler alq=usuario.alquilerActivo();
+				alq.finalizar(LocalDateTime.now());
 				usuario.getAlquileres().remove(usuario.alquilerActivo());
-				System.out.println(usuario.getAlquileres().toString());
+				usuario.getAlquileres().add(alq);
 			}
 			user = encodeUsuarioJPA(usuario);
 			repoUsuarios.update(user);
@@ -239,7 +240,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private boolean hayHuecosDisponibles(String info) {
-
 		Pattern pattern = Pattern.compile("numPuestos=(\\d+)");
 		Matcher matcher = pattern.matcher(info);
 		if (matcher.find()) {
@@ -251,5 +251,15 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		}
 		return false;
 	}
+	
+	private String convertStreamToString(ByteArrayInputStream input) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(input));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = bf.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        return sb.toString();
+    }
 
 }

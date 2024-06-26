@@ -156,7 +156,7 @@ public class EstacionesControladorRest {
 		info = info.replaceFirst("Estacionamiento ", "\"Estacionamiento:");
 		return ResponseEntity.ok(info + "\"");
 	}
-	@DeleteMapping(value = "")
+	@DeleteMapping(value = "/{idEstacion}")
 	public ResponseEntity<String> deleteEstacion(@PathVariable String idEstacion) {
 		servicio.borrarEstacion(idEstacion);
 		return ResponseEntity.ok("borrado");
