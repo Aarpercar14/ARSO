@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import persistencia.jpa.AlquilerJPA;
 import persistencia.jpa.ReservaJPA;
 import persistencia.jpa.UsuarioJPA;
@@ -38,14 +39,18 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			if (usuarioJPA == null)
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
-						LocalDateTime.now().plus(1, ChronoUnit.MINUTES));
-				// Aunque originalmente el tiempo de caducidad para las reservas era 30 minutos
-				// lo hemos reducido a un minuto para facilitar las pruebas
-				usuario.addReserva(reserva);
-				usuarioJPA = this.encodeUsuarioJPA(usuario);
-				repoUsuarios.update(usuarioJPA);
+			Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
+					LocalDateTime.now().plus(1, ChronoUnit.MINUTES));
+			// Aunque originalmente el tiempo de caducidad para las reservas era 30 minutos
+			// lo hemos reducido a un minuto para facilitar las pruebas
+			usuario.addReserva(reserva);
+			usuarioJPA = this.encodeUsuarioJPA(usuario);
+			repoUsuarios.update(usuarioJPA);
+			try {
+				servEventos.publicarEventoBicicletaReservada(IdBicicleta);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -57,16 +62,14 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		try {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			if (usuario.reservaActiva() != null) {
-				Alquiler alquiler = new Alquiler(usuario.reservaActiva().getIdBicicleta(), LocalDateTime.now());
-				usuario.addAlquiler(alquiler);
-				usuarioJPA = this.encodeUsuarioJPA(usuario);
-				repoUsuarios.update(usuarioJPA);
-				try {
-					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			Alquiler alquiler = new Alquiler(usuario.reservaActiva().getIdBicicleta(), LocalDateTime.now());
+			usuario.addAlquiler(alquiler);
+			usuarioJPA = this.encodeUsuarioJPA(usuario);
+			repoUsuarios.update(usuarioJPA);
+			try {
+				servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
@@ -80,18 +83,16 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			if (usuarioJPA == null)
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
-			if (usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado()) {
-				Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
-				usuario.addAlquiler(alquiler);
-				usuarioJPA = this.encodeUsuarioJPA(usuario);
-				repoUsuarios.update(usuarioJPA);
-				try {
-					servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
+			usuario.addAlquiler(alquiler);
+			usuarioJPA = this.encodeUsuarioJPA(usuario);
+			repoUsuarios.update(usuarioJPA);
+			try {
+				servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 		} catch (EntidadNoEncontrada | RepositorioException e) {
 			e.printStackTrace();
 		}
@@ -118,24 +119,26 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
-			if (usuario.alquilerActivo().activa()) {
-				String info;
-				info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
-				System.out.println(info);
-				if (hayHuecosDisponibles(info)) {
-					try {
-						servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(),
-								idEstacion);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute().body();
-					usuario.getAlquileres().remove(usuario.alquilerActivo());
+
+			String info;
+			info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
+			System.out.println(info);
+			if (hayHuecosDisponibles(info)) {
+				try {
+					servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(), idEstacion);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				user = encodeUsuarioJPA(usuario);
-				repoUsuarios.update(user);
+				info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute()
+						.body();
+				System.out.println("idBici= " + usuario.alquilerActivo().getIdBicicleta() + ", fechaFin= "
+						+ usuario.alquilerActivo().getFin());
+				usuario.getAlquileres().remove(usuario.alquilerActivo());
+				System.out.println(usuario.getAlquileres().toString());
 			}
+			user = encodeUsuarioJPA(usuario);
+			repoUsuarios.update(user);
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}

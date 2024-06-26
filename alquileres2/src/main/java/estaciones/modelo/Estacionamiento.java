@@ -56,7 +56,7 @@ public class Estacionamiento implements Identificable {
 	}
 	
 	public List<Bicicleta> findDisponibles(){
-		return bicicletas.stream().filter(b->b.getEstado().equals("disponible")).collect(Collectors.toList());
+		return bicicletas.stream().collect(Collectors.toList());
 	}
 
 	@Override

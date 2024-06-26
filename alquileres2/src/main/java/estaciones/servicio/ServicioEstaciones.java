@@ -95,16 +95,9 @@ public class ServicioEstaciones implements IServicioEstaciones {
 	}
 
 	@Override
-	public List<Bicicleta> getListadoBicisDisponibles(String estacion) {
-		Iterator<Bicicleta> bici = repositorioBicicletas.findAll().iterator();
-		List<Bicicleta> bicis = new ArrayList<Bicicleta>();
-		Bicicleta biciActual = bici.next();
-		while (bici.hasNext()) {
-			if(biciActual.getEstado().equals("disponible"))
-				bicis.add(biciActual);
-			biciActual = bici.next();
-		}
-		return bicis;
+	public List<Bicicleta> getListadoBicisDisponibles(String idEstacion) {
+		Estacionamiento estacion = repositorioEst.findById(idEstacion).get();
+		return estacion.findDisponibles();
 	}
 
 	@Override
@@ -119,9 +112,11 @@ public class ServicioEstaciones implements IServicioEstaciones {
 				throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
 			Bicicleta bici = obici.get();
 			if (estacion.getNumPuestos() > 0) {
+				bici.setEstado("disponible");
 				estacion.estacionarBici(bici);
 			} else
 				System.out.println("No hay sitios disponibles");
+			repositorioBicicletas.save(bici);
 			repositorioEst.save(estacion);
 		} catch (RepositorioException e) {
 			e.printStackTrace();

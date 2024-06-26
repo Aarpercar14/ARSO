@@ -63,7 +63,7 @@ public class Bicicleta implements Identificable {
 		return estado;
 	}
 
-	private void setEstado(String estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 

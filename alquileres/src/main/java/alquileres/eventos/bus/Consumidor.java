@@ -24,7 +24,7 @@ public class Consumidor {
 	
 	public static void main(String[] args) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUri("amqp://guest:guest@rabbitmq:5672");
+		factory.setUri("amqp://guest:guest@localhost:5672");
 		
 		Connection connection = factory.newConnection();
 		final Channel channel = connection.createChannel();

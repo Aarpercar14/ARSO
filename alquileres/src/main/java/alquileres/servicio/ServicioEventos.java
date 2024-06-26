@@ -36,6 +36,14 @@ public class ServicioEventos implements IServicioEventos {
 		productor.enviarEvento(".bicicleta-alquilada", new Evento(idBici, LocalDateTime.now(), ""));
 		productor.cerrarConexion();
 	}
+	
+	@Override
+	public void publicarEventoBicicletaReservada(String idBici) throws Exception {
+		Productor productor = Productor.getInstance();
+		productor.abrirConexion();
+		productor.enviarEvento(".bicicleta-reservada", new Evento(idBici, LocalDateTime.now(), ""));
+		productor.cerrarConexion();
+	}
 
 	@Override
 	public void suscribirEventoBicicletaDesactivada(String idBici) {

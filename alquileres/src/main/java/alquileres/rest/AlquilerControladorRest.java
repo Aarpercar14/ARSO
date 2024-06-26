@@ -8,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -93,7 +94,13 @@ public class AlquilerControladorRest {
 			return Response.status(Response.Status.NO_CONTENT).build();
 		return Response.status(Response.Status.OK).entity(usuarioToDTO(usuario)).build();
 	}
-
+	
+	@PUT
+	@Path("/dejarBici/{idUsuario}/{idEstacion}")
+	public Response dejarBici(@PathParam("idUsuario") String idUsuario, @PathParam("idEstacion") String idEstacion) {
+		servicio.dejarBicicleta(idUsuario, idEstacion);
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
 	private UsuarioDTO usuarioToDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getId());
 		usuarioDTO.setReservas(usuario.getReservas());

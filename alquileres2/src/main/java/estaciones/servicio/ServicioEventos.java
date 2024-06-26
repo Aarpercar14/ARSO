@@ -12,7 +12,6 @@ import estaciones.modelo.Bicicleta;
 import estaciones.modelo.Estacionamiento;
 import estaciones.repositorio.RepositorioBicicletas;
 import estaciones.repositorio.RepositorioEstaciones;
-import repositorio.RepositorioException;
 
 @Service
 public class ServicioEventos implements IServicioEventos {
@@ -44,11 +43,18 @@ public class ServicioEventos implements IServicioEventos {
 	}
 	
 	@Override
+	public void suscribirEventoBicicletaReservada(String idBici, LocalDateTime fecha) {
+		Bicicleta bici = repBicis.findById(idBici).get();
+		bici.cambioEstadoBici("reservada");
+		updateBici(idBici, "reservada");
+		repBicis.save(bici);
+	}
+	
+	@Override
 	public void suscribirEventoAlquilerConcluido(String idBici, String idEstacion, LocalDateTime fecha) {
 		Bicicleta bici = repBicis.findById(idBici).get();
 		bici.cambioEstadoBici("disponible");
 		repBicis.save(bici);
-//		estacionarBici(idBici, idEstacion);
 	}
 	
 	private boolean retirarBici(String idBici) {
@@ -64,16 +70,30 @@ public class ServicioEventos implements IServicioEventos {
 		return false;
 	}
 	
-	private void estacionarBici(String idBici, String idEstacion) {
-		try {
-			Estacionamiento estacion = repEstaciones.findById(idEstacion).get();
-			Bicicleta bici = repBicis.findById(idBici).get();
-			if(estacion.getNumPuestos()>0) {
-				estacion.estacionarBici(bici);
-			} else System.out.println("No hay sitios disponibles");
-			repEstaciones.save(estacion);
-		} catch (RepositorioException e) {
-			e.printStackTrace();
+	private boolean updateBici(String idBici, String estado) {
+		System.out.println(idBici);
+		for(Estacionamiento e : repEstaciones.findAll()) {
+			for(Bicicleta b : e.getBicicletas()) {
+				if(b.getId().equals(idBici)) {
+					b.setEstado(estado);
+					repEstaciones.save(e);
+					return true;
+				}
+			}
 		}
+		return false;
 	}
+	
+//	private void estacionarBici(String idBici, String idEstacion) {
+//		try {
+//			Estacionamiento estacion = repEstaciones.findById(idEstacion).get();
+//			Bicicleta bici = repBicis.findById(idBici).get();
+//			if(estacion.getNumPuestos()>0) {
+//				estacion.estacionarBici(bici);
+//			} else System.out.println("No hay sitios disponibles");
+//			repEstaciones.save(estacion);
+//		} catch (RepositorioException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
