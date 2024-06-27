@@ -44,4 +44,12 @@ public class Reserva {
 	public boolean caducada() {
 		return caducidad.isBefore(LocalDateTime.now());
 	}
+
+	@Override
+	public String toString() {
+		return "Reserva [idBicicleta=" + idBicicleta + ", creada=" + creada + ", caducidad=" + caducidad + "]";
+	}
+	
+	
+	
 }

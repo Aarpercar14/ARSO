@@ -55,4 +55,11 @@ public class Alquiler {
 		return duracionMinutos;
 	}
 
+	@Override
+	public String toString() {
+		return "Alquiler [idBicicleta=" + idBicicleta + ", inicio=" + inicio + ", fin=" + fin + "]";
+	}
+	
+	
+
 }

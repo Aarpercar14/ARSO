@@ -137,9 +137,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				alq.finalizar(LocalDateTime.now());
 				usuario.getAlquileres().remove(usuario.alquilerActivo());
 				usuario.getAlquileres().add(alq);
+				System.out.println(usuario);
 			}
 			user = encodeUsuarioJPA(usuario);
 			repoUsuarios.update(user);
+			System.out.println(repoUsuarios.getById(idUsuario));
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
@@ -251,15 +253,4 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		}
 		return false;
 	}
-	
-	private String convertStreamToString(ByteArrayInputStream input) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(input));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = bf.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        return sb.toString();
-    }
-
 }
