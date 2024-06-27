@@ -139,20 +139,14 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute()
 						.body();
 				Alquiler alq = usuario.alquilerActivo();
-				alq.finalizar(LocalDateTime.now());
-				System.out.println("Alquileres:");
-				for (Alquiler a : usuario.getAlquileres())
-					System.out.println(
-							"IdBici= " + a.getIdBicicleta() + ", Inicio= " + a.getInicio() + ", Fin= " + a.getFin());
-
-			}
-			System.out.println("Usuario: Id: " + usuario.getId() + ", alquileres: " + usuario.getAlquileres().toString()
-					+ ", reservas: " + usuario.getReservas());
+				System.out.println(alq);
+				alq.setFin(LocalDateTime.now());
+				System.out.println("El usuario "+usuario+"\n El alquiler: "+alq);
+				usuario.addAlquiler(alq);
+			}			
 			repoUsuarios.delete(user);
 			user = encodeUsuarioJPA(usuario);
-			System.out.println(decodeUsuarioJPA(user));
-			repoUsuarios.update(user);
-			System.out.println("esto es lo que se guarda en la BD "+decodeUsuarioJPA(repoUsuarios.getById(idUsuario)));
+			repoUsuarios.add(user);
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}

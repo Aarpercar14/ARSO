@@ -76,19 +76,28 @@ public class Usuario implements Identificable {
 	}
 
 	public Reserva reservaActiva() {
+		Reserva result=null;
 		if (!reservas.isEmpty()) {
-			if (reservas.get(reservas.size() - 1).activa()) {
-				return reservas.get(reservas.size() - 1);
+			LocalDateTime p=null;
+			for(Reserva alq:reservas) {
+				if((p==null)||(alq.getCreada().isAfter(p))) {
+					result=alq;
+				}
 			}
+			return result;
 		}
 		return null;
 	}
 
 	public Alquiler alquilerActivo() {
+		Alquiler result=null;
 		if (!alquileres.isEmpty()) {
-			if (alquileres.get(alquileres.size() - 1).activa()) {
-				return alquileres.get(alquileres.size() - 1);
+			for(Alquiler alq:alquileres) {
+				if(alq.getFin()==null) {
+					result=alq;
+				}
 			}
+			return result;
 		}
 		return null;
 	}

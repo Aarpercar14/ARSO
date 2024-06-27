@@ -16,6 +16,13 @@ public class Alquiler {
 		this.inicio = inicio;
 		this.fin = null;
 	}
+	
+	public Alquiler(String idBicicleta, LocalDateTime inicio, LocalDateTime fin) {
+		super();
+		this.idBicicleta = idBicicleta;
+		this.inicio = inicio;
+		this.fin = fin;
+	}
 
 	public Alquiler() {
 	}
