@@ -42,7 +42,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				usuarioJPA = crearUsuario(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			Reserva reserva = new Reserva(IdBicicleta, LocalDateTime.now(),
-					LocalDateTime.now().plus(1, ChronoUnit.MINUTES));
+					LocalDateTime.now().plus(5, ChronoUnit.MINUTES));
 			// Aunque originalmente el tiempo de caducidad para las reservas era 30 minutos
 			// lo hemos reducido a un minuto para facilitar las pruebas
 			usuario.addReserva(reserva);
