@@ -35,6 +35,10 @@ public class Alquiler {
 	public LocalDateTime getFin() {
 		return fin;
 	}
+	
+	public void setFin(LocalDateTime fin) {
+		this.fin = fin;
+	}
 
 	public void finalizar(LocalDateTime fin) {
 		this.fin = fin;

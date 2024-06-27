@@ -1,37 +1,61 @@
 package persistencia.jpa;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import repositorio.Identificable;
 
 @Entity
-@Table(name="reservas")
-public class ReservaJPA implements Identificable{
+@Table(name = "reservas")
+public class ReservaJPA implements Identificable {
 	@Id
+	private String id;
+	@Column(name = "idBici")
 	private String idBicicleta;
-	@Column(name="creada",columnDefinition="TIMESTAMP")
+	@Column(name = "creada", columnDefinition = "TIMESTAMP")
 	private LocalDateTime creada;
-	@Column(name="caducidad",columnDefinition="TIMESTAMP")
+	@Column(name = "caducidad", columnDefinition = "TIMESTAMP")
 	private LocalDateTime caducidad;
 	@ManyToOne
-	@JoinColumn(name="usuario_fk")
+	@JoinColumn(name = "usuario_fk")
 	private UsuarioJPA usuarioR;
-	
-	public ReservaJPA(String idBicicleta, LocalDateTime creada, LocalDateTime caducidad,String idUser) {
+
+	public ReservaJPA(String idBicicleta, LocalDateTime creada, LocalDateTime caducidad) {
 		super();
 		this.idBicicleta = idBicicleta;
 		this.creada = creada;
 		this.caducidad = caducidad;
-		this.usuarioR=new UsuarioJPA(idUser,new ArrayList<ReservaJPA>(),new ArrayList<AlquilerJPA>());
+		this.usuarioR = null;
 	}
+	
+	public ReservaJPA() {
+	}
+
+	@PrePersist
+	private void ensureId() {
+		if (this.id == null) {
+			this.id = UUID.randomUUID().toString();
+		}
+	}
+	
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
 
 	public String getIdBicicleta() {
 		return idBicicleta;
@@ -48,19 +72,7 @@ public class ReservaJPA implements Identificable{
 	public void setUsuarioR(UsuarioJPA usuarioR) {
 		this.usuarioR = usuarioR;
 	}
-
-	public ReservaJPA() {}
-
-	@Override
-	public String getId() {
-		return idBicicleta;
-	}
-
-	@Override
-	public void setId(String idBicicleta) {
-		this.idBicicleta = idBicicleta;
-	}
-
+	
 	public LocalDateTime getCreada() {
 		return creada;
 	}

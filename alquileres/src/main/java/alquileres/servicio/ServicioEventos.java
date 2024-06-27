@@ -99,41 +99,48 @@ public class ServicioEventos implements IServicioEventos {
 
 	private Alquiler decodeAlquilerJPA(AlquilerJPA alquilerJPA) {
 		Alquiler alquiler = new Alquiler(alquilerJPA.getId(), alquilerJPA.getInicio());
+		if(alquilerJPA.getFin().isAfter(alquilerJPA.getInicio()))
+			alquiler.setFin(alquilerJPA.getFin());
 		return alquiler;
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
 		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(),
-				encodeReservasJPA(usuario.getReservas(), usuario.getId()),
-				encodeAlquileresJPA(usuario.getAlquileres(), usuario.getId()));
+				encodeReservasJPA(usuario.getReservas()),
+				encodeAlquileresJPA(usuario.getAlquileres()));
+		
+		for(ReservaJPA r : usuarioJPA.getReservas())
+			r.setUsuarioR(usuarioJPA);
+		for(AlquilerJPA a : usuarioJPA.getAlquileres())
+			a.setUsuarioA(usuarioJPA);
 		return usuarioJPA;
 	}
 
-	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas, String id) {
+	private List<ReservaJPA> encodeReservasJPA(List<Reserva> reservas) {
 		List<ReservaJPA> reservasJPA = new ArrayList<ReservaJPA>();
 		for (Reserva r : reservas) {
-			reservasJPA.add(encodeReservaJPA(r, id));
+			reservasJPA.add(encodeReservaJPA(r));
 		}
 		return reservasJPA;
 	}
 
-	private ReservaJPA encodeReservaJPA(Reserva reserva, String id) {
-		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad(),
-				id);
+	private ReservaJPA encodeReservaJPA(Reserva reserva) {
+		ReservaJPA reservaJPA = new ReservaJPA(reserva.getIdBicicleta(), reserva.getCreada(), reserva.getCaducidad());
 		return reservaJPA;
 	}
 
-	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres, String id) {
+	private List<AlquilerJPA> encodeAlquileresJPA(List<Alquiler> alquileres) {
 		List<AlquilerJPA> alquileresJPA = new ArrayList<>();
 		for (Alquiler a : alquileres) {
-			alquileresJPA.add(encodeAlquilerJPA(a, id));
+			alquileresJPA.add(encodeAlquilerJPA(a));
 		}
 		return alquileresJPA;
 	}
 
-	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler, String id) {
-		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin(),
-				id);
+	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler) {
+		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio());
+		if(!alquiler.activa())
+			alquilerJPA.setFin(alquiler.getFin());
 		return alquilerJPA;
 	}
 
