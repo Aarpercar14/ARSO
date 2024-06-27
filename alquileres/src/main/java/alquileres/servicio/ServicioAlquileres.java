@@ -110,6 +110,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			if (usuarioJPA != null) {
 				Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+				System.out.println(usuario);
 				return usuario;
 			}
 			System.out.println("El usuario no existe");
@@ -124,7 +125,14 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	public void dejarBicicleta(String idUsuario, String idEstacion) {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
+<<<<<<< HEAD
 			Usuario usuario = this.decodeUsuarioJPA(user);
+=======
+			Usuario usuario = this.decodeUsuarioJPA(user);
+			System.out.println("Alquileres:");
+			for (Alquiler a : usuario.getAlquileres())
+				System.out.println("IdBici= " + a.getIdBicicleta() + ", Inicio= " + a.getInicio() + ", Fin= " + a.getFin());
+>>>>>>> branch 'daweb' of https://github.com/Aarpercar14/ARSO
 			String info;
 			info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
 			if (hayHuecosDisponibles(info)) {
@@ -149,8 +157,14 @@ public class ServicioAlquileres implements IServicioAlquileres {
 					+ ", reservas: " + usuario.getReservas());
 			repoUsuarios.delete(user);
 			user = encodeUsuarioJPA(usuario);
+<<<<<<< HEAD
 			repoUsuarios.add(user);
 			System.out.println(repoUsuarios.getById(idUsuario));
+=======
+			System.out.println(decodeUsuarioJPA(user));
+			repoUsuarios.update(user);
+			System.out.println("esto es lo que se guarda en la BD "+decodeUsuarioJPA(repoUsuarios.getById(idUsuario)));
+>>>>>>> branch 'daweb' of https://github.com/Aarpercar14/ARSO
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
@@ -237,7 +251,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		}
 		return alquileresJPA;
 	}
-
+	
 	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler) {
 		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio());
 		if (!alquiler.activa())
