@@ -46,8 +46,10 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			// Aunque originalmente el tiempo de caducidad para las reservas era 30 minutos
 			// lo hemos reducido a un minuto para facilitar las pruebas
 			usuario.addReserva(reserva);
+
+			repoUsuarios.delete(usuarioJPA);
 			usuarioJPA = this.encodeUsuarioJPA(usuario);
-			repoUsuarios.update(usuarioJPA);
+			repoUsuarios.add(usuarioJPA);
 			try {
 				servEventos.publicarEventoBicicletaReservada(IdBicicleta);
 			} catch (Exception e) {
@@ -66,8 +68,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			Alquiler alquiler = new Alquiler(usuario.reservaActiva().getIdBicicleta(), LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
+			repoUsuarios.delete(usuarioJPA);
 			usuarioJPA = this.encodeUsuarioJPA(usuario);
-			repoUsuarios.update(usuarioJPA);
+			repoUsuarios.add(usuarioJPA);
 			try {
 				servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
 			} catch (Exception e) {
@@ -87,8 +90,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
 			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
+			repoUsuarios.delete(usuarioJPA);
 			usuarioJPA = this.encodeUsuarioJPA(usuario);
-			repoUsuarios.update(usuarioJPA);
+			repoUsuarios.add(usuarioJPA);
 			try {
 				servEventos.publicarEventoBicicletaAlquilada(alquiler.getIdBicicleta());
 			} catch (Exception e) {
@@ -121,14 +125,11 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
-			System.out.println("Alquileres:");
-			for (Alquiler a : usuario.getAlquileres())
-				System.out.println("IdBici= " + a.getIdBicicleta() + ", Inicio= " + a.getInicio() + ", Fin= " + a.getFin());
 			String info;
 			info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
 			if (hayHuecosDisponibles(info)) {
 				try {
-					
+
 					servEventos.publicarEventoAlquilerConcluido(usuario.alquilerActivo().getIdBicicleta(), idEstacion);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -136,16 +137,19 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				}
 				info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute()
 						.body();
-				Alquiler alq=usuario.alquilerActivo();
+				Alquiler alq = usuario.alquilerActivo();
 				alq.finalizar(LocalDateTime.now());
-				usuario.getAlquileres().remove(usuario.alquilerActivo());
-				usuario.getAlquileres().add(alq);
-				System.out.println(usuario);
+				System.out.println("Alquileres:");
+				for (Alquiler a : usuario.getAlquileres())
+					System.out.println(
+							"IdBici= " + a.getIdBicicleta() + ", Inicio= " + a.getInicio() + ", Fin= " + a.getFin());
+
 			}
-			System.out.println("Usuario: Id: " + usuario.getId() + ", alquileres: " + usuario.getAlquileres().toString() + 
-					", reservas: " + usuario.getReservas());
+			System.out.println("Usuario: Id: " + usuario.getId() + ", alquileres: " + usuario.getAlquileres().toString()
+					+ ", reservas: " + usuario.getReservas());
+			repoUsuarios.delete(user);
 			user = encodeUsuarioJPA(usuario);
-			repoUsuarios.update(user);
+			repoUsuarios.add(user);
 			System.out.println(repoUsuarios.getById(idUsuario));
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
@@ -182,7 +186,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private Reserva decodeReservaJPA(ReservaJPA reservaJPA) {
-		Reserva reserva = new Reserva(reservaJPA.getId(), reservaJPA.getCreada(), reservaJPA.getCaducidad());
+		Reserva reserva = new Reserva(reservaJPA.getIdBicicleta(), reservaJPA.getCreada(), reservaJPA.getCaducidad());
 		return reserva;
 	}
 
@@ -196,20 +200,19 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private Alquiler decodeAlquilerJPA(AlquilerJPA alquilerJPA) {
-		Alquiler alquiler = new Alquiler(alquilerJPA.getId(), alquilerJPA.getInicio());
-		if(alquilerJPA.getFin().isAfter(alquilerJPA.getInicio()))
+		Alquiler alquiler = new Alquiler(alquilerJPA.getIdBicicleta(), alquilerJPA.getInicio());
+		if (alquilerJPA.getFin().isAfter(alquilerJPA.getInicio()))
 			alquiler.setFin(alquilerJPA.getFin());
 		return alquiler;
 	}
 
 	private UsuarioJPA encodeUsuarioJPA(Usuario usuario) {
-		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(),
-				encodeReservasJPA(usuario.getReservas()),
+		UsuarioJPA usuarioJPA = new UsuarioJPA(usuario.getId(), encodeReservasJPA(usuario.getReservas()),
 				encodeAlquileresJPA(usuario.getAlquileres()));
-		
-		for(ReservaJPA r : usuarioJPA.getReservas())
+
+		for (ReservaJPA r : usuarioJPA.getReservas())
 			r.setUsuarioR(usuarioJPA);
-		for(AlquilerJPA a : usuarioJPA.getAlquileres())
+		for (AlquilerJPA a : usuarioJPA.getAlquileres())
 			a.setUsuarioA(usuarioJPA);
 		return usuarioJPA;
 	}
@@ -237,16 +240,16 @@ public class ServicioAlquileres implements IServicioAlquileres {
 
 	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler) {
 		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio());
-		if(!alquiler.activa())
+		if (!alquiler.activa())
 			alquilerJPA.setFin(alquiler.getFin());
 		return alquilerJPA;
 	}
 
-	private UsuarioJPA crearUsuario(String idUsuario) {
+	private UsuarioJPA crearUsuario(String idUsuario) throws EntidadNoEncontrada {
 		UsuarioJPA usuario = new UsuarioJPA(idUsuario, new ArrayList<ReservaJPA>(), new ArrayList<AlquilerJPA>());
 		try {
 			repoUsuarios.add(usuario);
-			return usuario;
+			return repoUsuarios.getById(idUsuario);
 		} catch (RepositorioException e) {
 			e.printStackTrace();
 		}
