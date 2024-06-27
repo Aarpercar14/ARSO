@@ -20,6 +20,15 @@ public class Alquiler {
 	public Alquiler() {
 	}
 
+	
+	public void setInicio(LocalDateTime inicio) {
+		this.inicio = inicio;
+	}
+
+	public void setFin(LocalDateTime fin) {
+		this.fin = fin;
+	}
+
 	public String getIdBicicleta() {
 		return idBicicleta;
 	}

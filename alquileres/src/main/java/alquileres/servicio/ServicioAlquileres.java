@@ -106,6 +106,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 			UsuarioJPA usuarioJPA = repoUsuarios.getById(idUsuario);
 			if (usuarioJPA != null) {
 				Usuario usuario = this.decodeUsuarioJPA(usuarioJPA);
+				System.out.println(usuario);
 				return usuario;
 			}
 			System.out.println("El usuario no existe");
@@ -121,7 +122,6 @@ public class ServicioAlquileres implements IServicioAlquileres {
 		try {
 			UsuarioJPA user = repoUsuarios.getById(idUsuario);
 			Usuario usuario = this.decodeUsuarioJPA(user);
-
 			String info;
 			info = alquileresClient.getInfoEstacion(idEstacion).execute().body();
 			if (hayHuecosDisponibles(info)) {
@@ -140,8 +140,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				System.out.println(usuario);
 			}
 			user = encodeUsuarioJPA(usuario);
+			System.out.println(decodeUsuarioJPA(user));
 			repoUsuarios.update(user);
-			System.out.println(repoUsuarios.getById(idUsuario));
+			System.out.println("esto es lo que se guarda en la BD "+decodeUsuarioJPA(repoUsuarios.getById(idUsuario)));
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
@@ -225,6 +226,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 	}
 
 	private AlquilerJPA encodeAlquilerJPA(Alquiler alquiler, String id) {
+		System.out.println(alquiler.getFin());
 		AlquilerJPA alquilerJPA = new AlquilerJPA(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin(),
 				id);
 		return alquilerJPA;
