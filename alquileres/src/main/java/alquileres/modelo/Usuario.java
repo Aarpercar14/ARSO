@@ -115,4 +115,11 @@ public class Usuario implements Identificable {
 		    }
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", reservas=" + reservas + ", alquileres=" + alquileres + "]";
+	}
+	
+	
 }
