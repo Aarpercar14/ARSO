@@ -1,9 +1,6 @@
 package alquileres.servicio;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -141,14 +138,9 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				alq.finalizar(LocalDateTime.now());
 				usuario.getAlquileres().remove(usuario.alquilerActivo());
 				usuario.getAlquileres().add(alq);
-				System.out.println(usuario);
 			}
-			System.out.println("Usuario: Id: " + usuario.getId() + ", alquileres: " + usuario.getAlquileres().toString() + 
-					", reservas: " + usuario.getReservas());
 			user = encodeUsuarioJPA(usuario);
-			System.out.println(decodeUsuarioJPA(user));
 			repoUsuarios.update(user);
-			System.out.println("esto es lo que se guarda en la BD "+decodeUsuarioJPA(repoUsuarios.getById(idUsuario)));
 		} catch (RepositorioException | EntidadNoEncontrada | IOException e) {
 			e.printStackTrace();
 		}
