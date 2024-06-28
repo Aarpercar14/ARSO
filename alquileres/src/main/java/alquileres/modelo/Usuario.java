@@ -90,14 +90,12 @@ public class Usuario implements Identificable {
 	}
 
 	public Alquiler alquilerActivo() {
-		Alquiler result=null;
 		if (!alquileres.isEmpty()) {
 			for(Alquiler alq:alquileres) {
 				if(alq.getFin()==null) {
-					result=alq;
+					return alq;
 				}
 			}
-			return result;
 		}
 		return null;
 	}

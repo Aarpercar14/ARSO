@@ -139,10 +139,7 @@ public class ServicioAlquileres implements IServicioAlquileres {
 				info = alquileresClient.dejarBicicleta(idEstacion, usuario.alquilerActivo().getIdBicicleta()).execute()
 						.body();
 				Alquiler alq = usuario.alquilerActivo();
-				System.out.println(alq);
 				alq.setFin(LocalDateTime.now());
-				System.out.println("El usuario "+usuario+"\n El alquiler: "+alq);
-				usuario.addAlquiler(alq);
 			}			
 			repoUsuarios.delete(user);
 			user = encodeUsuarioJPA(usuario);
