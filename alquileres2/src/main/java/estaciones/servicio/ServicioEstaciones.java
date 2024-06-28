@@ -111,6 +111,7 @@ public class ServicioEstaciones implements IServicioEstaciones {
 			if (!obici.isPresent())
 				throw new IllegalArgumentException("id: no debe ser nulo ni vacio");
 			Bicicleta bici = obici.get();
+			this.retirarUnaBicicleta(idBici);
 			if (estacion.getNumPuestos() > 0) {
 				bici.setEstado("disponible");
 				estacion.estacionarBici(bici);
