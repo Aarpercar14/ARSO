@@ -24,7 +24,8 @@ public class RabbitMQConfig {
 	public static final String SEND_QUEUE = "citybike-alquileres";
 	public static final String REC_QUEUE = "citybike-estaciones";
 	public static final String EXCHANGE_NAME = "citybike";
-	public static final String ROUTING_KEY = "citybike.estaciones";
+	public static final String ROUTING_KEY_SEND = "citybike.estaciones";
+	public static final String ROUTING_KEY_REC = "citybike.alquileres";
 	
 	@Bean
 	public TopicExchange exchange() {
@@ -32,7 +33,7 @@ public class RabbitMQConfig {
 	}
 	
 	@Bean
-	public Queue queue() {
+	public Queue sendQueue() {
 		boolean durable = true;
 		boolean exclusive = false;
 		boolean autodelete = false;
@@ -40,11 +41,26 @@ public class RabbitMQConfig {
 	}
 	
 	@Bean
-	public Binding binding(Queue queue, Exchange exchange) {
+	public Queue recQueue() {
+		boolean durable = true;
+		boolean exclusive = false;
+		boolean autodelete = false;
+		return new Queue(REC_QUEUE, durable, exclusive, autodelete);
+	}
+	
+	@Bean
+	public Binding sendBinding(Queue sendQueue, Exchange exchange) {
 		
 		Map<String, Object> propiedades = null;
 		
-		return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY + ".*").and(propiedades);
+		return BindingBuilder.bind(sendQueue).to(exchange).with(ROUTING_KEY_SEND + ".*").and(propiedades);
+	}
+	
+	@Bean
+	public Binding recBinding(Queue recQueue, Exchange exchange) {
+		Map<String, Object> propiedades = null;
+		
+		return BindingBuilder.bind(recQueue).to(exchange).with(ROUTING_KEY_REC + ".*").and(propiedades);
 	}
 	
 	@Bean
